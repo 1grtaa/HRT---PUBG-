@@ -1,0 +1,44 @@
+body {
+  font-family: 'Arial', sans-serif;
+  background-color: #0f0f0f;
+  color: #fff;
+  margin: 0;
+  padding: 0;
+  text-align: center;
+}
+header {
+  background: #d90429;
+  padding: 20px;
+}
+h1 {
+  margin: 0;
+  font-size: 2em;
+}
+.main-btn {
+  margin-top: 40px;
+  padding: 15px 30px;
+  font-size: 1.2em;
+  background-color: #2b2d42;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.main-btn:hover {
+  background-color: #8d99ae;
+}
+.vip-section {
+  background-color: #1a1a1a;
+  margin: 30px;
+  padding: 20px;
+  border-radius: 15px;
+}
+footer {
+  margin-top: 50px;
+  padding: 20px;
+  background: #2b2d42;
+}
+.owner {
+  color: #ffd700;
+}
