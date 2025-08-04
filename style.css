@@ -1,44 +1,75 @@
 body {
-  font-family: 'Arial', sans-serif;
-  background-color: #0f0f0f;
-  color: #fff;
+  font-family: 'Cairo', sans-serif;
+  background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+  color: white;
+  text-align: center;
   margin: 0;
   padding: 0;
-  text-align: center;
+  animation: fadeIn 2s ease-in-out;
 }
+
 header {
-  background: #d90429;
+  background-color: #222;
   padding: 20px;
+  font-size: 28px;
+  border-bottom: 2px solid red;
 }
-h1 {
-  margin: 0;
-  font-size: 2em;
+
+.verified {
+  color: gold;
 }
-.main-btn {
-  margin-top: 40px;
-  padding: 15px 30px;
-  font-size: 1.2em;
-  background-color: #2b2d42;
+
+.buttons button {
+  margin: 10px;
+  padding: 15px 25px;
+  font-size: 18px;
+  background-color: #ff1a1a;
+  color: white;
   border: none;
   border-radius: 10px;
-  color: white;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: 0.3s;
 }
-.main-btn:hover {
-  background-color: #8d99ae;
+.buttons button:hover {
+  background-color: #cc0000;
 }
-.vip-section {
-  background-color: #1a1a1a;
-  margin: 30px;
-  padding: 20px;
-  border-radius: 15px;
+
+.tools {
+  margin: 40px 20px;
 }
+.tools h2 {
+  color: #00ffd0;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.tools ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tools ul li {
+  background: rgba(255,255,255,0.05);
+  margin: 10px auto;
+  padding: 10px;
+  border-radius: 8px;
+  width: 80%;
+  animation: slideUp 1s ease forwards;
+}
+
 footer {
-  margin-top: 50px;
-  padding: 20px;
-  background: #2b2d42;
+  margin-top: 40px;
+  padding: 10px;
+  font-size: 14px;
+  background: #111;
 }
-.owner {
-  color: #ffd700;
+
+@keyframes fadeIn {
+  from { opacity: 0 }
+  to { opacity: 1 }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
