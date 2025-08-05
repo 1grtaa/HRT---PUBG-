@@ -1,35 +1,40 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>موقع الوحش</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>موقع الوحش PRO</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/png" href="icons/logo.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
 </head>
 <body>
 
-  <!-- ✅ البحث عن ID بالأعلى -->
+  <!-- ✅ البحث -->
   <div class="search-box">
-    <input type="text" id="searchInput" placeholder="ابحث عن ID...">
+    <input type="text" id="searchInput" placeholder="ابحث عن ID..." />
     <button onclick="searchId()">بحث</button>
   </div>
 
-  <!-- ✅ المحتوى الرئيسي -->
+  <!-- ✅ المحتوى -->
   <div id="content" class="page">
     <h1>☑️ القائمة الرئيسية</h1>
     <p>مرحباً بك يا وحش 😈 هذا هو موقعك الاحترافي.</p>
+    <p>🚀 اشترك في PRO لفتح الأدوات الأقوى وفك التشفير الذكي</p>
   </div>
 
-  <!-- ✅ شريط الأدوات (يظهر عند الضغط) -->
+  <!-- ✅ الأدوات -->
   <div id="tools-popup" class="tools-popup hidden">
     <h3>⚒️ أدوات متقدمة</h3>
     <button onclick="openTool('ai')">🤖 مساعد ذكاء صناعي</button>
-    <button onclick="openTool('basic')">🔎 أداة فحص بسيطة</button>
+    <button onclick="openTool('basic')">🔎 أداة فحص ملفات APK</button>
     <div id="proTools" class="hidden">
-      <button onclick="openTool('offset')">☠️ استخراج أوفستات</button>
-      <button onclick="openTool('protect')">🛡️ فحص الحمايات</button>
-      <button onclick="openTool('decrypt')">🔓 فك تشفير الملفات</button>
-      <button onclick="openTool('encrypt')">🧩 تشفير الملفات</button>
+      <button onclick="openTool('offset')">☠️ استخراج أوفستات VIP</button>
+      <button onclick="openTool('protect')">🛡️ تحليل حماية التطبيقات</button>
+      <button onclick="openTool('decrypt')">🔓 فك تشفير ملفات lib.so / pak</button>
+      <button onclick="openTool('encrypt')">🧩 تشفير سكربتات بايثون</button>
     </div>
     <button onclick="closeToolsPopup()" style="background:red;">إغلاق</button>
   </div>
@@ -37,19 +42,19 @@
   <!-- ✅ الشريط السفلي -->
   <div class="bottom-nav">
     <div class="nav-btn" onclick="goTo('home')">
-      <img src="icons/folder.png" alt="الرئيسية">
+      <img src="icons/logo.png" alt="الرئيسية" />
       <span>الرئيسية</span>
     </div>
     <div class="nav-btn" onclick="goTo('chat')">
-      <img src="icons/discover.png" alt="دردشة">
-      <span>الدردشة</span>
+      <img src="icons/discover.png" alt="دردشة عامة" />
+      <span>دردشة عامة</span>
     </div>
     <div class="nav-btn" onclick="showToolsPopup()">
-      <img src="icons/edit.png" alt="أدوات">
+      <img src="icons/edit.png" alt="أدوات" />
       <span>أدوات</span>
     </div>
     <div class="nav-btn" onclick="goTo('profile')">
-      <img src="icons/user.png" alt="أنا">
+      <img src="icons/user.png" alt="أنا" />
       <span>أنا</span>
     </div>
   </div>
