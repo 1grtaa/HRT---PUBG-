@@ -1,64 +1,18 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>موقع الوحش PRO</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="logo.png" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&display=swap" rel="stylesheet" />
+  <meta charset="UTF-8">
+  <title>اختبار الصور</title>
 </head>
 <body>
-
-  <!-- ✅ البحث -->
-  <div class="search-box">
-    <input type="text" id="searchInput" placeholder="ابحث عن ID..." />
-    <button onclick="searchId()">بحث</button>
-  </div>
-
-  <!-- ✅ المحتوى -->
-  <div id="content" class="page">
-    <h1>☑️ القائمة الرئيسية</h1>
-    <p>مرحباً بك يا وحش 😈 هذا هو موقعك الاحترافي.</p>
-    <p>🚀 اشترك في PRO لفتح الأدوات الأقوى وفك التشفير الذكي</p>
-  </div>
-
-  <!-- ✅ الأدوات -->
-  <div id="tools-popup" class="tools-popup hidden">
-    <h3>⚒️ أدوات متقدمة</h3>
-    <button onclick="openTool('ai')">🤖 مساعد ذكاء صناعي</button>
-    <button onclick="openTool('basic')">🔎 أداة فحص ملفات APK</button>
-    <div id="proTools" class="hidden">
-      <button onclick="openTool('offset')">☠️ استخراج أوفستات VIP</button>
-      <button onclick="openTool('protect')">🛡️ تحليل حماية التطبيقات</button>
-      <button onclick="openTool('decrypt')">🔓 فك تشفير ملفات lib.so / pak</button>
-      <button onclick="openTool('encrypt')">🧩 تشفير سكربتات بايثون</button>
-    </div>
-    <button onclick="closeToolsPopup()" style="background:red;">إغلاق</button>
-  </div>
-
-  <!-- ✅ الشريط السفلي -->
-  <div class="bottom-nav">
-    <div class="nav-btn" onclick="goTo('home')">
-      <img src="logo.png" alt="الرئيسية" />
-      <span>الرئيسية</span>
-    </div>
-    <div class="nav-btn" onclick="goTo('chat')">
-      <img src="discover.png" alt="دردشة عامة" />
-      <span>دردشة عامة</span>
-    </div>
-    <div class="nav-btn" onclick="showToolsPopup()">
-      <img src="edit.png" alt="أدوات" />
-      <span>أدوات</span>
-    </div>
-    <div class="nav-btn" onclick="goTo('profile')">
-      <img src="user.png" alt="أنا" />
-      <span>أنا</span>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
+  <h2>🔍 اختبار عرض الصور</h2>
+  <p>logo.png</p>
+  <img src="logo.png" width="100"><br>
+  <p>discover.png</p>
+  <img src="discover.png" width="100"><br>
+  <p>edit.png</p>
+  <img src="edit.png" width="100"><br>
+  <p>user.png</p>
+  <img src="user.png" width="100"><br>
 </body>
 </html>
