@@ -26,13 +26,26 @@
     <div id="chatBox"></div>
   </div>
 
+  <div class="page" id="privateChat" style="display:none">
+    <h2>💬 دردشة خاصة</h2>
+    <textarea id="privateInput" placeholder="اكتب رسالة خاصة..."></textarea>
+    <button onclick="sendPrivateMessage()">إرسال</button>
+    <div id="privateBox"></div>
+  </div>
+
   <div class="page" id="tools" style="display:none">
     <h2>⚒️ أدوات PRO</h2>
     <button onclick="openTool('offset')">☠️ استخراج أوفستات</button>
     <button onclick="openTool('decrypt')">🔓 فك التشفير</button>
     <button onclick="openTool('encrypt')">🧩 التشفير</button>
+    <button onclick="openTool('memoryPatch')">🔧 ميموري باتش</button>
+    <button onclick="openTool('filePatch')">📦 باتش ملفات</button>
+    <button onclick="openTool('vipBypass')">🛡️ VIP Bypass</button>
+    <button onclick="openTool('antiBan')">🚫 أداة منع الباند</button>
+    <button onclick="openTool('libChecker')">📁 فحص ملفات lib.so</button>
   </div>
 
+  <!-- أدوات -->
   <div class="tool" id="offset" style="display:none">
     <h3>📂 اختر ملف</h3>
     <input type="file" id="fileInput" />
@@ -53,17 +66,45 @@
     <pre id="encryptResult"></pre>
   </div>
 
-  <div class="page" id="profile" style="display:none">
-    <img src="user.png" width="80" />
-    <p>👤 الاسم: @HRT_AMN</p>
-    <p>🆔 ID: 7056010314</p>
-    <img src="documentation.png" width="20" title="موثق ✅" />
+  <div class="tool" id="memoryPatch" style="display:none">
+    <h3>🔧 إنشاء Memory Patch</h3>
+    <input placeholder="اكتب الأوفست هنا..." />
+    <button>إنشاء الكود</button>
   </div>
 
+  <div class="tool" id="filePatch" style="display:none">
+    <h3>📦 إنشاء Patch لملف</h3>
+    <input placeholder="Hex value" />
+    <button>إنشاء الباتش</button>
+  </div>
+
+  <div class="tool" id="vipBypass" style="display:none">
+    <h3>🛡️ VIP Bypass</h3>
+    <p>هذه أداة حصرية للمستخدمين المميزين</p>
+  </div>
+
+  <div class="tool" id="antiBan" style="display:none">
+    <h3>🚫 أداة منع الباند</h3>
+    <p>تحمي من الباند المؤقت والدائم في التطبيقات</p>
+  </div>
+
+  <div class="tool" id="libChecker" style="display:none">
+    <h3>📁 فحص lib.so</h3>
+    <p>تفحص ملفاتك المشبوهة وتعرض الأوفستات بذكاء</p>
+  </div>
+
+  <div class="page" id="profile" style="display:none">
+    <img src="user.png" width="80" />
+    <p>👤 الاسم: <span id="realName">@HRT_AMN</span> <img src="documentation.png" width="20" title="موثق ✅" /></p>
+    <p>🆔 ID: 7056010314</p>
+  </div>
+
+  <!-- الشريط السفلي -->
   <div class="bottom-nav">
     <div onclick="showPage('main')"><img src="logo.png" /><span>الرئيسية</span></div>
     <div onclick="showPage('chat')"><img src="discover.png" /><span>دردشة</span></div>
     <div onclick="showPage('tools')"><img src="edit.png" /><span>أدوات</span></div>
+    <div onclick="showPage('privateChat')"><img src="user.png" /><span>دردشة خاصة</span></div>
     <div onclick="showPage('profile')"><img src="user.png" /><span>أنا</span></div>
   </div>
 
