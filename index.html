@@ -3,9 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>موقع الوحش PRO</title>
+  <title>موقع الوحش ☠️</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="icon" type="image/png" href="logo.png" />
 </head>
 <body>
 
@@ -14,62 +13,93 @@
     <button onclick="searchId()">بحث</button>
   </div>
 
-  <div id="content" class="page">
-    <h1>☑️ القائمة الرئيسية</h1>
-    <p>مرحباً بك في موقع الوحش 😈</p>
-    <p>🚀 اشترك في PRO لفتح الأدوات الأقوى</p>
-    <img src="documentation.png" alt="توثيق" class="verified-badge" />
-  </div>
-
-  <div id="tools-popup" class="tools-popup hidden">
-    <h3>⚒️ أدوات متقدمة</h3>
-    <button onclick="goToToolPage('ai.html')">🤖 مساعد ذكاء صناعي</button>
-    <button onclick="goToToolPage('basic.html')">🔎 فحص ملفات APK</button>
-    <div id="proTools" class="hidden">
-      <button onclick="goToToolPage('offset.html')">☠️ استخراج أوفستات</button>
-      <button onclick="goToToolPage('protect.html')">🛡️ حماية التطبيقات</button>
-      <button onclick="goToToolPage('decrypt.html')">🔓 فك تشفير</button>
-      <button onclick="goToToolPage('encrypt.html')">🧩 تشفير الملفات</button>
+  <div class="page" id="main">
+    <h2>☑️ القائمة الرئيسية</h2>
+    <div class="main-buttons">
+      <button onclick="window.open('https://t.me/HRT_grt1', '_blank')">📣 قناة المالك</button>
+      <button onclick="window.open('https://t.me/HRT_AMN', '_blank')">💬 مراسلة المالك</button>
+      <button onclick="window.open('https://t.me/grt_ma', '_blank')">🛒 متجر المالك</button>
     </div>
-    <button onclick="closeToolsPopup()" style="background:red;">إغلاق</button>
   </div>
 
+  <div class="page" id="chat" style="display:none">
+    <h2>📊 دردشة عامة</h2>
+    <iframe src="https://t.me/lllllllllIlllbot" width="100%" height="400" frameborder="0"></iframe>
+    <button class="back-btn" onclick="goBack()">رجوع</button>
+  </div>
+
+  <div class="page" id="tools" style="display:none">
+    <h2>⚒️ أدوات PRO</h2>
+    <div class="tools-list">
+      <button onclick="showTool('ai')">🤖 مساعد ذكاء صناعي</button>
+      <button onclick="showTool('offset')">☠️ استخراج أوفستات</button>
+      <button onclick="showTool('protect')">🛡️ فحص الحمايات</button>
+      <button onclick="showTool('decrypt')">🔓 فك التشفير</button>
+      <button onclick="showTool('encrypt')">🧩 التشفير</button>
+    </div>
+    <button class="back-btn" onclick="goBack()">رجوع</button>
+  </div>
+
+  <!-- الأدوات -->
+  <div class="tool" id="ai">
+    <h3>🤖 مساعد ذكاء صناعي</h3>
+    <textarea placeholder="اكتب سؤالك..."></textarea>
+    <button class="action">إرسال</button>
+    <pre>❗ أداة تجريبية حالياً</pre>
+    <button class="back-btn" onclick="goBack()">رجوع</button>
+  </div>
+
+  <div class="tool" id="offset">
+    <h3>☠️ استخراج أوفستات</h3>
+    <textarea placeholder="أدخل lib.so أو Hex..."></textarea>
+    <button class="action">بدء الاستخراج</button>
+    <pre>💬 سيتم عرض النتائج هنا...</pre>
+    <button class="back-btn" onclick="goBack()">رجوع</button>
+  </div>
+
+  <div class="tool" id="protect">
+    <h3>🛡️ فحص الحمايات</h3>
+    <textarea placeholder="أدخل أوفست للفحص..."></textarea>
+    <button class="action">فحص</button>
+    <pre>🔍 النتيجة هنا...</pre>
+    <button class="back-btn" onclick="goBack()">رجوع</button>
+  </div>
+
+  <div class="tool" id="decrypt">
+    <h3>🔓 فك التشفير Base64</h3>
+    <input id="decryptInput" placeholder="نص مشفر" />
+    <button class="action" onclick="decrypt()">فك التشفير</button>
+    <pre id="decryptResult"></pre>
+    <button class="back-btn" onclick="goBack()">رجوع</button>
+  </div>
+
+  <div class="tool" id="encrypt">
+    <h3>🧩 تشفير Base64</h3>
+    <input id="encryptInput" placeholder="نص عادي" />
+    <button class="action" onclick="encrypt()">تشفير</button>
+    <pre id="encryptResult"></pre>
+    <button class="back-btn" onclick="goBack()">رجوع</button>
+  </div>
+
+  <!-- الشريط السفلي -->
   <div class="bottom-nav">
-    <div class="nav-btn" onclick="goTo('home')">
+    <div class="nav-btn" onclick="goBack()">
       <img src="logo.png" alt="الرئيسية" />
       <span>الرئيسية</span>
     </div>
-    <div class="nav-btn" onclick="goTo('chat')">
+    <div class="nav-btn" onclick="openPage('chat')">
       <img src="discover.png" alt="دردشة" />
       <span>دردشة</span>
     </div>
-    <div class="nav-btn" onclick="showToolsPopup()">
+    <div class="nav-btn" onclick="openPage('tools')">
       <img src="edit.png" alt="أدوات" />
       <span>أدوات</span>
     </div>
-    <div class="nav-btn" onclick="goTo('profile')">
-      <img src="user.png" alt="أنا" id="userImage" />
+    <div class="nav-btn">
+      <img src="user.png" alt="أنا" />
       <span>أنا</span>
     </div>
   </div>
-
-  <script async src="https://telegram.org/js/telegram-widget.js?22"
-    data-telegram-login="lllllllllIlllbot"
-    data-size="large"
-    data-userpic="true"
-    data-radius="10"
-    data-request-access="write"
-    data-onauth="onTelegramAuth(user)">
-  </script>
-
-  <script>
-    function onTelegramAuth(user) {
-      localStorage.setItem("userId", user.id);
-      localStorage.setItem("fullName", user.first_name + " " + (user.last_name || ""));
-      alert("✅ تم تسجيل الدخول بنجاح");
-      location.reload();
-    }
-  </script>
 
   <script src="script.js"></script>
 </body>
