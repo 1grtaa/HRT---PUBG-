@@ -1,41 +1,68 @@
 body {
-  margin: 0;
+  background: #121212;
+  color: white;
   font-family: 'Arial', sans-serif;
-  background-color: #121212;
+  margin: 0;
+  padding-bottom: 100px;
+}
+
+h2, h3 {
+  color: #00f2fe;
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from { text-shadow: 0 0 5px #0ff; }
+  to { text-shadow: 0 0 15px #0ff; }
+}
+
+input, textarea, button {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 15px;
+  border-radius: 6px;
+  border: none;
+  box-sizing: border-box;
+}
+
+input, textarea {
+  background-color: #222;
   color: white;
 }
 
-.search-box {
-  display: flex;
-  padding: 10px;
-  background: #1e1e1e;
-}
-
-.search-box input {
-  flex: 1;
-  padding: 10px;
-  border: none;
-  background: #333;
-  color: white;
-}
-
-.search-box button {
-  padding: 10px;
-  background: #007bff;
-  border: none;
+button {
+  background: linear-gradient(to right, #4facfe, #00f2fe);
   color: white;
   cursor: pointer;
+  transition: 0.3s;
 }
 
-.page {
+button:hover {
+  opacity: 0.9;
+}
+
+pre {
+  background: #1e1e1e;
+  padding: 10px;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+.page, .tool {
+  display: none;
   padding: 20px;
+}
+
+#main {
+  display: block;
 }
 
 .bottom-nav {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background: #1e1e1e;
+  background: #1f1f1f;
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
@@ -46,28 +73,26 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  font-size: 13px;
   color: white;
-  font-size: 14px;
 }
 
 .nav-btn img {
-  width: 26px;
-  height: 26px;
-  margin-bottom: 5px;
+  width: 24px;
+  height: 24px;
+  margin-bottom: 4px;
 }
 
-.tools-popup {
-  position: fixed;
-  bottom: 70px;
-  left: 10px;
-  right: 10px;
+.tools-list button {
+  margin: 5px 0;
+}
+
+.search-box {
+  display: flex;
   background: #1f1f1f;
-  padding: 20px;
-  border-radius: 10px;
-  z-index: 999;
-  box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  padding: 10px;
 }
 
-.hidden {
-  display: none;
+.search-box input {
+  flex: 1;
 }
