@@ -1,28 +1,35 @@
 body {
   margin: 0;
   font-family: 'Cairo', sans-serif;
-  background: #121212;
+  background: #0d0d0d;
   color: #fff;
   direction: rtl;
   padding-bottom: 80px;
+  animation: fadeIn 1s ease-in;
 }
+
+@keyframes fadeIn {
+  from { opacity: 0; } 
+  to { opacity: 1; }
+}
+
 .search-box {
   display: flex;
   justify-content: center;
   gap: 10px;
   padding: 10px;
-  background: #1f1f1f;
+  background: #1a1a1a;
 }
 .search-box input {
   padding: 8px;
   border-radius: 5px;
-  border: 1px solid #333;
+  border: 1px solid #444;
   background: #2c2c2c;
   color: #fff;
 }
 .search-box button {
   padding: 8px 12px;
-  background-color: #0d6efd;
+  background-color: #006eff;
   color: white;
   border: none;
   border-radius: 5px;
@@ -31,13 +38,14 @@ body {
 
 .page {
   padding: 20px;
+  animation: fadeIn 0.5s ease;
 }
 
 .bottom-nav {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background: #1a1a1a;
+  background: #111;
   display: flex;
   justify-content: space-around;
   border-top: 1px solid #333;
@@ -66,7 +74,7 @@ body {
   right: 10px;
   background: #222;
   padding: 10px;
-  border: 1px solid #444;
+  border: 1px solid #555;
   border-radius: 8px;
   z-index: 999;
 }
