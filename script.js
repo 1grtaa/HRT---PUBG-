@@ -1,32 +1,55 @@
-let isPro = true; // ← غيرها حسب حالة الاشتراك
+function hideAll() {
+  document.querySelectorAll(".page, .tool").forEach(e => e.style.display = "none");
+}
+
+function goBack() {
+  hideAll();
+  document.getElementById("main").style.display = "block";
+}
+
+function openPage(id) {
+  hideAll();
+  document.getElementById(id).style.display = "block";
+}
+
+function showTool(id) {
+  hideAll();
+  document.getElementById(id).style.display = "block";
+}
+
+function encrypt() {
+  const input = document.getElementById("encryptInput").value;
+  try {
+    document.getElementById("encryptResult").innerText = btoa(input);
+  } catch {
+    document.getElementById("encryptResult").innerText = "⚠️ خطأ في التشفير";
+  }
+}
+
+function decrypt() {
+  const input = document.getElementById("decryptInput").value;
+  try {
+    document.getElementById("decryptResult").innerText = atob(input);
+  } catch {
+    document.getElementById("decryptResult").innerText = "⚠️ خطأ في فك التشفير";
+  }
+}
 
 function searchId() {
   const id = document.getElementById("searchInput").value;
   if (id === "7056010314") {
-    alert("✔️ تم العثور على المالك: @HRT_AMN");
-    window.location.href = "profile.html";
+    alert("✅ هذا حساب المالك");
   } else {
-    alert("تم العثور على المستخدم: " + id);
-    // هنا يمكن توجيهه إلى صفحة المستخدم
+    alert("❌ لم يتم العثور على ID");
   }
 }
 
-function showToolsPopup() {
-  document.getElementById("tools-popup").classList.remove("hidden");
-}
-
-function closeToolsPopup() {
-  document.getElementById("tools-popup").classList.add("hidden");
-}
-
-function goToToolPage(page) {
-  if (!isPro && !["ai.html", "basic.html"].includes(page)) {
-    alert("❌ هذه الأداة للمستخدمين PRO فقط.");
-    return;
+document.addEventListener("DOMContentLoaded", () => {
+  const isProUser = true; // عدّل حسب نظام الاشتراك الفعلي لاحقاً
+  if (!isProUser) {
+    document.querySelectorAll(".tools-list button").forEach(btn => {
+      btn.disabled = true;
+      btn.innerText += " 🔒 Requires PRO";
+    });
   }
-  window.location.href = page;
-}
-
-function goTo(section) {
-  alert("🚧 الانتقال إلى قسم: " + section + " (قيد التطوير)");
-}
+});
