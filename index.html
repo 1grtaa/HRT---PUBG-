@@ -1,31 +1,58 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مطورين 𝑯𝑹𝑻 - 𝑷𝑼𝑩𝑮</title>
+  <title>موقع الوحش</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <img src="logo.png" alt="شعار الموقع" class="logo">
-    <h1>مطورين 𝑯𝑹𝑻 - 𝑷𝑼𝑩𝑮 <span class="verified">✔️</span></h1>
-  </header>
 
-  <section class="welcome">
-    <p>👋 مرحباً بك في أقوى أداة لحماية PUBG وتفعيل VIP</p>
-  </section>
+  <!-- ✅ البحث عن ID بالأعلى -->
+  <div class="search-box">
+    <input type="text" id="searchInput" placeholder="ابحث عن ID...">
+    <button onclick="searchId()">بحث</button>
+  </div>
 
-  <section class="buttons">
-    <button onclick="location.href='https://t.me/HRT_AMN'">قناة المطور</button>
-    <button onclick="vip()">فتح VIP 🔐</button>
-    <button onclick="tools()">الأدوات المجانية</button>
-    <button onclick="info()">معلومات المستخدم</button>
-  </section>
+  <!-- ✅ المحتوى الرئيسي -->
+  <div id="content" class="page">
+    <h1>☑️ القائمة الرئيسية</h1>
+    <p>مرحباً بك يا وحش 😈 هذا هو موقعك الاحترافي.</p>
+  </div>
 
-  <footer>
-    <p>جميع الحقوق محفوظة © مطورين HRT - PUBG</p>
-  </footer>
+  <!-- ✅ شريط الأدوات (يظهر عند الضغط) -->
+  <div id="tools-popup" class="tools-popup hidden">
+    <h3>⚒️ أدوات متقدمة</h3>
+    <button onclick="openTool('ai')">🤖 مساعد ذكاء صناعي</button>
+    <button onclick="openTool('basic')">🔎 أداة فحص بسيطة</button>
+    <div id="proTools" class="hidden">
+      <button onclick="openTool('offset')">☠️ استخراج أوفستات</button>
+      <button onclick="openTool('protect')">🛡️ فحص الحمايات</button>
+      <button onclick="openTool('decrypt')">🔓 فك تشفير الملفات</button>
+      <button onclick="openTool('encrypt')">🧩 تشفير الملفات</button>
+    </div>
+    <button onclick="closeToolsPopup()" style="background:red;">إغلاق</button>
+  </div>
+
+  <!-- ✅ الشريط السفلي -->
+  <div class="bottom-nav">
+    <div class="nav-btn" onclick="goTo('home')">
+      <img src="icons/folder.png" alt="الرئيسية">
+      <span>الرئيسية</span>
+    </div>
+    <div class="nav-btn" onclick="goTo('chat')">
+      <img src="icons/discover.png" alt="دردشة">
+      <span>الدردشة</span>
+    </div>
+    <div class="nav-btn" onclick="showToolsPopup()">
+      <img src="icons/edit.png" alt="أدوات">
+      <span>أدوات</span>
+    </div>
+    <div class="nav-btn" onclick="goTo('profile')">
+      <img src="icons/user.png" alt="أنا">
+      <span>أنا</span>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
