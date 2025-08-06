@@ -1,2 +1,0 @@
-# HRT---PUBG-
-HRT PUBG 
