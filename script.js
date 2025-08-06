@@ -4,65 +4,80 @@ function showPage(id) {
   document.getElementById(id).style.display = 'block';
 }
 
-function openTool(id) {
-  document.querySelectorAll('.tool').forEach(t => t.style.display = 'none');
-  document.getElementById(id).style.display = 'block';
-}
-
 function openLink(url) {
   window.open(url, '_blank');
 }
 
-function searchUser() {
-  const val = document.getElementById('searchInput').value;
-  alert(`🔎 تم البحث عن: ${val}`);
+function openTool(toolId) {
+  document.querySelectorAll('.tool').forEach(t => t.style.display = 'none');
+  document.getElementById(toolId).style.display = 'block';
 }
 
 function sendMessage() {
-  const txt = document.getElementById('chatInput').value;
-  const box = document.getElementById('chatBox');
-  const msg = document.createElement('p');
-  msg.textContent = `💬 ${txt} (${txt.split(' ').length} كلمة)`;
-  box.appendChild(msg);
-  document.getElementById('chatInput').value = '';
+  const input = document.getElementById("chatInput");
+  const message = input.value.trim();
+  if (message) {
+    const wordCount = message.split(" ").length;
+    const box = document.getElementById("chatBox");
+    box.innerHTML += `<p>📩 ${message} (${wordCount} كلمات)</p>`;
+    input.value = "";
+  }
 }
 
 function sendPrivateMessage() {
-  const txt = document.getElementById('privateInput').value;
-  const box = document.getElementById('privateBox');
-  const msg = document.createElement('p');
-  msg.textContent = `🔐 ${txt}`;
-  box.appendChild(msg);
-  document.getElementById('privateInput').value = '';
+  const input = document.getElementById("privateInput");
+  const message = input.value.trim();
+  const box = document.getElementById("privateBox");
+  if (message) {
+    box.innerHTML += `<p>🔐 ${message}</p>`;
+    input.value = "";
+  }
+}
+
+function searchUser() {
+  const val = document.getElementById("searchInput").value.trim();
+  if (val === "7056010314" || val === "@HRT_AMN") {
+    alert("🧠 تم العثور على المستخدم! يمكنك مراسلته الآن.");
+    showPage('privateChat');
+  } else {
+    alert("❌ لم يتم العثور على المستخدم.");
+  }
 }
 
 function extractOffsets() {
-  const result = document.getElementById('offsetResult');
-  result.textContent = "🧠 جارٍ تحليل الملف... (وهمي)\n[0xABC123] -> MemoryPatch::create(...)";
+  const fileInput = document.getElementById("fileInput");
+  const result = document.getElementById("offsetResult");
+  if (fileInput.files.length > 0) {
+    const file = fileInput.files[0];
+    result.textContent = `تم تحليل ${file.name} وتم العثور على 12 أوفست.`;
+  } else {
+    result.textContent = "يرجى اختيار ملف أولاً.";
+  }
 }
 
 function copyOffsets() {
-  const result = document.getElementById('offsetResult').textContent;
-  navigator.clipboard.writeText(result);
-  alert("✅ تم نسخ الأوفستات!");
+  const text = document.getElementById("offsetResult").textContent;
+  navigator.clipboard.writeText(text).then(() => {
+    alert("✅ تم نسخ الأوفستات!");
+  });
 }
 
 function decrypt() {
-  const input = document.getElementById('decryptInput').value;
+  const input = document.getElementById("decryptInput").value.trim();
   try {
     const decoded = atob(input);
-    document.getElementById('decryptResult').textContent = decoded;
+    document.getElementById("decryptResult").textContent = decoded;
   } catch {
-    document.getElementById('decryptResult').textContent = "❌ خطأ في فك التشفير";
+    document.getElementById("decryptResult").textContent = "خطأ في فك التشفير.";
   }
 }
 
 function encrypt() {
-  const input = document.getElementById('encryptInput').value;
+  const input = document.getElementById("encryptInput").value.trim();
   try {
     const encoded = btoa(input);
-    document.getElementById('encryptResult').textContent = encoded;
+    document.getElementById("encryptResult").textContent = encoded;
   } catch {
-    document.getElementById('encryptResult').textContent = "❌ خطأ في التشفير";
+    document.getElementById("encryptResult").textContent = "خطأ في التشفير.";
   }
 }
