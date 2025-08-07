@@ -1,83 +1,70 @@
-function showPage(id) {
-  document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-  document.querySelectorAll('.tool').forEach(t => t.style.display = 'none');
-  document.getElementById(id).style.display = 'block';
-}
+let isPro = false;
 
-function openLink(url) {
-  window.open(url, '_blank');
-}
+function loadPage(page) {
+  document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+  event.currentTarget.classList.add('active');
 
-function openTool(toolId) {
-  document.querySelectorAll('.tool').forEach(t => t.style.display = 'none');
-  document.getElementById(toolId).style.display = 'block';
-}
+  const content = document.getElementById('main-content');
 
-function sendMessage() {
-  const input = document.getElementById("chatInput");
-  const message = input.value.trim();
-  if (message) {
-    const wordCount = message.split(" ").length;
-    const box = document.getElementById("chatBox");
-    box.innerHTML += `<p>📩 ${message} (${wordCount} كلمات)</p>`;
-    input.value = "";
+  switch (page) {
+    case 'home':
+      content.innerHTML = `
+        <h2>أهلاً بك في موقع المطورين!</h2>
+        <p>قم باستخدام الأدوات أو تفعيل اشتراك Pro للوصول إلى ميزات إضافية.</p>
+        <button onclick="subscribePro()">🔓 اشتراك Pro</button>
+      `;
+      break;
+
+    case 'tools':
+      content.innerHTML = `
+        <h2>الأدوات المجانية</h2>
+        <div class="tool-section">
+          <div class="tool">🖼️ أداة 1</div>
+          <div class="tool">📁 أداة 2</div>
+        </div>
+
+        <h2>أدوات Pro</h2>
+        ${isPro ? `
+        <div class="tool-section">
+          <div class="tool">🛠️ استخراج ID</div>
+          <div class="tool">📊 تحليل بيانات</div>
+          <div class="tool">📌 لصق معلومات</div>
+        </div>
+        ` : `<p>🔒 يجب الاشتراك للوصول إلى أدوات Pro.</p>`}
+      `;
+      break;
+
+    case 'chat':
+      content.innerHTML = `<h2>💬 الدردشة العامة</h2><p>عرض الرسائل العامة هنا.</p>`;
+      break;
+
+    case 'private':
+      content.innerHTML = `<h2>🔒 الدردشة الخاصة</h2><p>ابدأ محادثة خاصة مع الأصدقاء.</p>`;
+      break;
+
+    case 'profile':
+      content.innerHTML = `
+        <h2>👤 حسابي</h2>
+        <p>الاسم: المستخدم VIP ✅</p>
+        <p>نوع الاشتراك: ${isPro ? 'Pro 🟢' : 'مجاني 🔴'}</p>
+        <button onclick="subscribePro()">🔓 تفعيل اشتراك Pro</button>
+      `;
+      break;
   }
 }
 
-function sendPrivateMessage() {
-  const input = document.getElementById("privateInput");
-  const message = input.value.trim();
-  const box = document.getElementById("privateBox");
-  if (message) {
-    box.innerHTML += `<p>🔐 ${message}</p>`;
-    input.value = "";
-  }
-}
+function subscribePro() {
+  const confirmPay = confirm("هل تريد الدفع عبر آسيا سيل لتفعيل الاشتراك Pro؟");
 
-function searchUser() {
-  const val = document.getElementById("searchInput").value.trim();
-  if (val === "7056010314" || val === "@HRT_AMN") {
-    alert("🧠 تم العثور على المستخدم! يمكنك مراسلته الآن.");
-    showPage('privateChat');
-  } else {
-    alert("❌ لم يتم العثور على المستخدم.");
-  }
-}
-
-function extractOffsets() {
-  const fileInput = document.getElementById("fileInput");
-  const result = document.getElementById("offsetResult");
-  if (fileInput.files.length > 0) {
-    const file = fileInput.files[0];
-    result.textContent = `تم تحليل ${file.name} وتم العثور على 12 أوفست.`;
-  } else {
-    result.textContent = "يرجى اختيار ملف أولاً.";
-  }
-}
-
-function copyOffsets() {
-  const text = document.getElementById("offsetResult").textContent;
-  navigator.clipboard.writeText(text).then(() => {
-    alert("✅ تم نسخ الأوفستات!");
-  });
-}
-
-function decrypt() {
-  const input = document.getElementById("decryptInput").value.trim();
-  try {
-    const decoded = atob(input);
-    document.getElementById("decryptResult").textContent = decoded;
-  } catch {
-    document.getElementById("decryptResult").textContent = "خطأ في فك التشفير.";
-  }
-}
-
-function encrypt() {
-  const input = document.getElementById("encryptInput").value.trim();
-  try {
-    const encoded = btoa(input);
-    document.getElementById("encryptResult").textContent = encoded;
-  } catch {
-    document.getElementById("encryptResult").textContent = "خطأ في التشفير.";
+  if (confirmPay) {
+    alert("تم إرسال طلب الدفع للبوت، يرجى إتمام الدفع.");
+    window.open("https://t.me/lllllllllIlllbot", "_blank");
+    
+    // لمحاكاة نجاح الدفع:
+    setTimeout(() => {
+      alert("✅ تم تفعيل الاشتراك Pro بنجاح!");
+      isPro = true;
+      loadPage('tools');
+    }, 5000); // بعد 5 ثوانٍ من المحاكاة
   }
 }
