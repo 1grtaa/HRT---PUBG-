@@ -1,74 +1,83 @@
+/* خلفية متحركة مرعبة */
 body {
   margin: 0;
-  font-family: 'Segoe UI', sans-serif;
-  background: #0f0f0f;
-  color: white;
+  padding: 0;
+  font-family: "Cairo", sans-serif;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  background: black;
+  color: red;
+}
+
+/* تأثير ضباب/وميض */
+.overlay {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: radial-gradient(circle, rgba(255,0,0,0.2), transparent 70%);
+  animation: pulse 4s infinite;
+  pointer-events: none;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.2; }
+  50% { opacity: 0.6; }
+}
+
+.container {
+  position: relative;
+  text-align: center;
+  z-index: 1;
+}
+
+h1 {
+  font-size: 2rem;
+  color: #ff0000;
+  text-shadow: 0 0 20px red, 0 0 40px black;
+  animation: flicker 3s infinite;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    opacity: 1;
+    text-shadow: 0 0 5px #ff0000, 0 0 10px red, 0 0 20px black;
+  }
+  20%, 24%, 55% {
+    opacity: 0.3;
+    text-shadow: none;
+  }
+}
+
+/* فورم تسجيل الدخول */
+.login-form {
+  margin-top: 20px;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  gap: 12px;
 }
 
-header {
-  background: linear-gradient(90deg, #00c3ff, #7700ff);
-  text-align: center;
-  padding: 1rem;
-  color: #fff;
-  font-size: 1.5rem;
-  position: relative;
+.login-form input {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  outline: none;
+  font-size: 16px;
 }
 
-#version {
-  position: absolute;
-  left: 1rem;
-  top: 1rem;
-  font-size: 0.8rem;
-  color: #fffa;
-}
-
-main {
-  flex: 1;
-  overflow-y: auto;
-  padding: 1rem;
-}
-
-footer {
-  display: flex;
-  justify-content: space-around;
-  background: #181818;
-  border-top: 1px solid #333;
-  padding: 0.8rem 0;
-}
-
-.nav-btn {
-  background: none;
+.login-form button {
+  padding: 10px;
+  background: red;
   border: none;
   color: white;
-  font-size: 0.9rem;
+  border-radius: 6px;
+  font-size: 16px;
   cursor: pointer;
-  transition: color 0.3s;
+  transition: 0.3s;
 }
 
-.nav-btn.active {
-  color: #00c3ff;
-}
-
-.tool-section {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-.tool {
-  background-color: #1e1e1e;
-  padding: 1rem;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: 0 0 8px #00000066;
-  transition: transform 0.2s;
-  cursor: pointer;
-}
-
-.tool:hover {
-  transform: scale(1.05);
+.login-form button:hover {
+  background: darkred;
 }
