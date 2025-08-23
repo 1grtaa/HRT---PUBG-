@@ -1,28 +1,23 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مطورين 𝑯𝑹𝑻 - 𝑽𝒊𝒑</title>
+  <title>مرحباً بك</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>مطورين 𝑯𝑹𝑻 - 𝑽𝒊𝒑</h1>
-    <span id="version">الإصدار 1.0</span>
-  </header>
-
-  <main id="main-content">
-    <!-- يتم عرض الصفحات هنا -->
-  </main>
-
-  <footer>
-    <button onclick="loadPage('home')" class="nav-btn active">🏠 الرئيسية</button>
-    <button onclick="loadPage('tools')" class="nav-btn">🛠️ الأدوات</button>
-    <button onclick="loadPage('chat')" class="nav-btn">💬 الدردشة</button>
-    <button onclick="loadPage('private')" class="nav-btn">🔒 دردشة خاصة</button>
-    <button onclick="loadPage('profile')" class="nav-btn">👤 أنا</button>
-  </footer>
+  <div class="overlay"></div>
+  
+  <div class="container">
+    <h1>مرحبا بك في عالم البرمجة 👨‍💻</h1>
+    
+    <form class="login-form">
+      <input type="text" placeholder="اسم المستخدم" required>
+      <input type="password" placeholder="كلمة المرور" required>
+      <button type="submit">تسجيل دخول</button>
+    </form>
+  </div>
 
   <script src="script.js"></script>
 </body>
