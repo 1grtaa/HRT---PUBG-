@@ -5,62 +5,91 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>مقر F16 — مكتبة الأدوات المتقدمة</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='middle.css') }}">
+  <meta name="robots" content="noindex,nofollow">
 </head>
 <body>
-  <div class="header">
-    <div class="brand">
-      <div class="logo">F16</div>
-      <div>
-        <div class="title">مقر F16 — مكتبة الأدوات المتقدمة</div>
-        <div class="subtitle">مرجع عملي واحترافي بالعربي — للاستخدام القانوني فقط</div>
+  <!-- خلفية مطرزة "هكرز" -->
+  <div id="matrixWrapper">
+    <canvas id="matrixCanvas"></canvas>
+    <div id="neonOverlay"></div>
+  </div>
+
+  <!-- شاشة تسجيل دخول بسيطة محلية (لا تعتمد خادم) -->
+  <div id="loginScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="auth-title">مرحبا في عالم الهكرز 👁</div>
+      <div class="auth-sub">تسجيل الدخول 👑</div>
+      <input id="pwInput" class="auth-input" type="password" placeholder="أدخل كلمة السر" />
+      <div style="display:flex;gap:8px;margin-top:12px">
+        <button id="pwBtn" class="auth-btn">دخول</button>
+        <button id="pwGuest" class="auth-btn ghost">زائر</button>
       </div>
-    </div>
-    <div style="text-align:right">
-      <div style="font-weight:700;color:var(--owner)">{{ owner }}</div>
-      <div class="subtitle">منظمة {{ org }}</div>
+      <div id="authMsg" class="auth-msg" aria-live="polite"></div>
     </div>
   </div>
 
-  <div class="container">
-    <aside class="sidebar">
-      <div class="owner">{{ owner }}  •  {{ org }}</div>
+  <!-- شاشة مرحلية بعد الدخول -->
+  <div id="enterScreen" class="enter-screen" aria-hidden="true">
+    <div class="enter-card">
+      <div class="enter-anim">تم الدخول 🌐</div>
+      <div class="enter-sub">ترقب... سيتم الانتقال خلال <span id="enterCountdown">10</span> ثانية</div>
+    </div>
+  </div>
 
-      <div class="top-tabs" id="topTabs">
-        <div class="top-tab active" data-filter="all">الكل</div>
-        <div class="top-tab" data-filter="بايثون">أدوات بايثون (50)</div>
-        <div class="top-tab" data-filter="كالي/لينكس">أدوات كالى/لينكس (50)</div>
-        <div class="top-tab" data-filter="Termux">أدوات Termux (50)</div>
+  <div class="app-root" id="appRoot" aria-hidden="true">
+    <div class="header">
+      <div class="brand">
+        <div class="logo">F16</div>
+        <div>
+          <div class="title">مقر F16 — مكتبة الأدوات المتقدمة</div>
+          <div class="subtitle">مرجع عملي واحترافي بالعربي — للاستخدام القانوني فقط</div>
+        </div>
       </div>
-
-      <div class="search">
-        <input id="searchInput" class="input" placeholder="ابحث عن أداة أو وظيفة..." />
+      <div style="text-align:right">
+        <div style="font-weight:700;color:var(--owner)">{{ owner }}</div>
+        <div class="subtitle">منظمة {{ org }}</div>
       </div>
+    </div>
 
-      <div style="margin-top:12px; font-size:13px; color:var(--muted)">
-        <div style="font-weight:800; margin-bottom:6px">تعليمات سريعة</div>
-        <ul style="padding-left:16px; margin:0; color:var(--muted); font-size:13px">
-          <li>هذا مرجع: الأوامر أمثلة فقط — لا تنفذ أوامر تحرّض على ضرر.</li>
-          <li>لتنفيذ أي أمر انسخه وشغّله في بيئتك المحلية (Termux / Kali / Python).</li>
-          <li>استخدم المقتطفات القابلة للتنزيل للتعلم داخل مختبر معزول.</li>
-        </ul>
-      </div>
+    <div class="container">
+      <aside class="sidebar">
+        <div class="owner">{{ owner }}  •  {{ org }}</div>
 
-    </aside>
+        <div class="top-tabs" id="topTabs">
+          <div class="top-tab active" data-filter="all">الكل</div>
+          <div class="top-tab" data-filter="بايثون">أدوات بايثون <span class="badge">50</span></div>
+          <div class="top-tab" data-filter="كالي/لينكس">أدوات كالي/لينكس <span class="badge">50</span></div>
+          <div class="top-tab" data-filter="Termux">أدوات Termux <span class="badge">50</span></div>
+        </div>
 
-    <main class="content">
-      <div class="topbar">
-        <div style="font-weight:800">الأدوات</div>
-        <div class="subtitle">إجمالي الأدوات: <span id="count"></span></div>
-      </div>
+        <div class="search">
+          <input id="searchInput" class="input" placeholder="ابحث عن أداة أو وظيفة..." />
+        </div>
 
-      <div id="grid" class="grid" role="list">
-        <!-- cards injected by JS -->
-      </div>
+        <div style="margin-top:12px; font-size:13px; color:var(--muted)">
+          <div style="font-weight:800; margin-bottom:6px">تعليمات سريعة</div>
+          <ul style="padding-left:16px; margin:0; color:var(--muted); font-size:13px">
+            <li>هذا مرجع: الأوامر أمثلة فقط — لا تنفذ أوامر تحرّض على ضرر.</li>
+            <li>لتنفيذ أي أمر انسخه وشغّله في بيئتك المحلية (Termux / Kali / Python).</li>
+            <li>استخدم المقتطفات القابلة للتنزيل للتعلم داخل مختبر معزول.</li>
+          </ul>
+        </div>
 
-      <div class="footer">
-        © {{ owner }} — منظمة {{ org }} — مرجع تعليمي فقط. أي استخدام غير قانوني خارج مسؤولية المستخدم.
-      </div>
-    </main>
+      </aside>
+
+      <main class="content">
+        <div class="topbar">
+          <div style="font-weight:800">الأدوات</div>
+          <div class="subtitle">إجمالي الأدوات: <span id="count"></span></div>
+        </div>
+
+        <div id="grid" class="grid" role="list"></div>
+
+        <div class="footer">
+          © {{ owner }} — منظمة {{ org }} — مرجع تعليمي فقط. أي استخدام غير قانوني خارج مسؤولية المستخدم.
+        </div>
+      </main>
+    </div>
   </div>
 
   <div id="modalBackdrop" class="modal-backdrop">
