@@ -1,24 +1,102 @@
-<!DOCTYPE html>
-<html lang="ar">
+<!doctype html>
+<html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>مرحباً بك</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>مقر F16 — مكتبة الأدوات المتقدمة</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='middle.css') }}">
 </head>
 <body>
-  <div class="overlay"></div>
-  
-  <div class="container">
-    <h1>مرحبا بك في عالم البرمجة 👨‍💻</h1>
-    
-    <form class="login-form">
-      <input type="text" placeholder="اسم المستخدم" required>
-      <input type="password" placeholder="كلمة المرور" required>
-      <button type="submit">تسجيل دخول</button>
-    </form>
+  <div class="header">
+    <div class="brand">
+      <div class="logo">F16</div>
+      <div>
+        <div class="title">مقر F16 — مكتبة الأدوات المتقدمة</div>
+        <div class="subtitle">مرجع عملي واحترافي بالعربي — للاستخدام القانوني فقط</div>
+      </div>
+    </div>
+    <div style="text-align:right">
+      <div style="font-weight:700;color:var(--owner)">{{ owner }}</div>
+      <div class="subtitle">منظمة {{ org }}</div>
+    </div>
   </div>
 
-  <script src="script.js"></script>
+  <div class="container">
+    <aside class="sidebar">
+      <div class="owner">{{ owner }}  •  {{ org }}</div>
+
+      <div class="top-tabs" id="topTabs">
+        <div class="top-tab active" data-filter="all">الكل</div>
+        <div class="top-tab" data-filter="بايثون">أدوات بايثون (50)</div>
+        <div class="top-tab" data-filter="كالي/لينكس">أدوات كالى/لينكس (50)</div>
+        <div class="top-tab" data-filter="Termux">أدوات Termux (50)</div>
+      </div>
+
+      <div class="search">
+        <input id="searchInput" class="input" placeholder="ابحث عن أداة أو وظيفة..." />
+      </div>
+
+      <div style="margin-top:12px; font-size:13px; color:var(--muted)">
+        <div style="font-weight:800; margin-bottom:6px">تعليمات سريعة</div>
+        <ul style="padding-left:16px; margin:0; color:var(--muted); font-size:13px">
+          <li>هذا مرجع: الأوامر أمثلة فقط — لا تنفذ أوامر تحرّض على ضرر.</li>
+          <li>لتنفيذ أي أمر انسخه وشغّله في بيئتك المحلية (Termux / Kali / Python).</li>
+          <li>استخدم المقتطفات القابلة للتنزيل للتعلم داخل مختبر معزول.</li>
+        </ul>
+      </div>
+
+    </aside>
+
+    <main class="content">
+      <div class="topbar">
+        <div style="font-weight:800">الأدوات</div>
+        <div class="subtitle">إجمالي الأدوات: <span id="count"></span></div>
+      </div>
+
+      <div id="grid" class="grid" role="list">
+        <!-- cards injected by JS -->
+      </div>
+
+      <div class="footer">
+        © {{ owner }} — منظمة {{ org }} — مرجع تعليمي فقط. أي استخدام غير قانوني خارج مسؤولية المستخدم.
+      </div>
+    </main>
+  </div>
+
+  <div id="modalBackdrop" class="modal-backdrop">
+    <div id="modal" class="modal">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <h2 id="mTitle">عنوان الأداة</h2>
+        <button onclick="closeModal()" class="smallbtn">إغلاق</button>
+      </div>
+      <div id="mCat" style="color:var(--muted); margin-top:6px"></div>
+      <p id="mDesc" style="margin-top:10px"></p>
+
+      <div style="margin-top:12px">
+        <div style="font-weight:700">أمر التثبيت المقترح</div>
+        <pre id="mInstall" class="code"></pre>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="font-weight:700">مثال آمن للاستخدام</div>
+        <pre id="mExample" class="code"></pre>
+      </div>
+
+      <div id="mSnippetWrap" style="margin-top:12px; display:none">
+        <div style="font-weight:700">مقتطف آمن (قابل للتحميل)</div>
+        <pre id="mSnippet" class="code"></pre>
+        <a id="mDownload" class="smallbtn" style="display:inline-block;margin-top:8px">تحميل المقتطف</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- نحقن JSON المُولد من Flask هنا كسياق (آمن بوسم safe) -->
+  <script>
+    window.TOOLS = {{ tools_json | safe }};
+    window.SNIPPETS = {{ snippets_json | safe }};
+  </script>
+
+  <script src="{{ url_for('static', filename='third.js') }}"></script>
 </body>
 </html>
