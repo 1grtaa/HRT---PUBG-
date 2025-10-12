@@ -1,8 +1,86 @@
-// third.js  — جميع تفاعلات الواجهة
+// third.js  — جميع تفاعلات الواجهة + شاشة الدخول + تأثير ماطرس
 const TOOLS = window.TOOLS || [];
 const SNIPPETS = window.SNIPPETS || {};
 
-// render cards
+// ---------- AUTH / ENTRY ----------
+const PASSWORD = 'f16pro'; // كلمة السر الافتراضية (محليّة فقط) — غيّرها إن تريد
+
+function showAuthMessage(msg){
+  const el = document.getElementById('authMsg');
+  if(el) el.innerText = msg;
+}
+
+function enterApp(){
+  // إظهار شاشة الدخول المتحركة
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('enterScreen').setAttribute('aria-hidden', 'false');
+  document.getElementById('appRoot').setAttribute('aria-hidden', 'true');
+  let t = 10;
+  const cd = document.getElementById('enterCountdown');
+  cd.innerText = t;
+  document.getElementById('enterScreen').style.pointerEvents = 'auto';
+  const iv = setInterval(()=>{
+    t -= 1; cd.innerText = t;
+    if(t<=0){
+      clearInterval(iv);
+      // اخفاء شاشة الدخول
+      document.getElementById('enterScreen').setAttribute('aria-hidden','true');
+      document.getElementById('appRoot').setAttribute('aria-hidden','false');
+      document.getElementById('enterScreen').style.pointerEvents = 'none';
+    }
+  }, 1000);
+}
+
+function tryLogin(){
+  const pw = document.getElementById('pwInput').value || '';
+  if(pw === PASSWORD){
+    showAuthMessage('✔️ تم التحقق — جارٍ الدخول...');
+    // تأخير قصير ثم دخول
+    setTimeout(()=>{
+      enterApp();
+    }, 700);
+  } else if(pw === ''){
+    showAuthMessage('أدخل كلمة السر أو اختر زائر');
+  } else {
+    showAuthMessage('✖️ كلمة السر خاطئة');
+  }
+}
+
+// زر زائر — يتخطى مع تحذير
+function guestEntry(){
+  showAuthMessage('متصل كزائر — بعض الخصائص قد تكون مخفية');
+  setTimeout(()=>{ enterApp(); }, 900);
+}
+
+// ---------- MATRIX EFFECT ----------
+function startMatrix(){
+  const canvas = document.getElementById('matrixCanvas');
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+  const cols = Math.floor(w/20)+1;
+  const ypos = Array(cols).fill(0);
+  const letters = 'abcdefghijklmnopqrstuvwxyz0123456789@#$%*&+-=[]{}<>/\|'.split('');
+  function draw(){
+    ctx.fillStyle = 'rgba(0,0,0,0.06)';
+    ctx.fillRect(0,0,w,h);
+    ctx.fillStyle = 'rgba(0,255,150,0.75)';
+    ctx.font = '14px monospace';
+    for(let i=0;i<ypos.length;i++){
+      const text = letters[Math.floor(Math.random()*letters.length)];
+      const x = i*20;
+      ctx.fillText(text, x, ypos[i]*20);
+      if(ypos[i]*20 > h && Math.random() > 0.975) ypos[i]=0;
+      ypos[i]++;
+    }
+  }
+  let raf;
+  function loop(){ draw(); raf = requestAnimationFrame(loop); }
+  loop();
+  window.addEventListener('resize', ()=>{ cancelAnimationFrame(raf); w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
+}
+
+// ---------- UI: cards rendering and modal ----------
 function createCard(t){
   const div = document.createElement('div');
   div.className = 'card';
@@ -53,7 +131,17 @@ function closeModal(){
   setTimeout(()=>{ document.getElementById('modalBackdrop').style.display='none'; },160);
 }
 
+// ---------- init ----------
 document.addEventListener('DOMContentLoaded', ()=>{
+  // matrix effect
+  startMatrix();
+
+  // auth buttons
+  document.getElementById('pwBtn').addEventListener('click', tryLogin);
+  document.getElementById('pwGuest').addEventListener('click', guestEntry);
+  document.getElementById('pwInput').addEventListener('keydown', function(e){ if(e.key==='Enter') tryLogin(); });
+
+  // render ui after login (appRoot hidden until entry)
   render('all');
   // tabs
   document.querySelectorAll('.top-tab').forEach(el=>{
