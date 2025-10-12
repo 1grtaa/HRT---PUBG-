@@ -1,83 +1,36 @@
-/* خلفية متحركة مرعبة */
-body {
-  margin: 0;
-  padding: 0;
-  font-family: "Cairo", sans-serif;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  overflow: hidden;
-  background: black;
-  color: red;
+:root{
+  --bg1:#071827; --bg2:#062c3a; --card:#0b2636; --muted:#9fb0c1;
+  --accent1:#06b6d4; --accent2:#7c3aed; --owner:#ffd166;
+  --glass: rgba(255,255,255,0.03);
 }
-
-/* تأثير ضباب/وميض */
-.overlay {
-  position: absolute;
-  top: 0; left: 0;
-  width: 100%; height: 100%;
-  background: radial-gradient(circle, rgba(255,0,0,0.2), transparent 70%);
-  animation: pulse 4s infinite;
-  pointer-events: none;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.2; }
-  50% { opacity: 0.6; }
-}
-
-.container {
-  position: relative;
-  text-align: center;
-  z-index: 1;
-}
-
-h1 {
-  font-size: 2rem;
-  color: #ff0000;
-  text-shadow: 0 0 20px red, 0 0 40px black;
-  animation: flicker 3s infinite;
-}
-
-@keyframes flicker {
-  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-    opacity: 1;
-    text-shadow: 0 0 5px #ff0000, 0 0 10px red, 0 0 20px black;
-  }
-  20%, 24%, 55% {
-    opacity: 0.3;
-    text-shadow: none;
-  }
-}
-
-/* فورم تسجيل الدخول */
-.login-form {
-  margin-top: 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.login-form input {
-  padding: 10px;
-  border: none;
-  border-radius: 6px;
-  outline: none;
-  font-size: 16px;
-}
-
-.login-form button {
-  padding: 10px;
-  background: red;
-  border: none;
-  color: white;
-  border-radius: 6px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.login-form button:hover {
-  background: darkred;
-}
+*{box-sizing:border-box}
+body{margin:0;font-family:Tahoma, Arial, sans-serif;background:linear-gradient(180deg,var(--bg1),var(--bg2));color:#e6f2f8}
+.header{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid rgba(255,255,255,0.03)}
+.brand{display:flex;gap:12px;align-items:center}
+.logo{width:64px;height:64px;border-radius:12px;background:linear-gradient(90deg,var(--accent1),var(--accent2));display:flex;align-items:center;justify-content:center;font-weight:900;color:#012}
+.title{font-size:18px;margin:0}
+.subtitle{color:var(--muted);font-size:13px;margin-top:4px}
+.container{display:flex;gap:16px;padding:18px}
+.sidebar{width:300px;background:var(--card);padding:14px;border-radius:12px;min-height:76vh;position:sticky;top:18px}
+.sidebar .owner{color:var(--owner);font-weight:800;margin-bottom:10px}
+.top-tabs{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap}
+.top-tab{padding:8px 12px;border-radius:8px;background:var(--glass);cursor:pointer;color:var(--muted)}
+.top-tab.active{background:linear-gradient(90deg,var(--accent1),var(--accent2));color:#012;font-weight:800}
+.search{margin-top:12px}
+.input{width:100%;padding:10px;border-radius:8px;border:none;background:rgba(255,255,255,0.03);color:inherit}
+.content{flex:1}
+.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));padding:12px;border-radius:10px;transition:transform .18s,box-shadow .18s;position:relative;cursor:pointer}
+.card:hover{transform:translateY(-6px);box-shadow:0 18px 40px rgba(0,0,0,0.6)}
+.cat{position:absolute;left:12px;top:12px;color:var(--muted);font-size:12px;background:rgba(255,255,255,0.02);padding:6px;border-radius:8px}
+.toolname{font-weight:800;margin-bottom:6px}
+.desc{color:var(--muted);font-size:13px}
+.smallbtn{margin-top:8px;padding:8px;border-radius:8px;border:none;background:rgba(255,255,255,0.03);color:var(--muted);cursor:pointer}
+.modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:60}
+.modal{background:linear-gradient(180deg,#021826,#052233);width:100%;max-width:940px;border-radius:12px;padding:18px;color:#e6f2f8;box-shadow:0 30px 80px rgba(0,0,0,0.6);transform:translateY(12px);opacity:0;transition:all .18s}
+.modal.show{transform:translateY(0);opacity:1}
+.code{background:#02151b;padding:12px;border-radius:8px;overflow:auto;color:#cff;white-space:pre-wrap}
+.footer{margin-top:20px;text-align:center;color:var(--muted);font-size:13px;padding-bottom:30px}
+@media (max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}.sidebar{display:none}}
+@media (max-width:600px){.grid{grid-template-columns:1fr}}
