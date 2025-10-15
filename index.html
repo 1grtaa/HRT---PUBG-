@@ -1,131 +1,73 @@
+<!-- index.html
+     افتح هذا الملف مباشرة في المتصفح (ملف محلي).
+     يعتمد على app.js و styles.css في نفس المجلد.
+-->
 <!doctype html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>مقر F16 — مكتبة الأدوات المتقدمة</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='middle.css') }}">
-  <meta name="robots" content="noindex,nofollow">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>مقر F16 — مكتبة الأدوات</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <!-- خلفية مطرزة "هكرز" -->
-  <div id="matrixWrapper">
-    <canvas id="matrixCanvas"></canvas>
-    <div id="neonOverlay"></div>
-  </div>
+  <header class="header">
+    <div class="brand">مقر F16 — مكتبة الأدوات</div>
+    <div class="owner">@HRT_AMN • F16</div>
+  </header>
 
-  <!-- شاشة تسجيل دخول بسيطة محلية (لا تعتمد خادم) -->
-  <div id="loginScreen" class="auth-screen">
-    <div class="auth-card">
-      <div class="auth-title">مرحبا في عالم الهكرز 👁</div>
-      <div class="auth-sub">تسجيل الدخول 👑</div>
-      <input id="pwInput" class="auth-input" type="password" placeholder="أدخل كلمة السر" />
-      <div style="display:flex;gap:8px;margin-top:12px">
-        <button id="pwBtn" class="auth-btn">دخول</button>
-        <button id="pwGuest" class="auth-btn ghost">زائر</button>
-      </div>
-      <div id="authMsg" class="auth-msg" aria-live="polite"></div>
-    </div>
-  </div>
-
-  <!-- شاشة مرحلية بعد الدخول -->
-  <div id="enterScreen" class="enter-screen" aria-hidden="true">
-    <div class="enter-card">
-      <div class="enter-anim">تم الدخول 🌐</div>
-      <div class="enter-sub">ترقب... سيتم الانتقال خلال <span id="enterCountdown">10</span> ثانية</div>
-    </div>
-  </div>
-
-  <div class="app-root" id="appRoot" aria-hidden="true">
-    <div class="header">
-      <div class="brand">
-        <div class="logo">F16</div>
-        <div>
-          <div class="title">مقر F16 — مكتبة الأدوات المتقدمة</div>
-          <div class="subtitle">مرجع عملي واحترافي بالعربي — للاستخدام القانوني فقط</div>
-        </div>
-      </div>
-      <div style="text-align:right">
-        <div style="font-weight:700;color:var(--owner)">{{ owner }}</div>
-        <div class="subtitle">منظمة {{ org }}</div>
-      </div>
+  <div class="toolbar" role="toolbar" aria-label="شريط أدوات">
+    <div class="filters" role="group" aria-label="فلاتر">
+      <button id="btnAll" class="filter-btn active" data-filter="all">الكل</button>
+      <button id="btnPy" class="filter-btn" data-filter="بايثون">بايثون</button>
+      <button id="btnTx" class="filter-btn" data-filter="تريمكس">تريمكس</button>
     </div>
 
-    <div class="container">
-      <aside class="sidebar">
-        <div class="owner">{{ owner }}  •  {{ org }}</div>
-
-        <div class="top-tabs" id="topTabs">
-          <div class="top-tab active" data-filter="all">الكل</div>
-          <div class="top-tab" data-filter="بايثون">أدوات بايثون <span class="badge">50</span></div>
-          <div class="top-tab" data-filter="كالي/لينكس">أدوات كالي/لينكس <span class="badge">50</span></div>
-          <div class="top-tab" data-filter="Termux">أدوات Termux <span class="badge">50</span></div>
-        </div>
-
-        <div class="search">
-          <input id="searchInput" class="input" placeholder="ابحث عن أداة أو وظيفة..." />
-        </div>
-
-        <div style="margin-top:12px; font-size:13px; color:var(--muted)">
-          <div style="font-weight:800; margin-bottom:6px">تعليمات سريعة</div>
-          <ul style="padding-left:16px; margin:0; color:var(--muted); font-size:13px">
-            <li>هذا مرجع: الأوامر أمثلة فقط — لا تنفذ أوامر تحرّض على ضرر.</li>
-            <li>لتنفيذ أي أمر انسخه وشغّله في بيئتك المحلية (Termux / Kali / Python).</li>
-            <li>استخدم المقتطفات القابلة للتنزيل للتعلم داخل مختبر معزول.</li>
-          </ul>
-        </div>
-
-      </aside>
-
-      <main class="content">
-        <div class="topbar">
-          <div style="font-weight:800">الأدوات</div>
-          <div class="subtitle">إجمالي الأدوات: <span id="count"></span></div>
-        </div>
-
-        <div id="grid" class="grid" role="list"></div>
-
-        <div class="footer">
-          © {{ owner }} — منظمة {{ org }} — مرجع تعليمي فقط. أي استخدام غير قانوني خارج مسؤولية المستخدم.
-        </div>
-      </main>
-    </div>
+    <input id="search" class="search-input" placeholder="ابحث عن أداة بالاسم أو الوصف — اضغط '/' للتركيز" />
+    <div class="hint">مفاتيح: <span class="kbd">1</span> الكل — <span class="kbd">2</span> بايثون — <span class="kbd">3</span> تريمكس — <span class="kbd">/</span> بحث</div>
   </div>
 
-  <div id="modalBackdrop" class="modal-backdrop">
-    <div id="modal" class="modal">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <h2 id="mTitle">عنوان الأداة</h2>
-        <button onclick="closeModal()" class="smallbtn">إغلاق</button>
-      </div>
-      <div id="mCat" style="color:var(--muted); margin-top:6px"></div>
-      <p id="mDesc" style="margin-top:10px"></p>
+  <main class="container">
+    <div id="grid" class="grid" role="list" aria-live="polite"></div>
+    <footer class="panel-footer">© @HRT_AMN — مرجع تعليمي فقط. لا تستخدم الأدوات بدون إذن.</footer>
+  </main>
 
-      <div style="margin-top:12px">
-        <div style="font-weight:700">أمر التثبيت المقترح</div>
+  <!-- مودال التفاصيل -->
+  <div id="modalBack" class="modal-back" aria-hidden="true">
+    <div id="modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+      <div class="modal-head">
+        <h2 id="mTitle">أداة</h2>
+        <div class="modal-controls">
+          <button id="copyInstall" class="btn copy">نسخ التثبيت</button>
+          <button id="copyExample" class="btn copy">نسخ المثال</button>
+          <button id="closeModal" class="btn primary">إغلاق</button>
+        </div>
+      </div>
+
+      <div id="mMeta" class="meta"></div>
+      <pre id="mDetailed" class="code"></pre>
+
+      <div class="section">
+        <div class="section-title">أمر التثبيت</div>
         <pre id="mInstall" class="code"></pre>
       </div>
 
-      <div style="margin-top:12px">
-        <div style="font-weight:700">مثال آمن للاستخدام</div>
+      <div class="section">
+        <div class="section-title">مثال آمن</div>
         <pre id="mExample" class="code"></pre>
       </div>
 
-      <div id="mSnippetWrap" style="margin-top:12px; display:none">
-        <div style="font-weight:700">مقتطف آمن (قابل للتحميل)</div>
-        <pre id="mSnippet" class="code"></pre>
-        <a id="mDownload" class="smallbtn" style="display:inline-block;margin-top:8px">تحميل المقتطف</a>
+      <div class="section">
+        <div class="section-title">كيف تستعملها — خطوات آمنة</div>
+        <div id="mHow"></div>
       </div>
 
+      <div class="section actions-row">
+        <button id="downloadBtn" class="btn primary">تحميل المقتطف</button>
+      </div>
     </div>
   </div>
 
-  <!-- نحقن JSON المُولد من Flask هنا كسياق (آمن بوسم safe) -->
-  <script>
-    window.TOOLS = {{ tools_json | safe }};
-    window.SNIPPETS = {{ snippets_json | safe }};
-  </script>
-
-  <script src="{{ url_for('static', filename='third.js') }}"></script>
+  <script src="app.js"></script>
 </body>
 </html>
