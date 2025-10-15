@@ -1,167 +1,250 @@
-// third.js  — جميع تفاعلات الواجهة + شاشة الدخول + تأثير ماطرس
-const TOOLS = window.TOOLS || [];
-const SNIPPETS = window.SNIPPETS || {};
+/* app.js
+   يعرّف الأدوات ويعرض الواجهة، البحث، الفلاتر، المودال، والتحميل.
+   هذا الملف مستقل ويعمل مباشرة في المتصفح.
+*/
 
-// ---------- AUTH / ENTRY ----------
-const PASSWORD = 'f16pro'; // كلمة السر الافتراضية (محليّة فقط) — غيّرها إن تريد
-
-function showAuthMessage(msg){
-  const el = document.getElementById('authMsg');
-  if(el) el.innerText = msg;
-}
-
-function enterApp(){
-  // إظهار شاشة الدخول المتحركة
-  document.getElementById('loginScreen').style.display = 'none';
-  document.getElementById('enterScreen').setAttribute('aria-hidden', 'false');
-  document.getElementById('appRoot').setAttribute('aria-hidden', 'true');
-  let t = 10;
-  const cd = document.getElementById('enterCountdown');
-  cd.innerText = t;
-  document.getElementById('enterScreen').style.pointerEvents = 'auto';
-  const iv = setInterval(()=>{
-    t -= 1; cd.innerText = t;
-    if(t<=0){
-      clearInterval(iv);
-      // اخفاء شاشة الدخول
-      document.getElementById('enterScreen').setAttribute('aria-hidden','true');
-      document.getElementById('appRoot').setAttribute('aria-hidden','false');
-      document.getElementById('enterScreen').style.pointerEvents = 'none';
-    }
-  }, 1000);
-}
-
-function tryLogin(){
-  const pw = document.getElementById('pwInput').value || '';
-  if(pw === PASSWORD){
-    showAuthMessage('✔️ تم التحقق — جارٍ الدخول...');
-    // تأخير قصير ثم دخول
-    setTimeout(()=>{
-      enterApp();
-    }, 700);
-  } else if(pw === ''){
-    showAuthMessage('أدخل كلمة السر أو اختر زائر');
-  } else {
-    showAuthMessage('✖️ كلمة السر خاطئة');
+(function(){
+  // ---- توليد بيانات الأدوات (200 بايثون + 200 تريمكس) ----
+  function genPython(i){
+    const name = `py_tool_${String(i).padStart(3,'0')}`;
+    const purposes = [
+      "تحليل pcap محلي", "تحليل سجلات", "أتمتة SSH داخل مختبر",
+      "فحص شهادات TLS/SSL", "تحليل ثنائيات للتعلم", "نمذجة بيانات سجلات"
+    ];
+    const usecases = [
+      "استخراج رؤى من سجلات الشبكة المحلية", "تحليل ملفات pcap في بيئة اختبار",
+      "تجربة خوارزميات كشف التهديدات محليًا", "تعلم كيفية معالجة السجلات"
+    ];
+    const purpose = purposes[Math.floor(Math.random()*purposes.length)];
+    const usecase = usecases[Math.floor(Math.random()*usecases.length)];
+    const detailed = `أداة بايثون ${i} (${name})\n\nالغرض: ${purpose}.\nاستخدام نموذجي: ${usecase}.\nالقيود: لا توجه هذه الأداة لشبكات أو أجهزة بدون إذن. هذه نسخة تعليمية.`;
+    const how = [
+      "انشئ بيئة افتراضية: python -m venv venv && source venv/bin/activate",
+      "ثبت الحزم المطلوبة داخل المختبر فقط (مثال: pip install ipwhois)",
+      "حمّل المقتطف بواسطة زر التحميل، ثم نفّذه محليًا: python <snippet>.py",
+      "عدّل بيانات الإدخال في السكربت لاختبار الحالات المحلية"
+    ];
+    const example = `# ${name}.py — مثال آمن\n\ndef main():\n    print("تشغيل آمن لمقتطف ${name}")\n\nif __name__ == '__main__':\n    main()\n`;
+    return {
+      id: `py_${String(i).padStart(3,'0')}`,
+      name,
+      category: "بايثون",
+      desc: `مكتبة/أداة بايثون تعليمية — ${purpose}.`,
+      detailed,
+      how,
+      install: `# pip install ${name}  (مثال افتراضي)`,
+      example,
+      snippet_ext: ".py"
+    };
   }
-}
 
-// زر زائر — يتخطى مع تحذير
-function guestEntry(){
-  showAuthMessage('متصل كزائر — بعض الخصائص قد تكون مخفية');
-  setTimeout(()=>{ enterApp(); }, 900);
-}
-
-// ---------- MATRIX EFFECT ----------
-function startMatrix(){
-  const canvas = document.getElementById('matrixCanvas');
-  const ctx = canvas.getContext('2d');
-  let w = canvas.width = window.innerWidth;
-  let h = canvas.height = window.innerHeight;
-  const cols = Math.floor(w/20)+1;
-  const ypos = Array(cols).fill(0);
-  const letters = 'abcdefghijklmnopqrstuvwxyz0123456789@#$%*&+-=[]{}<>/\|'.split('');
-  function draw(){
-    ctx.fillStyle = 'rgba(0,0,0,0.06)';
-    ctx.fillRect(0,0,w,h);
-    ctx.fillStyle = 'rgba(0,255,150,0.75)';
-    ctx.font = '14px monospace';
-    for(let i=0;i<ypos.length;i++){
-      const text = letters[Math.floor(Math.random()*letters.length)];
-      const x = i*20;
-      ctx.fillText(text, x, ypos[i]*20);
-      if(ypos[i]*20 > h && Math.random() > 0.975) ypos[i]=0;
-      ypos[i]++;
-    }
+  function genTermux(i){
+    const name = `tx_tool_${String(i).padStart(3,'0')}`;
+    const purposes = [
+      "ماسح منافذ داخلي", "التقاط حزم للتشخيص", "تحليل واي-فاي تعليمية",
+      "أداة CLI لتحليل DNS", "مراقبة الاتصالات المحلية"
+    ];
+    const usecases = [
+      "شغّلها داخل Termux على جهازك فقط", "ابدأ بـ --help ثم جرّب خيارات آمنة",
+      "استخدمها على localhost أو شبكات لديك إذن بها"
+    ];
+    const purpose = purposes[Math.floor(Math.random()*purposes.length)];
+    const usecase = usecases[Math.floor(Math.random()*usecases.length)];
+    const detailed = `أداة Termux ${i} (${name})\n\nالغرض: ${purpose}.\nاستخدام نموذجي: ${usecase}.\nالقيود: مثال تعليمي لا يقوم بفحص شبكات خارجية افتراضيًا.`;
+    const how = [
+      "افتح Termux أو شيل محلي على جهازك",
+      `ثبت الحزمة إن رغبت: pkg install ${name} (تحقق من اسم الحزمة)`,
+      `ابدأ بـ ${name} --help لمراجعة الخيارات ثم جرِّب خيارات آمنة`,
+      "حلل النتائج محليًا داخل البيئة الآمنة"
+    ];
+    const example = `#!/usr/bin/env bash\n# ${name}.sh — مثال آمن\n\necho "تشغيل آمن: ${name} --version"\n`;
+    return {
+      id: `tx_${String(i).padStart(3,'0')}`,
+      name,
+      category: "تريمكس",
+      desc: `أداة CLI/Termux تعليمية — ${purpose}.`,
+      detailed,
+      how,
+      install: `# pkg install ${name}  (تحقق من الاسم في مستودعك)`,
+      example,
+      snippet_ext: ".sh"
+    };
   }
-  let raf;
-  function loop(){ draw(); raf = requestAnimationFrame(loop); }
-  loop();
-  window.addEventListener('resize', ()=>{ cancelAnimationFrame(raf); w = canvas.width = window.innerWidth; h = canvas.height = window.innerHeight; });
-}
 
-// ---------- UI: cards rendering and modal ----------
-function createCard(t){
-  const div = document.createElement('div');
-  div.className = 'card';
-  div.setAttribute('data-cat', t.category);
-  div.setAttribute('data-name', t.name.toLowerCase());
-  div.innerHTML = `<div class="cat">${t.category}</div>
-    <div class="toolname">${t.name}</div>
-    <div class="desc">${t.desc}</div>
-    <div style="margin-top:8px"><button class="smallbtn" onclick="openTool('${t.id}')">تفاصيل</button></div>`;
-  return div;
-}
+  const ALL_TOOLS = [];
+  for(let i=1;i<=200;i++){ ALL_TOOLS.push(genPython(i)); }
+  for(let i=1;i<=200;i++){ ALL_TOOLS.push(genTermux(i)); }
 
-function render(filter){
+  // ---- عناصر DOM ----
   const grid = document.getElementById('grid');
-  grid.innerHTML = '';
-  let count = 0;
-  TOOLS.forEach(t=>{
-    if(filter === 'all' || filter === t.category){
-      grid.appendChild(createCard(t));
-      count++;
-    } else if (filter === 'بايثون' && t.category === 'بايثون'){ grid.appendChild(createCard(t)); count++; }
-    else if (filter === 'كالي/لينكس' && t.category === 'كالي/لينكس'){ grid.appendChild(createCard(t)); count++; }
-    else if (filter === 'Termux' && t.category === 'Termux'){ grid.appendChild(createCard(t)); count++; }
-  });
-  document.getElementById('count').innerText = count;
-}
+  const searchInput = document.getElementById('search');
+  const btnAll = document.getElementById('btnAll');
+  const btnPy = document.getElementById('btnPy');
+  const btnTx = document.getElementById('btnTx');
+  const modalBack = document.getElementById('modalBack');
+  const modal = document.getElementById('modal');
+  const mTitle = document.getElementById('mTitle');
+  const mMeta = document.getElementById('mMeta');
+  const mDetailed = document.getElementById('mDetailed');
+  const mInstall = document.getElementById('mInstall');
+  const mExample = document.getElementById('mExample');
+  const mHow = document.getElementById('mHow');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const copyInstall = document.getElementById('copyInstall');
+  const copyExample = document.getElementById('copyExample');
+  const closeModalBtn = document.getElementById('closeModal');
 
-function openTool(id){
-  const t = TOOLS.find(x=>x.id===id);
-  if(!t) return;
-  document.getElementById('mTitle').innerText = t.name;
-  document.getElementById('mCat').innerText = 'الفئة: ' + t.category;
-  document.getElementById('mDesc').innerText = t.desc;
-  document.getElementById('mInstall').innerText = t.install || '—';
-  document.getElementById('mExample').innerText = t.example || '—';
-  if(t.snippet_key && SNIPPETS[t.snippet_key]){
-    document.getElementById('mSnippetWrap').style.display = 'block';
-    document.getElementById('mSnippet').innerText = SNIPPETS[t.snippet_key].content;
-    document.getElementById('mDownload').onclick = ()=>{ window.location = '/download/' + t.snippet_key; };
-  } else {
-    document.getElementById('mSnippetWrap').style.display = 'none';
-  }
-  document.getElementById('modalBackdrop').style.display='flex';
-  setTimeout(()=>{ document.getElementById('modal').classList.add('show'); },20);
-}
-function closeModal(){
-  document.getElementById('modal').classList.remove('show');
-  setTimeout(()=>{ document.getElementById('modalBackdrop').style.display='none'; },160);
-}
+  let currentFilter = 'all';
+  let debounce = null;
 
-// ---------- init ----------
-document.addEventListener('DOMContentLoaded', ()=>{
-  // matrix effect
-  startMatrix();
-
-  // auth buttons
-  document.getElementById('pwBtn').addEventListener('click', tryLogin);
-  document.getElementById('pwGuest').addEventListener('click', guestEntry);
-  document.getElementById('pwInput').addEventListener('keydown', function(e){ if(e.key==='Enter') tryLogin(); });
-
-  // render ui after login (appRoot hidden until entry)
-  render('all');
-  // tabs
-  document.querySelectorAll('.top-tab').forEach(el=>{
-    el.addEventListener('click', ()=>{
-      document.querySelectorAll('.top-tab').forEach(x=>x.classList.remove('active'));
-      el.classList.add('active');
-      render(el.getAttribute('data-filter'));
+  // ---- Build cards once (performance) ----
+  function buildCards(){
+    const frag = document.createDocumentFragment();
+    ALL_TOOLS.forEach(t=>{
+      const el = document.createElement('div');
+      el.className = 'card';
+      el.setAttribute('data-id', t.id);
+      el.setAttribute('data-cat', t.category);
+      el.setAttribute('data-name', (t.name||'').toLowerCase());
+      el.setAttribute('data-desc', (t.desc||'').toLowerCase());
+      el.innerHTML = `
+        <div class="cat">${t.category}</div>
+        <div class="name">${t.name}</div>
+        <div class="desc">${t.desc}</div>
+        <div class="actions">
+          <button class="btn primary" data-action="details" data-id="${t.id}">تفاصيل</button>
+          <button class="btn" data-action="download" data-id="${t.id}">تحميل</button>
+        </div>
+      `;
+      frag.appendChild(el);
     });
-  });
-  // search
-  document.getElementById('searchInput').addEventListener('input', function(){
-    const q = this.value.toLowerCase().trim();
-    const cards = document.querySelectorAll('#grid .card');
+    grid.appendChild(frag);
+
+    // delegate clicks
+    grid.addEventListener('click', function(e){
+      const det = e.target.closest('button[data-action="details"]');
+      const dl = e.target.closest('button[data-action="download"]');
+      if(det){
+        openModalById(det.getAttribute('data-id'));
+      } else if(dl){
+        const id = dl.getAttribute('data-id');
+        downloadSnippetById(id);
+      }
+    });
+  }
+
+  // ---- filtering & search ----
+  function applyFilters(){
+    const q = (searchInput.value||'').toLowerCase().trim();
+    const cards = grid.querySelectorAll('.card');
     let visible = 0;
     cards.forEach(c=>{
-      const name = c.getAttribute('data-name');
-      const desc = c.querySelector('.desc').innerText.toLowerCase();
-      if(!q || name.includes(q) || desc.includes(q)){ c.style.display='block'; visible++; }
-      else c.style.display='none';
+      const name = c.getAttribute('data-name') || '';
+      const desc = c.getAttribute('data-desc') || '';
+      const cat = c.getAttribute('data-cat') || '';
+      const inFilter = (currentFilter === 'all' || currentFilter === cat);
+      const matches = (!q || name.includes(q) || desc.includes(q));
+      if(inFilter && matches){
+        c.style.display = 'block';
+        visible++;
+      } else c.style.display = 'none';
     });
-    document.getElementById('count').innerText = visible;
+    // عرض عدد الأدوات في مكان مناسب (footer) إن أردت
+    return visible;
+  }
+
+  // ---- modal functions ----
+  function openModalById(id){
+    const t = ALL_TOOLS.find(x=>x.id===id);
+    if(!t) return;
+    mTitle.innerText = t.name;
+    mMeta.innerText = `الفئة: ${t.category}`;
+    mDetailed.innerText = t.detailed || t.desc || '';
+    mInstall.innerText = t.install || '—';
+    mExample.innerText = t.example || '—';
+    mHow.innerHTML = '';
+    if(Array.isArray(t.how)) t.how.forEach((s,i)=>{
+      const div = document.createElement('div');
+      div.className = 'step';
+      div.innerText = `${i+1}. ${s}`;
+      mHow.appendChild(div);
+    });
+    // download setup
+    downloadBtn.onclick = ()=> downloadSnippet(t);
+    copyInstall.onclick = ()=> copyToClipboard(t.install || '');
+    copyExample.onclick = ()=> copyToClipboard(t.example || '');
+    // show modal
+    modalBack.style.display = 'flex';
+    setTimeout(()=> modal.classList.add('show'), 20);
+  }
+
+  function closeModal(){
+    modal.classList.remove('show');
+    setTimeout(()=> modalBack.style.display = 'none', 180);
+  }
+
+  // ---- download snippet (client-side blob) ----
+  function downloadSnippet(tool){
+    const filename = tool.name + (tool.snippet_ext || '.txt');
+    const content = (tool.example || '# example\nprint("example")') + '\n';
+    const blob = new Blob([content], {type: 'text/plain;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  function downloadSnippetById(id){
+    const t = ALL_TOOLS.find(x=>x.id===id);
+    if(!t) return;
+    downloadSnippet(t);
+  }
+
+  // ---- clipboard helper ----
+  function copyToClipboard(text){
+    if(!text){ alert('لا يوجد نص للنسخ'); return; }
+    navigator.clipboard.writeText(text).then(()=> alert('تم النسخ إلى الحافظة')).catch(()=> alert('فشل النسخ — انسخ يدوياً'));
+  }
+
+  // ---- keyboard shortcuts ----
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === '1'){ btnAll.click(); }
+    if(e.key === '2'){ btnPy.click(); }
+    if(e.key === '3'){ btnTx.click(); }
+    if(e.key === '/'){ e.preventDefault(); searchInput.focus(); }
+    if(e.key === 'Escape'){ closeModal(); searchInput.blur(); }
   });
-});
+
+  // ---- init UI ----
+  document.addEventListener('DOMContentLoaded', function(){
+    buildCards();
+    applyFilters();
+
+    // filter buttons
+    btnAll.addEventListener('click', ()=>{ currentFilter='all'; setActive(btnAll); applyFilters(); });
+    btnPy.addEventListener('click', ()=>{ currentFilter='بايثون'; setActive(btnPy); applyFilters(); });
+    btnTx.addEventListener('click', ()=>{ currentFilter='تريمكس'; setActive(btnTx); applyFilters(); });
+
+    function setActive(el){
+      document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+      el.classList.add('active');
+    }
+
+    // search with debounce
+    searchInput.addEventListener('input', function(){
+      if(debounce) clearTimeout(debounce);
+      debounce = setTimeout(()=> applyFilters(), 120);
+    });
+
+    // modal close handlers
+    closeModalBtn.addEventListener('click', closeModal);
+    modalBack.addEventListener('click', function(e){ if(e.target === modalBack) closeModal(); });
+
+    // small accessibility: announce count in console
+    console.log('Tools loaded:', ALL_TOOLS.length);
+  });
+
+})();
