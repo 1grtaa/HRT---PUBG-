@@ -3,31 +3,79 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Trading</title>
+<title>AI Trading Platform MAX PRO 📊🔥</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
+<div class="container">
+    <header>
+        <h1>AI Trading MAX PRO 📊🔥</h1>
+        <div class="user-info">
+            <span>المستخدم: <strong>AHMD SN 🇮🇶</strong></span>
+            <span>Balance: <strong id="balance">0 USDT</strong></span>
+        </div>
+    </header>
 
-<h1>🔥 AI Trading System</h1>
+    <!-- اختيار المنصة و API -->
+    <section class="platform-selection">
+        <label>اختر المنصة:</label>
+        <select id="platform">
+            <option value="binance">Binance</option>
+            <option value="pocketoption">PocketOption</option>
+        </select>
 
-<div class="card">
-  <h2>📊 الإشارة</h2>
-  <p id="signal">...</p>
-  <button onclick="runBot()">تحليل الآن</button>
+        <div id="api-key-container">
+            <label>أدخل API Key (Binance):</label>
+            <input type="text" id="api-key" placeholder="API Key هنا">
+        </div>
+
+        <button id="start-btn" class="btn-glow">ابدأ التداول 🚀</button>
+    </section>
+
+    <!-- لوحة AI والتداول -->
+    <section class="dashboard">
+        <h2>لوحة التحكم AI</h2>
+        <div class="charts">
+            <canvas id="candlestickChart"></canvas>
+        </div>
+        <div class="signals">
+            <h3>إشارات التداول</h3>
+            <ul id="signal-list"></ul>
+        </div>
+        <div class="indicators">
+            <h3>المؤشرات التقنية المستخدمة</h3>
+            <ul>
+                <li>1️⃣ Moving Average (MA)</li>
+                <li>2️⃣ Bollinger Bands</li>
+                <li>3️⃣ RSI</li>
+                <li>4️⃣ MACD</li>
+                <li>5️⃣ Volume Analysis</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- المحفظة -->
+    <section class="wallet">
+        <h2>المحفظة 💰</h2>
+        <div class="wallet-actions">
+            <button class="btn-glow" onclick="deposit()">إيداع</button>
+            <button class="btn-glow" onclick="withdraw()">سحب</button>
+            <button class="btn-glow" onclick="send()">إرسال</button>
+        </div>
+    </section>
+
+    <!-- الأخبار -->
+    <section class="news">
+        <h2>آخر الأخبار 📰</h2>
+        <ul id="news-list"></ul>
+    </section>
+
+    <footer>
+        <p>© 2026 AHMD SN | منصة تداول AI MAX PRO</p>
+    </footer>
 </div>
 
-<div class="card">
-  <h2>📈 البيانات</h2>
-  <p>RSI: <span id="rsi"></span></p>
-  <p>EMA: <span id="ema"></span></p>
-</div>
-
-<div class="card">
-  <h2>💰 سجل التداول</h2>
-  <div id="log"></div>
-</div>
-
-<script src="app.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="script.js"></script>
 </body>
-</html>
+  </html>
