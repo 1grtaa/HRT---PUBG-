@@ -2,39 +2,68 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>AI Trading Pro</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Trading App</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div class="dashboard">
+<div class="app">
 
-    <h1>🤖 AI Trading Pro</h1>
+    <!-- Header -->
+    <div class="header">
+        <span>بوت تداول الذهب</span>
+        <span class="status red">● غير نشط</span>
+    </div>
 
-    <input id="api" placeholder="API KEY">
-    <input id="secret" placeholder="SECRET">
+    <!-- Profile Card -->
+    <div class="profile-card">
+        <div class="top">
+            <span class="badge">بدون باقة ⭐</span>
+            <span class="online">متصل ●</span>
+        </div>
 
-    <button onclick="start()">🚀 ابدأ التداول</button>
+        <div class="avatar"></div>
 
-    <h2 id="signal">--</h2>
+        <p class="id">ID: 7056010314</p>
+
+        <button onclick="startBot()">🚀 تشغيل البوت</button>
+    </div>
+
+    <!-- Profit Card -->
+    <div class="profit-card">
+        <h2>$0</h2>
+        <p>ربحك اليومي جاهز!</p>
+        <span>الأرباح تتضاعف كل 24 ساعة</span>
+    </div>
+
+    <!-- Stats -->
+    <div class="stats">
+
+        <div class="box">
+            <h4>إجمالي الأرباح</h4>
+            <p id="profit">$0.00</p>
+        </div>
+
+        <div class="box">
+            <h4>رأس المال</h4>
+            <p id="balance">$1000</p>
+        </div>
+
+    </div>
+
+    <!-- Signals -->
+    <div class="signals">
+        <h3>📡 الإشارات</h3>
+        <div id="signals"></div>
+    </div>
 
 </div>
 
-<script>
-async function start() {
-
-    let api = document.getElementById("api").value;
-    let secret = document.getElementById("secret").value;
-
-    let res = await fetch("http://localhost:3000/start", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ api, secret })
-    });
-
-    let data = await res.json();
-
+<script src="app.js"></script>
+</body>
+</html>
     document.getElementById("signal").innerText = data.signal;
 }
 </script>
