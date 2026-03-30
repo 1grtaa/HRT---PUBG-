@@ -1,40 +1,111 @@
-let history = JSON.parse(localStorage.getItem("trades")) || [];
+// script.js
 
-async function getData() {
-  let res = await fetch(
-    "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50"
-  );
-  let data = await res.json();
+let balance = 1000;
+document.getElementById("balance").innerText = balance + " USDT";
 
-  return data.map(c => parseFloat(c[4]));
+document.getElementById("start-btn").addEventListener("click", () => {
+    const platform = document.getElementById("platform").value;
+    const apiKey = document.getElementById("api-key").value;
+    if(platform === "binance" && !apiKey){ alert("أدخل API Key!"); return; }
+    startAITrading(platform, apiKey);
+});
+
+// بيانات وهمية للسوق
+const marketData = [30000, 30500, 30200, 31000, 30800, 31200, 31500];
+const candles = [
+    {open:30000, close:30500, volume:1200},
+    {open:30500, close:30200, volume:800},
+    {open:30200, close:31000, volume:1500},
+    {open:31000, close:30800, volume:900},
+];
+
+// تحليل السوق
+function analyzeMarket(data){
+    const support = Math.min(...data);
+    const resistance = Math.max(...data);
+    const trend = data[data.length-1] > data[data.length-5] ? "صاعد" : "هابط";
+    return { support, resistance, trend };
 }
 
-// RSI
-function rsi(data) {
-  let gains = 0, losses = 0;
-  for (let i = 1; i < data.length; i++) {
-    let diff = data[i] - data[i - 1];
-    if (diff > 0) gains += diff;
-    else losses -= diff;
-  }
-  let rs = gains / (losses || 1);
-  return 100 - (100 / (1 + rs));
+// تحليل الشموع
+function analyzeCandlesticks(candles){
+    return candles.map(c=>{
+        if(c.close > c.open && c.volume>1000) return "شراء قوي";
+        if(c.close < c.open && c.volume>1000) return "بيع قوي";
+        return "حيادي";
+    });
 }
 
-// EMA
-function ema(data) {
-  let k = 2 / (data.length + 1);
-  let e = data[0];
-  for (let i = 1; i < data.length; i++) {
-    e = data[i] * k + e * (1 - k);
-  }
-  return e;
+// توليد إشارات AI
+function generateSignals(marketData, candles){
+    const marketAnalysis = analyzeMarket(marketData);
+    const candleSignals = analyzeCandlesticks(candles);
+    const signals=[];
+    candleSignals.forEach(signal=>{
+        if(signal.includes("شراء")) signals.push({type:"شراء", confidence:"90%", pair:"BTC/USDT"});
+        if(signal.includes("بيع")) signals.push({type:"بيع", confidence:"85%", pair:"BTC/USDT"});
+    });
+    return {marketAnalysis, signals};
 }
 
-// تحليل
-function decision(price, emaVal, rsiVal) {
+function startAITrading(platform, apiKey){
+    addSignal("جاري تحليل السوق 📊...");
+    setTimeout(()=>{
+        const aiResult = generateSignals(marketData, candles);
+        displaySignals(aiResult.signals);
+        drawChart();
+        addSignal(`اتجاه السوق: ${aiResult.marketAnalysis.trend} | الدعم: ${aiResult.marketAnalysis.support} | المقاومة: ${aiResult.marketAnalysis.resistance}`);
+    }, 2000);
+}
 
-  let winRate = getWinRate();
+function addSignal(text){
+    const li = document.createElement("li");
+    li.innerText = text;
+    document.getElementById("signal-list").appendChild(li);
+}
+
+function displaySignals(signals){
+    const list=document.getElementById("signal-list");
+    list.innerHTML="";
+    signals.forEach(signal=>{
+        addSignal(`📌 ${signal.pair} - ${signal.type} - ثقة: ${signal.confidence}`);
+    });
+}
+
+// رسم الشموع اليابانية
+function drawChart(){
+    const ctx = document.getElementById("candlestickChart").getContext("2d");
+    new Chart(ctx, {
+        type:"bar",
+        data:{
+            labels:["9AM","10AM","11AM","12PM","1PM","2PM","3PM"],
+            datasets:[{
+                label:"سعر BTC/USDT",
+                data:marketData,
+                backgroundColor:function(ctx){
+                    return ctx.dataset.data[ctx.dataIndex]>30800?"#4caf50":"#f44336";
+                }
+            }]
+        },
+        options:{responsive:true, plugins:{legend:{display:false}}}
+    });
+}
+
+// المحفظة
+function deposit(){ alert("تم الإيداع 💰"); balance+=100; updateBalance(); }
+function withdraw(){ alert("تم السحب 💸"); balance-=50; updateBalance(); }
+function send(){ alert("تم الإرسال ✅"); balance-=25; updateBalance(); }
+function updateBalance(){ document.getElementById("balance").innerText=balance+" USDT"; }
+
+// الأخبار (محاكاة)
+function fetchNews(){
+    const newsList=document.getElementById("news-list");
+    newsList.innerHTML="";
+    ["BTC يرتفع بعد أخبار اقتصادية","ETH هبط بسبب تشبع السوق","BNB يرتفع بضغط التداول"].forEach(item=>{
+        const li=document.createElement("li"); li.innerHTML=`📰 ${item}`; newsList.appendChild(li);
+    });
+}
+fetchNews();  let winRate = getWinRate();
 
   if (rsiVal < 35 && price > emaVal && winRate > 40)
     return "BUY 📈";
