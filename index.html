@@ -2,39 +2,45 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Trading Platform MAX PRO 📊🔥</title>
+<title>AI Trading Pro</title>
 <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-<div class="container">
-    <header>
-        <h1>AI Trading MAX PRO 📊🔥</h1>
-        <div class="user-info">
-            <span>المستخدم: <strong>AHMD SN 🇮🇶</strong></span>
-            <span>Balance: <strong id="balance">0 USDT</strong></span>
-        </div>
-    </header>
 
-    <!-- اختيار المنصة و API -->
-    <section class="platform-selection">
-        <label>اختر المنصة:</label>
-        <select id="platform">
-            <option value="binance">Binance</option>
-            <option value="pocketoption">PocketOption</option>
-        </select>
+<div class="dashboard">
 
-        <div id="api-key-container">
-            <label>أدخل API Key (Binance):</label>
-            <input type="text" id="api-key" placeholder="API Key هنا">
-        </div>
+    <h1>🤖 AI Trading Pro</h1>
 
-        <button id="start-btn" class="btn-glow">ابدأ التداول 🚀</button>
-    </section>
+    <input id="api" placeholder="API KEY">
+    <input id="secret" placeholder="SECRET">
 
-    <!-- لوحة AI والتداول -->
-    <section class="dashboard">
-        <h2>لوحة التحكم AI</h2>
+    <button onclick="start()">🚀 ابدأ التداول</button>
+
+    <h2 id="signal">--</h2>
+
+</div>
+
+<script>
+async function start() {
+
+    let api = document.getElementById("api").value;
+    let secret = document.getElementById("secret").value;
+
+    let res = await fetch("http://localhost:3000/start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ api, secret })
+    });
+
+    let data = await res.json();
+
+    document.getElementById("signal").innerText = data.signal;
+}
+</script>
+
+</body>
+</html>        <h2>لوحة التحكم AI</h2>
         <div class="charts">
             <canvas id="candlestickChart"></canvas>
         </div>
