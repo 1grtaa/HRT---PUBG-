@@ -1,29 +1,77 @@
+/* style.css */
 body {
-  background: #0f172a;
-  color: white;
-  font-family: Arial;
-  text-align: center;
+    font-family: 'Cairo', sans-serif;
+    background: linear-gradient(to right, #111, #1a1a1a);
+    color: #fff;
+    margin: 0;
+    padding: 0;
+    direction: rtl;
 }
 
-.card {
-  background: #1e293b;
-  margin: 10px;
-  padding: 15px;
-  border-radius: 15px;
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
 }
 
-button {
-  padding: 12px;
-  width: 80%;
-  background: #22c55e;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
+header {
+    text-align: center;
+    margin-bottom: 20px;
 }
 
-.buy { color: #22c55e; }
-.sell { color: #ef4444; }
-.wait { color: #facc15; }.step{background:#071f28;padding:10px;border-radius:8px;margin-top:8px}
-.kbd{display:inline-block;padding:6px 8px;border-radius:6px;background:#071a22;color:var(--muted);font-weight:700;margin-left:6px}
-@media (max-width:1100px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:700px){.grid{grid-template-columns:1fr}.search-input{min-width:120px}}
+header h1 {
+    font-size: 2rem;
+    color: #ff4c4c;
+    text-shadow: 0 0 15px #ff0000;
+}
+
+.user-info span {
+    margin: 0 10px;
+}
+
+.platform-selection, .dashboard, .wallet, .news {
+    background: #222;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.platform-selection select, .platform-selection input {
+    padding: 10px;
+    margin: 10px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+}
+
+.btn-glow {
+    background: linear-gradient(45deg, #ff4c4c, #ff0000);
+    border: none;
+    padding: 12px 25px;
+    color: #fff;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px #ff0000, 0 0 20px #ff4c4c;
+}
+
+.btn-glow:hover {
+    box-shadow: 0 0 20px #ff0000, 0 0 40px #ff4c4c;
+    transform: scale(1.05);
+}
+
+.charts { width: 100%; height: 400px; margin-bottom: 20px; }
+
+.signals ul, .indicators ul, .news ul {
+    list-style: none;
+    padding: 0;
+}
+
+.signals li, .news li {
+    background: #333;
+    margin: 5px 0;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #ff4c4c;
+  }
