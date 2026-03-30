@@ -1,40 +1,109 @@
-/* app.js
-   يعرّف الأدوات ويعرض الواجهة، البحث، الفلاتر، المودال، والتحميل.
-   هذا الملف مستقل ويعمل مباشرة في المتصفح.
-*/
+let history = JSON.parse(localStorage.getItem("trades")) || [];
 
-(function(){
-  // ---- توليد بيانات الأدوات (200 بايثون + 200 تريمكس) ----
-  function genPython(i){
-    const name = `py_tool_${String(i).padStart(3,'0')}`;
-    const purposes = [
-      "تحليل pcap محلي", "تحليل سجلات", "أتمتة SSH داخل مختبر",
-      "فحص شهادات TLS/SSL", "تحليل ثنائيات للتعلم", "نمذجة بيانات سجلات"
-    ];
-    const usecases = [
-      "استخراج رؤى من سجلات الشبكة المحلية", "تحليل ملفات pcap في بيئة اختبار",
-      "تجربة خوارزميات كشف التهديدات محليًا", "تعلم كيفية معالجة السجلات"
-    ];
-    const purpose = purposes[Math.floor(Math.random()*purposes.length)];
-    const usecase = usecases[Math.floor(Math.random()*usecases.length)];
-    const detailed = `أداة بايثون ${i} (${name})\n\nالغرض: ${purpose}.\nاستخدام نموذجي: ${usecase}.\nالقيود: لا توجه هذه الأداة لشبكات أو أجهزة بدون إذن. هذه نسخة تعليمية.`;
-    const how = [
-      "انشئ بيئة افتراضية: python -m venv venv && source venv/bin/activate",
-      "ثبت الحزم المطلوبة داخل المختبر فقط (مثال: pip install ipwhois)",
-      "حمّل المقتطف بواسطة زر التحميل، ثم نفّذه محليًا: python <snippet>.py",
-      "عدّل بيانات الإدخال في السكربت لاختبار الحالات المحلية"
-    ];
-    const example = `# ${name}.py — مثال آمن\n\ndef main():\n    print("تشغيل آمن لمقتطف ${name}")\n\nif __name__ == '__main__':\n    main()\n`;
-    return {
-      id: `py_${String(i).padStart(3,'0')}`,
-      name,
-      category: "بايثون",
-      desc: `مكتبة/أداة بايثون تعليمية — ${purpose}.`,
-      detailed,
-      how,
-      install: `# pip install ${name}  (مثال افتراضي)`,
-      example,
-      snippet_ext: ".py"
+async function getData() {
+  let res = await fetch(
+    "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50"
+  );
+  let data = await res.json();
+
+  return data.map(c => parseFloat(c[4]));
+}
+
+// RSI
+function rsi(data) {
+  let gains = 0, losses = 0;
+  for (let i = 1; i < data.length; i++) {
+    let diff = data[i] - data[i - 1];
+    if (diff > 0) gains += diff;
+    else losses -= diff;
+  }
+  let rs = gains / (losses || 1);
+  return 100 - (100 / (1 + rs));
+}
+
+// EMA
+function ema(data) {
+  let k = 2 / (data.length + 1);
+  let e = data[0];
+  for (let i = 1; i < data.length; i++) {
+    e = data[i] * k + e * (1 - k);
+  }
+  return e;
+}
+
+// تحليل
+function decision(price, emaVal, rsiVal) {
+
+  let winRate = getWinRate();
+
+  if (rsiVal < 35 && price > emaVal && winRate > 40)
+    return "BUY 📈";
+
+  if (rsiVal > 65 && price < emaVal && winRate > 40)
+    return "SELL 📉";
+
+  return "WAIT ⏳";
+}
+
+// حساب نسبة النجاح
+function getWinRate() {
+  if (history.length === 0) return 50;
+
+  let wins = history.filter(t => t === "WIN").length;
+  return (wins / history.length) * 100;
+}
+
+// تشغيل البوت
+async function runBot() {
+
+  let prices = await getData();
+
+  let rsiVal = rsi(prices);
+  let emaVal = ema(prices);
+  let price = prices[prices.length - 1];
+
+  document.getElementById("rsi").innerText = rsiVal.toFixed(2);
+  document.getElementById("ema").innerText = emaVal.toFixed(2);
+
+  let signal = decision(price, emaVal, rsiVal);
+
+  let el = document.getElementById("signal");
+  el.innerText = signal;
+
+  if (signal.includes("BUY")) el.className = "buy";
+  else if (signal.includes("SELL")) el.className = "sell";
+  else el.className = "wait";
+
+  logTrade(signal);
+}
+
+// تسجيل الصفقة
+function logTrade(signal) {
+
+  if (signal === "WAIT ⏳") return;
+
+  let result = Math.random() > 0.4 ? "WIN" : "LOSS"; // مؤقت
+
+  history.push(result);
+  localStorage.setItem("trades", JSON.stringify(history));
+
+  displayLog();
+}
+
+// عرض السجل
+function displayLog() {
+  let div = document.getElementById("log");
+  div.innerHTML = "";
+
+  history.slice(-10).forEach(t => {
+    let p = document.createElement("p");
+    p.innerText = t;
+    p.style.color = t === "WIN" ? "green" : "red";
+    div.appendChild(p);
+  });
+}
+
+displayLog();      snippet_ext: ".py"
     };
   }
 
