@@ -1,5 +1,5 @@
 {
-  "name": "halal-ai-trading-platform",
+  "name": "halal-trading-bot",
   "version": "1.0.0",
   "main": "server.js",
   "scripts": {
@@ -8,7 +8,6 @@
   "dependencies": {
     "express": "^4.18.2",
     "axios": "^1.6.0",
-    "crypto": "^1.0.1",
     "cors": "^2.8.5"
   }
 }
