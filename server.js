@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const axios = require("axios");
 const crypto = require("crypto");
@@ -11,30 +13,141 @@ app.use(express.static("public"));
 const API_KEY = process.env.API_KEY;
 const SECRET = process.env.SECRET_KEY;
 
-// ⚙️ إعدادات
 const SYMBOL = "BTCUSDT";
-const RISK_PERCENT = 0.02; // 2%
-const TRADE_INTERVAL = 10000;
+const RISK = 0.02;
 
 let prices = [];
-let lastTrade = null;
+let lastSignal = "NONE";
+let logs = [];
 
-// 📊 جلب السعر
+// 📊 سعر
 async function getPrice() {
     let res = await axios.get(`https://api.binance.com/api/v3/ticker/price?symbol=${SYMBOL}`);
     return parseFloat(res.data.price);
 }
 
 // 📈 RSI
-function calculateRSI() {
+function RSI() {
     if (prices.length < 14) return 50;
 
     let gains = 0, losses = 0;
 
     for (let i = 1; i < prices.length; i++) {
-        let diff = prices[i] - prices[i-1];
-        if (diff > 0) gains += diff;
-        else losses -= diff;
+        let d = prices[i] - prices[i - 1];
+        if (d > 0) gains += d;
+        else losses -= d;
+    }
+
+    let rs = gains / (losses || 1);
+    return 100 - (100 / (1 + rs));
+}
+
+// 📉 EMA
+function EMA(p) {
+    let k = 2 / (p + 1);
+    let ema = prices[0];
+    for (let i = 1; i < prices.length; i++) {
+        ema = prices[i] * k + ema * (1 - k);
+    }
+    return ema;
+}
+
+// 📊 اتجاه
+function trend() {
+    return EMA(5) > EMA(15) ? "UP" : "DOWN";
+}
+
+// ⚡ فلترة
+function marketGood() {
+    let v = Math.abs(prices[prices.length - 1] - prices[0]);
+    return v > 5;
+}
+
+// 💰 كمية
+function qty(balance, price) {
+    return ((balance * RISK) / price).toFixed(6);
+}
+
+// 💰 تنفيذ
+async function trade(side, quantity) {
+    let ts = Date.now();
+
+    let q = `symbol=${SYMBOL}&side=${side}&type=MARKET&quantity=${quantity}&timestamp=${ts}`;
+
+    let sig = crypto.createHmac("sha256", SECRET).update(q).digest("hex");
+
+    let url = `https://api.binance.com/api/v3/order?${q}&signature=${sig}`;
+
+    let res = await axios.post(url, {}, {
+        headers: { "X-MBX-APIKEY": API_KEY }
+    });
+
+    return res.data;
+}
+
+// 🧠 قرار
+function signal() {
+    let r = RSI();
+    let t = trend();
+
+    if (!marketGood()) return "WAIT";
+
+    if (r < 35 && t === "UP") return "BUY";
+    if (r > 65 && t === "DOWN") return "SELL";
+
+    return "WAIT";
+}
+
+// 🚀 بدء
+app.post("/start", (req, res) => {
+
+    let balance = 1000;
+
+    setInterval(async () => {
+
+        try {
+
+            let price = await getPrice();
+            prices.push(price);
+            if (prices.length > 50) prices.shift();
+
+            let s = signal();
+
+            logs.unshift({
+                price,
+                signal: s,
+                time: new Date().toLocaleTimeString()
+            });
+
+            if (logs.length > 20) logs.pop();
+
+            if (s !== "WAIT" && s !== lastSignal) {
+
+                let quantity = qty(balance, price);
+
+                let result = await trade(s, quantity);
+
+                lastSignal = s;
+
+                logs.unshift({ trade: s, result });
+
+            }
+
+        } catch (e) {
+            console.log("ERROR:", e.message);
+        }
+
+    }, 8000);
+
+    res.json({ ok: true });
+});
+
+// 📡 جلب البيانات للواجهة
+app.get("/data", (req, res) => {
+    res.json({ logs });
+});
+
+app.listen(3000, () => console.log("🔥 RUNNING 3000"));        else losses -= diff;
     }
 
     let rs = gains / (losses || 1);
