@@ -2,8 +2,8 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AI Trading App</title>
+<meta name="viewport" content="width=device-width">
+<title>AI Trading Pro</title>
 <link rel="stylesheet" href="style.css">
 </head>
 
@@ -11,106 +11,14 @@
 
 <div class="app">
 
-    <!-- Header -->
-    <div class="header">
-        <span>بوت تداول الذهب</span>
-        <span class="status red">● غير نشط</span>
-    </div>
+<h1>🤖 AI Trading Pro</h1>
 
-    <!-- Profile Card -->
-    <div class="profile-card">
-        <div class="top">
-            <span class="badge">بدون باقة ⭐</span>
-            <span class="online">متصل ●</span>
-        </div>
+<button onclick="start()">🚀 تشغيل</button>
 
-        <div class="avatar"></div>
-
-        <p class="id">ID: 7056010314</p>
-
-        <button onclick="startBot()">🚀 تشغيل البوت</button>
-    </div>
-
-    <!-- Profit Card -->
-    <div class="profit-card">
-        <h2>$0</h2>
-        <p>ربحك اليومي جاهز!</p>
-        <span>الأرباح تتضاعف كل 24 ساعة</span>
-    </div>
-
-    <!-- Stats -->
-    <div class="stats">
-
-        <div class="box">
-            <h4>إجمالي الأرباح</h4>
-            <p id="profit">$0.00</p>
-        </div>
-
-        <div class="box">
-            <h4>رأس المال</h4>
-            <p id="balance">$1000</p>
-        </div>
-
-    </div>
-
-    <!-- Signals -->
-    <div class="signals">
-        <h3>📡 الإشارات</h3>
-        <div id="signals"></div>
-    </div>
+<div id="logs"></div>
 
 </div>
 
 <script src="app.js"></script>
 </body>
 </html>
-    document.getElementById("signal").innerText = data.signal;
-}
-</script>
-
-</body>
-</html>        <h2>لوحة التحكم AI</h2>
-        <div class="charts">
-            <canvas id="candlestickChart"></canvas>
-        </div>
-        <div class="signals">
-            <h3>إشارات التداول</h3>
-            <ul id="signal-list"></ul>
-        </div>
-        <div class="indicators">
-            <h3>المؤشرات التقنية المستخدمة</h3>
-            <ul>
-                <li>1️⃣ Moving Average (MA)</li>
-                <li>2️⃣ Bollinger Bands</li>
-                <li>3️⃣ RSI</li>
-                <li>4️⃣ MACD</li>
-                <li>5️⃣ Volume Analysis</li>
-            </ul>
-        </div>
-    </section>
-
-    <!-- المحفظة -->
-    <section class="wallet">
-        <h2>المحفظة 💰</h2>
-        <div class="wallet-actions">
-            <button class="btn-glow" onclick="deposit()">إيداع</button>
-            <button class="btn-glow" onclick="withdraw()">سحب</button>
-            <button class="btn-glow" onclick="send()">إرسال</button>
-        </div>
-    </section>
-
-    <!-- الأخبار -->
-    <section class="news">
-        <h2>آخر الأخبار 📰</h2>
-        <ul id="news-list"></ul>
-    </section>
-
-    <footer>
-        <p>© 2026 AHMD SN | منصة تداول AI MAX PRO</p>
-    </footer>
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="script.js"></script>
-</body>
-  </html>
