@@ -1,149 +1,24 @@
 body {
-    margin: 0;
-    font-family: 'Segoe UI';
-    background: #f1f5f9;
-}
-
-.app {
-    padding: 15px;
-}
-
-/* Header */
-.header {
-    display: flex;
-    justify-content: space-between;
-    font-weight: bold;
-}
-
-.status.red {
-    color: red;
-}
-
-/* Profile Card */
-.profile-card {
-    background: linear-gradient(135deg, #2563eb, #06b6d4);
+    background: #0f172a;
     color: white;
-    border-radius: 20px;
-    padding: 20px;
-    margin-top: 15px;
+    font-family: Arial;
     text-align: center;
 }
 
-.top {
-    display: flex;
-    justify-content: space-between;
-}
-
-.badge {
-    background: rgba(255,255,255,0.2);
-    padding: 5px 10px;
-    border-radius: 10px;
-}
-
-.online {
-    background: rgba(0,255,0,0.2);
-    padding: 5px 10px;
-    border-radius: 10px;
-}
-
-.avatar {
-    width: 80px;
-    height: 80px;
-    background: white;
-    border-radius: 50%;
-    margin: 10px auto;
-}
-
-.id {
-    opacity: 0.8;
-}
-
-.profile-card button {
-    margin-top: 10px;
+button {
     padding: 10px;
-    border-radius: 15px;
+    background: #22c55e;
     border: none;
-    background: white;
-    color: black;
-    cursor: pointer;
-}
-
-/* Profit Card */
-.profit-card {
-    background: linear-gradient(135deg, #10b981, #06b6d4);
-    color: white;
-    border-radius: 20px;
-    padding: 20px;
-    margin-top: 15px;
-}
-
-/* Stats */
-.stats {
-    display: flex;
-    gap: 10px;
-    margin-top: 15px;
-}
-
-.box {
-    flex: 1;
-    background: white;
-    border-radius: 15px;
-    padding: 15px;
-    text-align: center;
-}
-
-/* Signals */
-.signals {
-    background: white;
-    margin-top: 15px;
-    padding: 15px;
-    border-radius: 15px;
-}
-
-.signal-buy {
-    color: green;
-}
-
-.signal-sell {
-    color: red;
-}}
-
-.platform-selection select, .platform-selection input {
-    padding: 10px;
+    border-radius: 10px;
     margin: 10px;
-    border-radius: 8px;
-    border: none;
-    outline: none;
 }
 
-.btn-glow {
-    background: linear-gradient(45deg, #ff4c4c, #ff0000);
-    border: none;
-    padding: 12px 25px;
-    color: #fff;
-    font-weight: bold;
-    border-radius: 10px;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    box-shadow: 0 0 10px #ff0000, 0 0 20px #ff4c4c;
+#logs {
+    margin-top: 20px;
 }
 
-.btn-glow:hover {
-    box-shadow: 0 0 20px #ff0000, 0 0 40px #ff4c4c;
-    transform: scale(1.05);
-}
-
-.charts { width: 100%; height: 400px; margin-bottom: 20px; }
-
-.signals ul, .indicators ul, .news ul {
-    list-style: none;
-    padding: 0;
-}
-
-.signals li, .news li {
-    background: #333;
-    margin: 5px 0;
+p {
+    background: #1e293b;
     padding: 10px;
-    border-radius: 8px;
-    box-shadow: 0 0 5px #ff4c4c;
-  }
+    border-radius: 10px;
+} }
