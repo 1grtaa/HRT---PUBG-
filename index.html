@@ -1,1 +1,47 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>منصة التداول الذكي</title>
+<link rel="stylesheet" href="style.css">
+</head>
 
+<body>
+
+<div class="container">
+
+<h1>🤖 منصة التداول الذكي</h1>
+
+<div class="card">
+<p>عدد المستخدمين: <span id="users">0</span></p>
+</div>
+
+<div class="card">
+<input placeholder="API KEY" id="api">
+<input placeholder="SECRET" id="secret">
+<input placeholder="المبلغ" id="amount">
+<input placeholder="هدف الربح $" id="profit">
+
+<button onclick="addUser()">ابدأ التداول</button>
+</div>
+
+<div class="card">
+<h2>📊 الإشارات</h2>
+<div id="signals"></div>
+</div>
+
+<div class="card">
+<h2>📖 التداول الحلال</h2>
+<ul>
+<li>Spot فقط بدون رافعة</li>
+<li>بدون فوائد ربوية</li>
+<li>تجنب المقامرة العالية</li>
+<li>تحليل السوق قبل التداول</li>
+</ul>
+</div>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
