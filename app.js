@@ -1,4 +1,4 @@
-const API = "https://YOUR-RAILWAY-LINK";
+const API = "https://hrt-pubg.vercel.app";
 
 async function addUser() {
 
