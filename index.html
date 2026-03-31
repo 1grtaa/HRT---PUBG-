@@ -1,40 +1,26 @@
 <!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<title>منصة التداول الذكي</title>
-<link rel="stylesheet" href="style.css">
-</head>
-
+<html>
 <body>
 
-<div class="container">
+<h2>بوت التداول</h2>
 
-<h1>🤖 منصة التداول الذكي</h1>
+<button onclick="start()">تشغيل</button>
+<button onclick="stop()">إيقاف</button>
 
-<div class="card">
-<p>عدد المستخدمين: <span id="users">0</span></p>
-</div>
+<script>
+const url = "https://YOUR-APP.up.railway.app";
 
-<div class="card">
-<input placeholder="API KEY" id="api">
-<input placeholder="SECRET" id="secret">
-<input placeholder="المبلغ" id="amount">
-<input placeholder="هدف الربح $" id="profit">
+function start() {
+    fetch(url + "/start", { method: "POST" });
+}
 
-<button onclick="addUser()">ابدأ التداول</button>
-</div>
+function stop() {
+    fetch(url + "/stop", { method: "POST" });
+}
+</script>
 
-<div class="card">
-<h2>📊 الإشارات</h2>
-<div id="signals"></div>
-</div>
-
-<div class="card">
-<h2>📖 التداول الحلال</h2>
-<ul>
-<li>Spot فقط بدون رافعة</li>
-<li>بدون فوائد ربوية</li>
+</body>
+</html><li>بدون فوائد ربوية</li>
 <li>تجنب المقامرة العالية</li>
 <li>تحليل السوق قبل التداول</li>
 </ul>
