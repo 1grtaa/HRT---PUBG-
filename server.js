@@ -7,31 +7,26 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// 👥 المستخدمين
 let users = [];
-
-// ⚙️ إعدادات
 let running = false;
-let targetProfit = 5;
 let totalProfit = 0;
-
-// 📊 الأسعار
+let targetProfit = 5;
 let prices = [];
 
-// 🔹 جلب السعر
+// 📊 سعر السوق
 async function getPrice() {
     let res = await axios.get("https://api.binance.com/api/v3/ticker/price?symbol=BTCUSDT");
     return parseFloat(res.data.price);
 }
 
-// 🔹 RSI
-function getRSI() {
+// 📈 RSI
+function RSI() {
     if (prices.length < 14) return 50;
 
     let gain = 0, loss = 0;
 
     for (let i = 1; i < prices.length; i++) {
-        let d = prices[i] - prices[i-1];
+        let d = prices[i] - prices[i - 1];
         if (d > 0) gain += d;
         else loss -= d;
     }
@@ -40,14 +35,14 @@ function getRSI() {
     return 100 - (100 / (1 + rs));
 }
 
-// 🔹 قرار
-function getSignal(rsi) {
+// 🧠 تحليل
+function signal(rsi) {
     if (rsi < 30) return "BUY";
     if (rsi > 70) return "SELL";
     return "WAIT";
 }
 
-// 🔹 تنفيذ صفقة (Spot فقط)
+// 💰 تنفيذ صفقة
 async function trade(user, side) {
 
     let query = `symbol=BTCUSDT&side=${side}&type=MARKET&quoteOrderQty=${user.amount}&timestamp=${Date.now()}`;
@@ -64,12 +59,12 @@ async function trade(user, side) {
             headers: { "X-MBX-APIKEY": user.api }
         });
 
-        totalProfit += Math.random(); // تقدير بسيط
+        totalProfit += Math.random(); // تقدير
 
         console.log("✅ trade done");
 
     } catch (e) {
-        console.log("❌ error", e.response?.data || e.message);
+        console.log("❌", e.response?.data || e.message);
     }
 }
 
@@ -81,25 +76,25 @@ app.post("/add-user", (req, res) => {
     users.push({
         api,
         secret,
-        amount: amount || 5
+        amount: Math.max(1, Math.min(amount, 10)) // 1-10 USDT
     });
 
-    res.json({ message: "user added" });
+    res.json({ ok: true });
 });
 
 // ▶️ تشغيل
 app.post("/start", (req, res) => {
     running = true;
-    res.json({ status: "started" });
+    res.json({ running });
 });
 
 // ⏹️ إيقاف
 app.post("/stop", (req, res) => {
     running = false;
-    res.json({ status: "stopped" });
+    res.json({ running });
 });
 
-// 📊 الحالة
+// 📊 حالة
 app.get("/status", (req, res) => {
     res.json({
         users: users.length,
@@ -111,26 +106,24 @@ app.get("/status", (req, res) => {
 // 🤖 البوت
 setInterval(async () => {
 
-    if (!running) return;
-    if (users.length === 0) return;
+    if (!running || users.length === 0) return;
 
     let price = await getPrice();
     prices.push(price);
 
     if (prices.length > 20) prices.shift();
 
-    let rsi = getRSI();
-    let signal = getSignal(rsi);
+    let rsi = RSI();
+    let sig = signal(rsi);
 
-    console.log("📊", price, rsi, signal);
+    console.log("📊", price, rsi, sig);
 
-    if (signal === "WAIT") return;
+    if (sig === "WAIT") return;
 
     for (let user of users) {
-        await trade(user, signal);
+        await trade(user, sig);
     }
 
-    // 🎯 وقف عند الربح
     if (totalProfit >= targetProfit) {
         running = false;
         console.log("🎯 target reached");
@@ -138,120 +131,4 @@ setInterval(async () => {
 
 }, 15000);
 
-app.listen(3000, () => console.log("🚀 running"));    }
-
-    let rs = gains / (losses || 1);
-    return 100 - (100 / (1 + rs));
-}
-
-// 🧠 قرار
-function decide(rsi) {
-    if (rsi < 30) return "BUY";
-    if (rsi > 70) return "SELL";
-    return "WAIT";
-}
-
-// 💰 تنفيذ صفقة (Spot فقط)
-async function trade(user, side) {
-
-    let timestamp = Date.now();
-
-    let quantity = user.amount / user.lastPrice;
-
-    let query = `symbol=BTCUSDT&side=${side}&type=MARKET&quantity=${quantity}&timestamp=${timestamp}`;
-
-    let signature = crypto
-        .createHmac("sha256", user.secret)
-        .update(query)
-        .digest("hex");
-
-    let url = `https://api.binance.com/api/v3/order?${query}&signature=${signature}`;
-
-    try {
-        await axios.post(url, {}, {
-            headers: { "X-MBX-APIKEY": user.api }
-        });
-
-        console.log("✅ Trade done for user");
-    } catch (err) {
-        console.log("❌ Trade error");
-    }
-}
-
-// ➕ إضافة مستخدم
-app.post("/add-user", (req, res) => {
-
-    let { api, secret, amount, targetProfit } = req.body;
-
-    users.push({
-        api,
-        secret,
-        amount: Number(amount),
-        targetProfit: Number(targetProfit),
-        profit: 0,
-        active: true,
-        lastPrice: 0
-    });
-
-    res.json({ msg: "User added" });
-});
-
-// 📊 إشارات
-app.get("/signal", async (req, res) => {
-
-    let price = await getPrice();
-    prices.push(price);
-
-    if (prices.length > 20) prices.shift();
-
-    let rsi = calculateRSI();
-    let signal = decide(rsi);
-
-    res.json({ price, rsi, signal });
-});
-
-// 👥 عدد المستخدمين
-app.get("/users-count", (req, res) => {
-    res.json({ count: users.length });
-});
-
-// 🤖 البوت
-setInterval(async () => {
-
-    if (users.length === 0) return;
-
-    let price = await getPrice();
-    prices.push(price);
-
-    if (prices.length > 20) prices.shift();
-
-    let rsi = calculateRSI();
-    let signal = decide(rsi);
-
-    for (let user of users) {
-
-        if (!user.active) continue;
-
-        user.lastPrice = price;
-
-        if (signal === "WAIT") continue;
-
-        await trade(user, signal);
-
-        // حساب ربح بسيط
-        if (Math.random() > 0.5) {
-            user.profit += user.amount * 0.01;
-        } else {
-            user.profit -= user.amount * 0.005;
-        }
-
-        // 🎯 وقف عند الهدف
-        if (user.profit >= user.targetProfit) {
-            user.active = false;
-            console.log("🎯 Target reached - stop trading");
-        }
-    }
-
-}, 15000);
-
-app.listen(3000, () => console.log("🚀 Server Running"));
+app.listen(3000, () => console.log("🚀 running"));
