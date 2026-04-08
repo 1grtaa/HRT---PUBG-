@@ -1,7 +1,7 @@
 let running = false;
 
 async function getData() {
-  let res = await fetch("https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50");
+  let res = await fetch("https://api.binance.us/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50");
   let data = await res.json();
 
   let closes = data.map(c => parseFloat(c[4]));
