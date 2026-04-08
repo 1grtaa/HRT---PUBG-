@@ -1,16 +1,19 @@
 let running = false;
 
 async function getData() {
-  let res = await fetch("https://api.binance.us/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50");
-  let data = await res.json();
+async function getData() {
+  let url = "https://api.allorigins.win/raw?url=" + encodeURIComponent(
+    "https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50"
+  );
 
-  if (!data || data.length === 0) throw "No Data";
+  let res = await fetch(url);
+  let data = await res.json();
 
   let closes = data.map(c => parseFloat(c[4]));
 
   let gains = 0, losses = 0;
   for (let i = 1; i < closes.length; i++) {
-    let diff = closes[i] - closes[i-1];
+    let diff = closes[i] - closes[i - 1];
     if (diff > 0) gains += diff;
     else losses -= diff;
   }
