@@ -4,9 +4,10 @@ async function getData() {
   let res = await fetch("https://api.binance.us/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50");
   let data = await res.json();
 
+  if (!data || data.length === 0) throw "No Data";
+
   let closes = data.map(c => parseFloat(c[4]));
 
-  // حساب RSI
   let gains = 0, losses = 0;
   for (let i = 1; i < closes.length; i++) {
     let diff = closes[i] - closes[i-1];
@@ -14,7 +15,7 @@ async function getData() {
     else losses -= diff;
   }
 
-  let rs = gains / losses;
+  let rs = losses === 0 ? 100 : gains / losses;
   let rsi = 100 - (100 / (1 + rs));
 
   let price = closes[closes.length - 1];
