@@ -1,23 +1,57 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<title>Real Signal Bot</title>
-<link rel="stylesheet" href="style.css">
-</head>
-<body>
+let running = false;
 
-<h1>📊 Real Signal Bot (BTC)</h1>
+async function getData() {
+  let res = await fetch("https://api.binance.com/api/v3/klines?symbol=BTCUSDT&interval=1m&limit=50");
+  let data = await res.json();
 
-<div class="box">
-  <p>السعر: <span id="price">...</span></p>
-  <p>RSI: <span id="rsi">...</span></p>
-  <p>الإشارة: <span id="signal">—</span></p>
+  let closes = data.map(c => parseFloat(c[4]));
 
-  <button onclick="startBot()">تشغيل 🟢</button>
-  <button onclick="stopBot()">إيقاف 🔴</button>
-</div>
+  // حساب RSI
+  let gains = 0, losses = 0;
+  for (let i = 1; i < closes.length; i++) {
+    let diff = closes[i] - closes[i-1];
+    if (diff > 0) gains += diff;
+    else losses -= diff;
+  }
 
-<script src="script.js"></script>
-</body>
-</html>
+  let rs = gains / losses;
+  let rsi = 100 - (100 / (1 + rs));
+
+  let price = closes[closes.length - 1];
+
+  return { price, rsi };
+}
+
+function analyze(rsi) {
+  if (rsi < 30) return "BUY 🟢";
+  if (rsi > 70) return "SELL 🔴";
+  return "WAIT ⏳";
+}
+
+async function runBot() {
+  if (!running) return;
+
+  try {
+    let { price, rsi } = await getData();
+
+    document.getElementById("price").innerText = price.toFixed(2);
+    document.getElementById("rsi").innerText = rsi.toFixed(2);
+
+    let signal = analyze(rsi);
+    document.getElementById("signal").innerText = signal;
+
+  } catch (e) {
+    console.log("Error", e);
+  }
+
+  setTimeout(runBot, 5000);
+}
+
+function startBot() {
+  running = true;
+  runBot();
+}
+
+function stopBot() {
+  running = false;
+}
