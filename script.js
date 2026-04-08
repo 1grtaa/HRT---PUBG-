@@ -1,30 +1,23 @@
-let running = false;
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Real Signal Bot</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-function getSignal() {
-  let rsi = Math.random() * 100;
-  let trend = Math.random();
+<h1>📊 Real Signal Bot (BTC)</h1>
 
-  if (rsi < 30 && trend > 0.5) return "BUY 🟢";
-  if (rsi > 70 && trend < 0.5) return "SELL 🔴";
-  return "WAIT ⏳";
-}
+<div class="box">
+  <p>السعر: <span id="price">...</span></p>
+  <p>RSI: <span id="rsi">...</span></p>
+  <p>الإشارة: <span id="signal">—</span></p>
 
-function runBot() {
-  if (!running) return;
+  <button onclick="startBot()">تشغيل 🟢</button>
+  <button onclick="stopBot()">إيقاف 🔴</button>
+</div>
 
-  let signal = getSignal();
-  document.getElementById("signal").innerText = signal;
-
-  setTimeout(runBot, 3000);
-}
-
-function startBot() {
-  running = true;
-  document.getElementById("status").innerText = "يعمل";
-  runBot();
-}
-
-function stopBot() {
-  running = false;
-  document.getElementById("status").innerText = "متوقف";
-}
+<script src="script.js"></script>
+</body>
+</html>
