@@ -1,0 +1,25 @@
+body {
+  background: #0f172a;
+  color: white;
+  font-family: Arial;
+  text-align: center;
+}
+
+.box {
+  background: #1e293b;
+  padding: 20px;
+  margin: 50px auto;
+  width: 300px;
+  border-radius: 15px;
+}
+
+button {
+  padding: 10px;
+  margin: 10px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+}
+
+button:first-child { background: green; }
+button:last-child { background: red; }
