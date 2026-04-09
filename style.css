@@ -1,25 +1,43 @@
 body {
-  background: #0f172a;
+  background: #020617;
   color: white;
   text-align: center;
   font-family: Arial;
 }
 
-.box {
-  background: #1e293b;
+h1 {
+  margin-top: 20px;
+}
+
+.container {
+  background: #0f172a;
   padding: 20px;
-  margin: 50px auto;
-  width: 300px;
+  border-radius: 20px;
+  width: 360px;
+  margin: auto;
+  box-shadow: 0 0 25px cyan;
+}
+
+.card {
+  background: #1e293b;
+  margin: 10px;
+  padding: 15px;
   border-radius: 15px;
 }
 
-button {
+select, button {
   padding: 10px;
-  margin: 10px;
+  margin: 5px;
   border-radius: 10px;
   border: none;
+}
+
+button {
+  background: #22c55e;
+  color: white;
   cursor: pointer;
 }
 
-button:first-child { background: green; }
-button:last-child { background: red; }
+.stop { background: red; }
+.win { background: blue; }
+.loss { background: orange; }
