@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CryptoAI Pro v5.0 - منصة التداول بالذكاء الاصطناعي</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Auth Section -->
+    <div id="authSection" class="auth-container">
+        <div class="auth-box">
+            <h1>CryptoAI Pro v5.0</h1>
+            <p class="subtitle">2000+ ميزة • بيانات حية من Binance • AI متقدم</p>
+            
+            <div class="auth-tabs">
+                <button class="auth-tab active" onclick="showLogin()">تسجيل الدخول</button>
+                <button class="auth-tab" onclick="showRegister()">إنشاء حساب</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="auth-form">
+                <div class="form-group">
+                    <input type="text" placeholder="البريد أو الهاتف" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="كلمة المرور" required>
+                </div>
+                <button type="submit" class="btn-primary">تسجيل الدخول</button>
+                <div class="divider">أو سجل عبر</div>
+                <div class="social-login">
+                    <button type="button" class="btn-social google">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                    <button type="button" class="btn-social telegram">
+                        <i class="fab fa-telegram"></i> Telegram
+                    </button>
+                </div>
+                <p class="auth-footer">ليس لديك حساب؟ <a href="#" onclick="showRegister()">إنشاء حساب</a></p>
+            </form>
+
+            <!-- Register Form -->
+            <form id="registerForm" class="auth-form hidden">
+                <div class="form-group">
+                    <input type="text" placeholder="الاسم" required>
+                </div>
+                <div class="form-group">
+                    <input type="email" placeholder="البريد" required>
+                </div>                <div class="form-group">
+                    <input type="password" placeholder="كلمة المرور" required>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="تأكيد" required>
+                </div>
+                <button type="submit" class="btn-primary">إنشاء الحساب</button>
+                <div class="divider">أو سجل عبر</div>
+                <div class="social-login">
+                    <button type="button" class="btn-social google">
+                        <i class="fab fa-google"></i> Google
+                    </button>
+                    <button type="button" class="btn-social telegram">
+                        <i class="fab fa-telegram"></i> Telegram
+                    </button>
+                </div>
+                <p class="auth-footer">لديك حساب؟ <a href="#" onclick="showLogin()">تسجيل الدخول</a></p>
+            </form>
+        </div>
+        <footer class="auth-footer-text">Powered by AI Engine • Real Market Data • 2026</footer>
+    </div>
+
+    <!-- Main App Section -->
+    <div id="mainApp" class="app-container hidden">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="header-right">
+                <button class="menu-btn" onclick="toggleSidebar()">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="logo">
+                    <i class="fas fa-robot"></i>
+                    <span>CryptoAI</span>
+                </div>
+            </div>
+            <div class="header-center">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="🔍 بحث">
+                </div>
+            </div>
+            <div class="header-left">
+                <button class="notif-btn" onclick="toggleNotifications()">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge">5</span>
+                </button>
+                <button class="settings-btn" onclick="toggleSettings()">
+                    <i class="fas fa-cog"></i>
+                </button>
+                <div class="user-menu" onclick="toggleUserMenu()">                    <span>م</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Sidebar -->
+        <aside id="sidebar" class="sidebar">
+            <nav class="nav-menu">
+                <a href="#" class="nav-item active" onclick="showPage('dashboard')">
+                    <i class="fas fa-home"></i>
+                    <span>الرئيسية</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('markets')">
+                    <i class="fas fa-chart-line"></i>
+                    <span>الأسواق</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('trading')">
+                    <i class="fas fa-exchange-alt"></i>
+                    <span>تداول</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('ai-signals')">
+                    <i class="fas fa-robot"></i>
+                    <span>إشارات AI</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('bots')">
+                    <i class="fas fa-cogs"></i>
+                    <span>بوتات</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('copy-trading')">
+                    <i class="fas fa-copy"></i>
+                    <span>نسخ تداول</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('community')">
+                    <i class="fas fa-comments"></i>
+                    <span>المجتمع</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('portfolio')">
+                    <i class="fas fa-wallet"></i>
+                    <span>المحفظة</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('nft')">
+                    <i class="fas fa-image"></i>
+                    <span>NFT</span>
+                </a>
+                <a href="#" class="nav-item" onclick="showPage('calendar')">
+                    <i class="fas fa-calendar"></i>
+                    <span>تقويم</span>
+                </a>
+            </nav>
+        </aside>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Dashboard Page -->
+            <div id="dashboard" class="page active">
+                <div class="welcome-banner">
+                    <h2>🎉 مرحباً بك في CryptoAI Pro!</h2>
+                    <p>ID: <span id="userId">----</span></p>
+                    <button class="btn-primary">دخول المنصة 🚀</button>
+                </div>
+
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon">💰</div>
+                        <div class="stat-value">$10,000</div>
+                        <div class="stat-label">الرصيد</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📈</div>
+                        <div class="stat-value">+$0.00</div>
+                        <div class="stat-label">الأرباح</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🎯</div>
+                        <div class="stat-value">0%</div>
+                        <div class="stat-label">نسبة الفوز</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">📋</div>
+                        <div class="stat-value">0</div>
+                        <div class="stat-label">صفقات</div>
+                    </div>
+                </div>
+
+                <div class="ai-analysis">
+                    <h3>🧠 تحليل حي</h3>
+                    <div class="indicators-grid">
+                        <div class="indicator">
+                            <span class="indicator-name">RSI</span>
+                            <span class="indicator-value">--</span>
+                        </div>
+                        <div class="indicator">
+                            <span class="indicator-name">MACD</span>
+                            <span class="indicator-value">--</span>
+                        </div>
+                        <div class="indicator">
+                            <span class="indicator-name">Volume</span>
+                            <span class="indicator-value">--</span>
+                        </div>
+                        <div class="indicator">                            <span class="indicator-name">ترند</span>
+                            <span class="indicator-value">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="fear-greed">
+                    <h3>😱 الخوف والطمع</h3>
+                    <div class="fear-greed-value">--</div>
+                </div>
+
+                <div class="quick-actions">
+                    <button class="action-btn" onclick="showPage('trading')">⚡ تداول</button>
+                    <button class="action-btn" onclick="showPage('ai-signals')">🤖 إشارات</button>
+                    <button class="action-btn" onclick="showPage('bots')">🤖 بوتات</button>
+                    <button class="action-btn" onclick="showPage('copy-trading')">📋 نسخ</button>
+                </div>
+            </div>
+
+            <!-- Other Pages (Markets, Trading, etc.) -->
+            <div id="markets" class="page hidden">
+                <h2>📊 الأسواق</h2>
+                <div class="market-tabs">
+                    <button class="tab active">الكل</button>
+                    <button class="tab">Spot</button>
+                    <button class="tab">مكاسب</button>
+                    <button class="tab">خسائر</button>
+                </div>
+                <div id="marketList" class="market-list">
+                    <!-- Market items will be loaded here -->
+                </div>
+            </div>
+
+            <div id="trading" class="page hidden">
+                <h2>⚡ التداول</h2>
+                <div class="trading-interface">
+                    <div class="chart-container">
+                        <div id="tradingChart"></div>
+                    </div>
+                    <div class="order-panel">
+                        <div class="order-tabs">
+                            <button class="order-tab buy active">شراء</button>
+                            <button class="order-tab sell">بيع</button>
+                        </div>
+                        <div class="order-form">
+                            <div class="form-group">
+                                <label>السعر</label>
+                                <input type="number" placeholder="USDT">
+                            </div>
+                            <div class="form-group">                                <label>الكمية</label>
+                                <input type="number" placeholder="BTC">
+                            </div>
+                            <div class="form-group">
+                                <label>SL</label>
+                                <input type="number" placeholder="USDT">
+                            </div>
+                            <div class="form-group">
+                                <label>TP</label>
+                                <input type="number" placeholder="USDT">
+                            </div>
+                            <button class="btn-buy">شراء BTC</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add more pages as needed -->
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
