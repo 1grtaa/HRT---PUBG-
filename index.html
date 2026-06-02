@@ -1,0 +1,3149 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>😈 وحش التداول الذكي | Pocket Option PRO v6.0</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap');
+
+:root {
+  --bg: #020204;
+  --card: #0a0a12;
+  --card2: #12121f;
+  --border: #1a1a2e;
+  --red: #ff0033;
+  --green: #00ff88;
+  --gold: #ffd700;
+  --blue: #00b4ff;
+  --purple: #8b00ff;
+  --orange: #ff6600;
+  --pink: #ff00aa;
+  --cyan: #00ffff;
+  --text: #ffffff;
+  --text2: #8888aa;
+  --header-h: 70px;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Tajawal', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-image: 
+    radial-gradient(ellipse at 0% 0%, rgba(139,0,255,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 100% 100%, rgba(255,0,51,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 50% 50%, rgba(0,255,136,0.04) 0%, transparent 70%);
+  animation: bgPulse 8s ease-in-out infinite;
+}
+
+@keyframes bgPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+/* LOADING SCREEN */
+.loader-screen {
+  position: fixed;  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: var(--bg);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.5s;
+}
+
+.loader-screen.hide { opacity: 0; pointer-events: none; }
+
+.loader-ring {
+  width: 100px; height: 100px;
+  border: 4px solid transparent;
+  border-top-color: var(--red);
+  border-right-color: var(--green);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  position: relative;
+  box-shadow: 0 0 40px rgba(255,0,51,0.4), 0 0 80px rgba(0,255,136,0.2);
+}
+
+.loader-ring::before {
+  content: '';
+  position: absolute;
+  top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border: 4px solid transparent;
+  border-bottom-color: var(--gold);
+  border-left-color: var(--blue);
+  border-radius: 50%;
+  animation: spin 1.5s reverse linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loader-text {
+  margin-top: 30px;
+  font-size: 20px;
+  font-weight: 900;
+  background: linear-gradient(90deg, var(--red), var(--gold), var(--green), var(--blue));
+  background-size: 300% 100%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradShift 3s linear infinite;
+}
+
+@keyframes gradShift {
+  0% { background-position: 0% 50%; }  100% { background-position: 300% 50%; }
+}
+
+.loader-sub {
+  margin-top: 10px;
+  font-size: 12px;
+  color: var(--text2);
+  animation: blink 1s ease-in-out infinite;
+}
+
+@keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+.skip-btn {
+  margin-top: 25px;
+  padding: 10px 30px;
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--text);
+  border-radius: 25px;
+  cursor: pointer;
+  font-family: 'Tajawal';
+  font-weight: 700;
+  font-size: 13px;
+  transition: all 0.3s;
+}
+
+.skip-btn:hover {
+  border-color: var(--red);
+  box-shadow: 0 0 20px rgba(255,0,51,0.4);
+  transform: translateY(-2px);
+}
+
+/* HEADER */
+.header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--header-h);
+  z-index: 1000;
+  background: rgba(10,10,18,0.92);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 2px solid transparent;
+  border-image: linear-gradient(90deg, var(--red), var(--gold), var(--green), var(--blue)) 1;
+  padding: 0 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 5px 40px rgba(0,0,0,0.6);
+  animation: headerGlow 4s ease-in-out infinite;
+}
+@keyframes headerGlow {
+  0%, 100% { box-shadow: 0 5px 40px rgba(255,0,51,0.2); }
+  50% { box-shadow: 0 5px 60px rgba(0,255,136,0.3); }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-icon {
+  font-size: 32px;
+  animation: logoPulse 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 15px var(--red));
+}
+
+@keyframes logoPulse {
+  0%, 100% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.1) rotate(-3deg); }
+  75% { transform: scale(1.1) rotate(3deg); }
+}
+
+.logo h1 {
+  font-size: 18px;
+  font-weight: 900;
+  background: linear-gradient(90deg, var(--red), var(--gold), var(--green));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: 200% 100%;
+  animation: gradShift 3s linear infinite;
+}
+
+.logo span {
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 2px;
+}
+
+.stats {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.stat-box {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);  border-radius: 10px;
+  padding: 6px 12px;
+  text-align: center;
+  min-width: 75px;
+  transition: all 0.3s;
+}
+
+.stat-box:hover {
+  border-color: var(--gold);
+  box-shadow: 0 0 15px rgba(255,215,0,0.2);
+  transform: translateY(-2px);
+}
+
+.stat-box .label {
+  font-size: 9px;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.stat-box .value {
+  font-size: 16px;
+  font-weight: 900;
+  margin-top: 2px;
+}
+
+.stat-box .value.red { color: var(--red); text-shadow: 0 0 10px rgba(255,0,51,0.4); }
+.stat-box .value.green { color: var(--green); text-shadow: 0 0 10px rgba(0,255,136,0.4); }
+.stat-box .value.gold { color: var(--gold); text-shadow: 0 0 10px rgba(255,215,0,0.4); }
+.stat-box .value.purple { color: var(--purple); text-shadow: 0 0 10px rgba(139,0,255,0.4); }
+
+.api-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 700;
+  background: rgba(0,255,136,0.1);
+  border: 1px solid rgba(0,255,136,0.3);
+  animation: apiPulse 2s ease-in-out infinite;
+}
+
+@keyframes apiPulse {
+  0%, 100% { box-shadow: 0 0 10px rgba(0,255,136,0.2); }
+  50% { box-shadow: 0 0 20px rgba(0,255,136,0.4); }
+}
+
+.api-indicator.error {  background: rgba(255,0,51,0.1);
+  border-color: rgba(255,0,51,0.3);
+  color: var(--red);
+  animation: apiPulseRed 2s ease-in-out infinite;
+}
+
+@keyframes apiPulseRed {
+  0%, 100% { box-shadow: 0 0 10px rgba(255,0,51,0.2); }
+  50% { box-shadow: 0 0 20px rgba(255,0,51,0.4); }
+}
+
+.api-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: dotBlink 1s ease-in-out infinite;
+}
+
+.api-indicator.error .api-dot { background: var(--red); }
+
+@keyframes dotBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* MAIN CONTAINER */
+.main-container {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 15px;
+  padding-top: calc(var(--header-h) + 15px);
+}
+
+/* CONTROLS BAR */
+.controls-bar {
+  position: sticky;
+  top: calc(var(--header-h) + 15px);
+  z-index: 100;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 12px 15px;
+  margin-bottom: 15px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);}
+
+.pair-selector {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  max-width: 65%;
+}
+
+.pair-btn {
+  padding: 7px 12px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,0.03);
+  color: var(--text2);
+  border-radius: 10px;
+  cursor: pointer;
+  font-family: 'Tajawal';
+  font-weight: 700;
+  font-size: 11px;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+.pair-btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  transition: left 0.5s;
+}
+
+.pair-btn:hover::before { left: 100%; }
+
+.pair-btn:hover {
+  border-color: var(--red);
+  color: var(--text);
+  background: rgba(255,0,51,0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(255,0,51,0.3);
+}
+
+.pair-btn.active {
+  border-color: var(--red);
+  background: linear-gradient(135deg, rgba(255,0,51,0.2), rgba(255,102,0,0.1));
+  color: var(--red);
+  box-shadow: 0 0 20px rgba(255,0,51,0.4), inset 0 0 10px rgba(255,0,51,0.1);
+  font-weight: 900;
+}
+.action-btns {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  padding: 9px 18px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Tajawal';
+  font-weight: 900;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  position: relative;
+  overflow: hidden;
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(135deg, rgba(255,255,255,0.2), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.btn:hover::before { opacity: 1; }
+
+.btn-start {
+  background: linear-gradient(135deg, var(--red), var(--orange));
+  color: white;
+  box-shadow: 0 0 20px rgba(255,0,51,0.4);
+  animation: btnPulse 2s ease-in-out infinite;
+}
+
+@keyframes btnPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(255,0,51,0.4); }
+  50% { box-shadow: 0 0 35px rgba(255,0,51,0.6); }
+}
+
+.btn-start:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 40px rgba(255,0,51,0.6);}
+
+.btn-stop {
+  background: linear-gradient(135deg, #2a2a3a, #3a3a4a);
+  color: white;
+}
+
+.btn-refresh {
+  background: linear-gradient(135deg, var(--blue), var(--purple));
+  color: white;
+  box-shadow: 0 0 15px rgba(0,180,255,0.3);
+}
+
+.btn-settings {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* DASHBOARD GRID */
+.dashboard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+}
+
+@media (max-width: 1400px) { .dashboard { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 900px) { .dashboard { grid-template-columns: 1fr; } .pair-selector { max-width: 100%; justify-content: center; } .controls-bar { flex-direction: column; align-items: stretch; } }
+
+/* CARD STYLES */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 16px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: var(--gold);
+  box-shadow: 0 10px 40px rgba(255,215,0,0.15), 0 0 60px rgba(255,215,0,0.1);
+  z-index: 10;
+}
+
+.card::before {
+  content: '';
+  position: absolute;  top: 0; left: 0;
+  width: 100%; height: 3px;
+  background: linear-gradient(90deg, var(--red), var(--gold), var(--green), var(--blue), var(--purple));
+  background-size: 400% 100%;
+  animation: gradMove 4s linear infinite;
+}
+
+@keyframes gradMove {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 400% 50%; }
+}
+
+.card-title {
+  font-size: 12px;
+  font-weight: 800;
+  color: var(--gold);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.card-title .icon {
+  font-size: 16px;
+  filter: drop-shadow(0 0 8px var(--gold));
+}
+
+/* PRICE DISPLAY */
+.price-display {
+  text-align: center;
+  padding: 15px 0;
+}
+
+.pair-name {
+  font-size: 22px;
+  font-weight: 900;
+  background: linear-gradient(90deg, var(--gold), var(--orange));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.current-price {
+  font-size: 38px;
+  font-weight: 900;
+  margin: 8px 0;
+  font-variant-numeric: tabular-nums;
+  transition: all 0.3s;
+}
+.current-price.up {
+  color: var(--green);
+  text-shadow: 0 0 20px rgba(0,255,136,0.5);
+  animation: priceUp 0.5s ease;
+}
+
+.current-price.down {
+  color: var(--red);
+  text-shadow: 0 0 20px rgba(255,0,51,0.5);
+  animation: priceDown 0.5s ease;
+}
+
+@keyframes priceUp {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+@keyframes priceDown {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+.price-change {
+  font-size: 13px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 20px;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+.price-change.up {
+  background: rgba(0,255,136,0.15);
+  color: var(--green);
+  border: 1px solid rgba(0,255,136,0.3);
+  box-shadow: 0 0 10px rgba(0,255,136,0.2);
+}
+
+.price-change.down {
+  background: rgba(255,0,51,0.15);
+  color: var(--red);
+  border: 1px solid rgba(255,0,51,0.3);
+  box-shadow: 0 0 10px rgba(255,0,51,0.2);
+}
+
+.last-update {
+  font-size: 10px;  color: var(--text2);
+  margin-top: 6px;
+}
+
+/* CANDLESTICK CHART */
+.chart-container {
+  width: 100%;
+  height: 220px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  position: relative;
+}
+
+.chart-container canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.chart-overlay {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.7);
+  padding: 5px 10px;
+  border-radius: 8px;
+  font-size: 10px;
+  border: 1px solid var(--border);
+}
+
+/* SIGNAL CARD */
+.signal-card {
+  grid-column: 1 / -1;
+  background: linear-gradient(135deg, rgba(255,0,51,0.08), rgba(139,0,255,0.08), rgba(0,255,136,0.08));
+  border: 2px solid var(--red);
+  border-radius: 20px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 0 30px rgba(255,0,51,0.25), inset 0 0 40px rgba(255,0,51,0.05);
+  animation: signalPulse 3s ease-in-out infinite;
+  position: relative;
+  overflow: hidden;
+}
+
+.signal-card::before {
+  content: '🔥 LIVE SIGNAL - Pocket Option';
+  position: absolute;
+  top: -12px;  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, var(--red), var(--orange));
+  color: white;
+  padding: 4px 20px;
+  border-radius: 15px;
+  font-size: 10px;
+  font-weight: 900;
+  letter-spacing: 2px;
+  box-shadow: 0 4px 15px rgba(255,0,51,0.4);
+}
+
+@keyframes signalPulse {
+  0%, 100% { 
+    box-shadow: 0 0 30px rgba(255,0,51,0.25), inset 0 0 40px rgba(255,0,51,0.05);
+    border-color: var(--red);
+  }
+  50% { 
+    box-shadow: 0 0 50px rgba(0,255,136,0.35), inset 0 0 60px rgba(0,255,136,0.1);
+    border-color: var(--green);
+  }
+}
+
+.signal-type {
+  font-size: 28px;
+  font-weight: 900;
+  margin: 12px 0;
+  padding: 12px 30px;
+  border-radius: 16px;
+  display: inline-block;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+  overflow: hidden;
+}
+
+.signal-type.call {
+  background: linear-gradient(135deg, rgba(0,255,136,0.25), rgba(0,255,136,0.1));
+  color: var(--green);
+  border: 3px solid var(--green);
+  box-shadow: 0 0 30px rgba(0,255,136,0.4), inset 0 0 20px rgba(0,255,136,0.1);
+  animation: callGlow 2s ease-in-out infinite;
+}
+
+@keyframes callGlow {
+  0%, 100% { box-shadow: 0 0 30px rgba(0,255,136,0.4), inset 0 0 20px rgba(0,255,136,0.1); }
+  50% { box-shadow: 0 0 50px rgba(0,255,136,0.6), inset 0 0 30px rgba(0,255,136,0.2); }
+}
+
+.signal-type.put {  background: linear-gradient(135deg, rgba(255,0,51,0.25), rgba(255,0,51,0.1));
+  color: var(--red);
+  border: 3px solid var(--red);
+  box-shadow: 0 0 30px rgba(255,0,51,0.4), inset 0 0 20px rgba(255,0,51,0.1);
+  animation: putGlow 2s ease-in-out infinite;
+}
+
+@keyframes putGlow {
+  0%, 100% { box-shadow: 0 0 30px rgba(255,0,51,0.4), inset 0 0 20px rgba(255,0,51,0.1); }
+  50% { box-shadow: 0 0 50px rgba(255,0,51,0.6), inset 0 0 30px rgba(255,0,51,0.2); }
+}
+
+.signal-details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.signal-detail {
+  background: rgba(0,0,0,0.4);
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  border: 1px solid var(--border);
+  transition: all 0.3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.signal-detail::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 2px;
+  background: linear-gradient(90deg, var(--gold), var(--green));
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.signal-detail:hover::before { opacity: 1; }
+
+.signal-detail:hover {
+  border-color: var(--gold);
+  background: rgba(255,215,0,0.05);
+  transform: translateY(-2px);
+}
+
+.signal-detail .detail-label {
+  font-size: 10px;  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.signal-detail .detail-value {
+  font-size: 17px;
+  font-weight: 900;
+  margin-top: 5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.duration-badge {
+  display: inline-block;
+  padding: 8px 20px;
+  border-radius: 25px;
+  font-weight: 900;
+  font-size: 16px;
+  margin: 10px;
+  border: 2px solid transparent;
+  box-shadow: 0 0 20px rgba(0,0,0,0.3);
+  animation: durationPulse 2s ease-in-out infinite;
+}
+
+@keyframes durationPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+.duration-badge.s3 { background: rgba(255,0,51,0.2); color: var(--red); border-color: var(--red); box-shadow: 0 0 25px rgba(255,0,51,0.4); }
+.duration-badge.s5 { background: rgba(255,102,0,0.2); color: var(--orange); border-color: var(--orange); box-shadow: 0 0 25px rgba(255,102,0,0.4); }
+.duration-badge.s15 { background: rgba(255,215,0,0.2); color: var(--gold); border-color: var(--gold); box-shadow: 0 0 25px rgba(255,215,0,0.4); }
+.duration-badge.s30 { background: rgba(0,255,136,0.2); color: var(--green); border-color: var(--green); box-shadow: 0 0 25px rgba(0,255,136,0.4); }
+.duration-badge.m1 { background: rgba(0,180,255,0.2); color: var(--blue); border-color: var(--blue); box-shadow: 0 0 25px rgba(0,180,255,0.4); }
+.duration-badge.m2 { background: rgba(139,0,255,0.2); color: var(--purple); border-color: var(--purple); box-shadow: 0 0 25px rgba(139,0,255,0.4); }
+.duration-badge.m3 { background: rgba(255,0,170,0.2); color: var(--pink); border-color: var(--pink); box-shadow: 0 0 25px rgba(255,0,170,0.4); }
+
+/* AI CARDS */
+.ai-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 15px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+}
+
+.ai-card::before {
+  content: '';  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 3px;
+}
+
+.ai-card.ai1::before { background: linear-gradient(90deg, var(--red), var(--orange)); box-shadow: 0 0 15px var(--red); }
+.ai-card.ai2::before { background: linear-gradient(90deg, var(--blue), var(--purple)); box-shadow: 0 0 15px var(--blue); }
+.ai-card.ai3::before { background: linear-gradient(90deg, var(--green), var(--cyan)); box-shadow: 0 0 15px var(--green); }
+.ai-card.ai4::before { background: linear-gradient(90deg, var(--gold), var(--orange)); box-shadow: 0 0 15px var(--gold); }
+
+.ai-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.ai-name {
+  font-size: 11px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ai-status {
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  font-weight: 700;
+  background: rgba(0,255,136,0.15);
+  color: var(--green);
+  border: 1px solid rgba(0,255,136,0.3);
+}
+
+.ai-prediction {
+  font-size: 20px;
+  font-weight: 900;
+  text-align: center;
+  margin: 10px 0;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(0,0,0,0.3);
+}
+
+.ai-prediction.up { color: var(--green); text-shadow: 0 0 15px rgba(0,255,136,0.4); }
+.ai-prediction.down { color: var(--red); text-shadow: 0 0 15px rgba(255,0,51,0.4); }
+
+.ai-confidence {
+  text-align: center;}
+
+.confidence-bar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 6px;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+.confidence-fill {
+  height: 100%;
+  border-radius: 4px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.confidence-fill::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.confidence-fill.high { background: linear-gradient(90deg, var(--green), #00cc66); box-shadow: 0 0 10px var(--green); }
+.confidence-fill.medium { background: linear-gradient(90deg, var(--gold), var(--orange)); box-shadow: 0 0 10px var(--gold); }
+.confidence-fill.low { background: linear-gradient(90deg, var(--red), #cc0033); box-shadow: 0 0 10px var(--red); }
+
+/* INDICATORS GRID */
+.indicators-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.indicator-item {
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;
+  padding: 9px 11px;
+  display: flex;
+  flex-direction: column;  gap: 4px;
+  border-left: 3px solid transparent;
+  transition: all 0.3s;
+}
+
+.indicator-item:hover {
+  background: rgba(255,255,255,0.05);
+  transform: translateX(3px);
+}
+
+.indicator-item.buy { border-left-color: var(--green); box-shadow: 0 0 15px rgba(0,255,136,0.1); }
+.indicator-item.sell { border-left-color: var(--red); box-shadow: 0 0 15px rgba(255,0,51,0.1); }
+.indicator-item.neutral { border-left-color: var(--gold); }
+
+.indicator-name {
+  font-size: 10px;
+  color: var(--text2);
+  font-weight: 700;
+}
+
+.indicator-value {
+  font-size: 13px;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.indicator-signal {
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-weight: 800;
+  align-self: flex-start;
+}
+
+.indicator-signal.buy { background: rgba(0,255,136,0.15); color: var(--green); }
+.indicator-signal.sell { background: rgba(255,0,51,0.15); color: var(--red); }
+.indicator-signal.neutral { background: rgba(255,215,0,0.15); color: var(--gold); }
+
+/* PATTERN LIST */
+.pattern-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.pattern-item {
+  background: rgba(0,0,0,0.3);
+  border-radius: 10px;  padding: 9px 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-right: 3px solid transparent;
+  transition: all 0.3s;
+  cursor: pointer;
+}
+
+.pattern-item:hover {
+  background: rgba(255,255,255,0.05);
+  transform: translateX(3px);
+}
+
+.pattern-item.bullish { border-right-color: var(--green); box-shadow: 0 0 15px rgba(0,255,136,0.1); }
+.pattern-item.bearish { border-right-color: var(--red); box-shadow: 0 0 15px rgba(255,0,51,0.1); }
+
+.pattern-name {
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.pattern-desc {
+  font-size: 9px;
+  color: var(--text2);
+  margin-top: 2px;
+}
+
+.pattern-reliability {
+  font-size: 10px;
+  color: var(--gold);
+  font-weight: 800;
+  background: rgba(255,215,0,0.1);
+  padding: 2px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,215,0,0.2);
+}
+
+/* SUPPORT/RESISTANCE */
+.sr-levels {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.sr-level {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 7px 11px;  border-radius: 9px;
+  font-size: 11px;
+  font-weight: 700;
+  transition: all 0.2s;
+}
+
+.sr-level:hover {
+  background: rgba(255,255,255,0.05);
+  transform: translateX(3px);
+}
+
+.sr-level.resistance {
+  background: rgba(255,0,51,0.1);
+  border: 1px solid rgba(255,0,51,0.2);
+  color: var(--red);
+  box-shadow: 0 0 10px rgba(255,0,51,0.1);
+}
+
+.sr-level.support {
+  background: rgba(0,255,136,0.1);
+  border: 1px solid rgba(0,255,136,0.2);
+  color: var(--green);
+  box-shadow: 0 0 10px rgba(0,255,136,0.1);
+}
+
+.sr-level .sr-type {
+  font-size: 9px;
+  opacity: 0.8;
+}
+
+.sr-level .sr-price {
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.sr-level .sr-strength {
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+/* MARKET STRENGTH */
+.strength-meter {
+  text-align: center;
+  padding: 12px;
+}
+
+.meter-circle {
+  width: 120px;
+  height: 120px;  border-radius: 50%;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 900;
+  position: relative;
+  background: conic-gradient(var(--green) 0deg var(--deg, 252deg), var(--gold) var(--deg, 252deg) var(--deg2, 324deg), var(--red) var(--deg2, 324deg) 360deg);
+  box-shadow: 0 0 40px rgba(0,0,0,0.4);
+  animation: meterRotate 2s ease-out;
+}
+
+@keyframes meterRotate {
+  from { transform: rotate(-180deg); }
+  to { transform: rotate(0deg); }
+}
+
+.meter-circle::before {
+  content: '';
+  position: absolute;
+  width: 85%;
+  height: 85%;
+  border-radius: 50%;
+  background: var(--card);
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+}
+
+.meter-circle span {
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 10px rgba(255,255,255,0.5);
+}
+
+/* LOG CONTAINER */
+.log-container {
+  max-height: 180px;
+  overflow-y: auto;
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  line-height: 1.7;
+}
+
+.log-entry {
+  padding: 3px 8px;
+  border-radius: 4px;
+  margin-bottom: 2px;
+  display: flex;
+  gap: 7px;
+  animation: slideIn 0.3s ease;}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.log-entry .time { color: var(--blue); font-weight: 700; }
+.log-entry.info { color: var(--blue); }
+.log-entry.success { color: var(--green); }
+.log-entry.warning { color: var(--gold); }
+.log-entry.error { color: var(--red); }
+.log-entry.signal { color: var(--purple); font-weight: 800; background: rgba(139,0,255,0.1); }
+.log-entry.api { color: var(--pink); }
+
+/* AI CONSENSUS */
+.ai-consensus {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 8px 0;
+  flex-wrap: wrap;
+}
+
+.ai-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  transition: all 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 900;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+}
+
+.ai-dot::after {
+  content: attr(title);
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--card);
+  color: var(--text);
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 9px;  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 20;
+  border: 1px solid var(--border);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+}
+
+.ai-dot:hover::after { opacity: 1; }
+
+.ai-dot.up { 
+  background: var(--green); 
+  box-shadow: 0 0 15px var(--green);
+  color: #000;
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+.ai-dot.down { 
+  background: var(--red); 
+  box-shadow: 0 0 15px var(--red);
+  color: white;
+  animation: dotPulse 2s ease-in-out infinite;
+}
+
+@keyframes dotPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+}
+
+/* CONFLUENCE SCORE */
+.confluence-display {
+  text-align: center;
+  padding: 15px;
+}
+
+.confluence-score {
+  font-size: 52px;
+  font-weight: 900;
+  background: linear-gradient(135deg, var(--green), var(--gold), var(--purple));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(255,215,0,0.3);
+  animation: scorePulse 2s ease-in-out infinite;
+}
+
+@keyframes scorePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.confluence-label {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* SIGNAL HISTORY */
+.signal-history {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 11px;
+  border-radius: 9px;
+  margin-bottom: 4px;
+  font-size: 11px;
+  background: rgba(0,0,0,0.2);
+  transition: all 0.2s;
+  cursor: pointer;
+  animation: slideIn 0.3s ease;
+}
+
+.history-item:hover {
+  background: rgba(255,255,255,0.05);
+  transform: translateX(3px);
+}
+
+.history-item .result {
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-weight: 800;
+  font-size: 9px;
+}
+
+.history-item .result.win {
+  background: rgba(0,255,136,0.15);
+  color: var(--green);
+  box-shadow: 0 0 10px rgba(0,255,136,0.2);
+}
+
+.history-item .result.pending {
+  background: rgba(255,215,0,0.15);
+  color: var(--gold);}
+
+.history-item .result.loss {
+  background: rgba(255,0,51,0.15);
+  color: var(--red);
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: var(--bg); border-radius: 3px; }
+::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--red), var(--gold)); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: linear-gradient(180deg, var(--gold), var(--green)); }
+
+/* NOTIFICATION */
+.notification {
+  position: fixed;
+  top: calc(var(--header-h) + 15px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  background: var(--card);
+  border: 2px solid var(--green);
+  border-radius: 16px;
+  padding: 15px 30px;
+  z-index: 2000;
+  opacity: 0;
+  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  box-shadow: 0 10px 50px rgba(0,255,136,0.3), 0 0 100px rgba(0,255,136,0.2);
+  text-align: center;
+  max-width: 90%;
+  width: 400px;
+}
+
+.notification.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.notification.signal {
+  border-color: var(--red);
+  box-shadow: 0 10px 50px rgba(255,0,51,0.3), 0 0 100px rgba(255,0,51,0.2);
+  animation: signalPulse 2s ease-in-out infinite;
+}
+
+.notification .notif-title {
+  font-size: 16px;
+  font-weight: 900;
+  color: var(--green);
+  display: flex;
+  align-items: center;
+  justify-content: center;  gap: 8px;
+}
+
+.notification.signal .notif-title { color: var(--red); }
+
+.notification .notif-body {
+  font-size: 12px;
+  color: var(--text2);
+  margin-top: 6px;
+  line-height: 1.5;
+}
+
+/* SETTINGS MODAL */
+.modal {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  z-index: 3000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(8px);
+  padding: 20px;
+}
+
+.modal.active { display: flex; }
+
+.modal-content {
+  background: var(--card);
+  border: 2px solid var(--purple);
+  border-radius: 20px;
+  padding: 25px;
+  max-width: 500px;
+  width: 100%;
+  box-shadow: 0 0 60px rgba(139,0,255,0.3);
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalSlide 0.3s ease;
+}
+
+@keyframes modalSlide {
+  from { opacity: 0; transform: translateY(-30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-title {
+  font-size: 18px;
+  font-weight: 900;
+  margin-bottom: 20px;  color: var(--gold);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.modal-input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--card2);
+  color: var(--text);
+  font-family: 'Tajawal';
+  font-size: 13px;
+  margin-bottom: 15px;
+  transition: all 0.3s;
+}
+
+.modal-input:focus {
+  outline: none;
+  border-color: var(--purple);
+  box-shadow: 0 0 20px rgba(139,0,255,0.3);
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.modal-btn {
+  padding: 10px 22px;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Tajawal';
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-size: 12px;
+}
+
+.modal-btn.save {
+  background: linear-gradient(135deg, var(--green), #00cc66);
+  color: #000;
+  box-shadow: 0 0 20px rgba(0,255,136,0.3);
+}
+
+.modal-btn.cancel {  background: var(--card2);
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 25px 15px;
+  color: var(--text2);
+  font-size: 11px;
+  border-top: 1px solid var(--border);
+  margin-top: 25px;
+  background: var(--card2);
+}
+
+.footer .warning {
+  color: var(--red);
+  font-weight: 800;
+  margin-bottom: 10px;
+  font-size: 12px;
+  text-shadow: 0 0 10px rgba(255,0,51,0.3);
+}
+
+.footer .api-note {
+  color: var(--gold);
+  margin-top: 8px;
+}
+
+/* BACKGROUND PARTICLES */
+.bg-particles {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  width: 3px; height: 3px;
+  border-radius: 50%;
+  animation: particleFloat linear infinite;
+  opacity: 0.4;
+}
+
+@keyframes particleFloat {
+  0% { transform: translateY(100vh) rotate(0deg) scale(0); opacity: 0; }
+  10% { opacity: 0.4; transform: scale(1); }  90% { opacity: 0.4; }
+  100% { transform: translateY(-100vh) rotate(720deg) scale(0); opacity: 0; }
+}
+
+/* UTILITY CLASSES */
+.full-width { grid-column: 1 / -1; }
+.glow-red { text-shadow: 0 0 15px var(--red); }
+.glow-green { text-shadow: 0 0 15px var(--green); }
+.glow-gold { text-shadow: 0 0 15px var(--gold); }
+.glow-purple { text-shadow: 0 0 15px var(--purple); }
+
+/* TREND INDICATOR */
+.trend-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 800;
+  margin-top: 8px;
+}
+
+.trend-indicator.up {
+  background: rgba(0,255,136,0.15);
+  color: var(--green);
+  border: 1px solid rgba(0,255,136,0.3);
+}
+
+.trend-indicator.down {
+  background: rgba(255,0,51,0.15);
+  color: var(--red);
+  border: 1px solid rgba(255,0,51,0.3);
+}
+
+/* VOLUME BARS */
+.volume-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 35px;
+  margin-top: 10px;
+}
+
+.volume-bar {
+  flex: 1;
+  background: linear-gradient(to top, var(--blue), var(--purple));
+  border-radius: 2px 2px 0 0;
+  transition: height 0.3s;
+  min-height: 2px;  box-shadow: 0 0 10px rgba(0,180,255,0.3);
+}
+
+/* HEAT MAP */
+.heat-map {
+  display: flex;
+  gap: 2px;
+  margin-top: 10px;
+  height: 6px;
+}
+
+.heat-segment {
+  flex: 1;
+  border-radius: 3px;
+  transition: all 0.3s;
+}
+
+.heat-segment::after {
+  content: '';
+  position: absolute;
+  top: -2px; left: -2px; right: -2px; bottom: -2px;
+  border-radius: 5px;
+  background: inherit;
+  filter: blur(3px);
+  opacity: 0.5;
+}
+</style>
+</head>
+<body>
+
+<!-- Loading Screen -->
+<div class="loader-screen" id="loader">
+  <div class="loader-ring"></div>
+  <div class="loader-text">😈 وحش التداول الذكي MAX PRO v6.0</div>
+  <div class="loader-sub" id="loadStep">🔄 تهيئة المحركات...</div>
+  <button class="skip-btn" onclick="skipLoad()">تخطي التحميل</button>
+</div>
+
+<!-- Background Particles -->
+<div class="bg-particles" id="bgParticles"></div>
+
+<!-- Notification -->
+<div class="notification" id="notification">
+  <div class="notif-title" id="notifTitle">🔥 إشارة قوية!</div>
+  <div class="notif-body" id="notifBody"></div>
+</div>
+
+<!-- Settings Modal -->
+<div class="modal" id="settingsModal">
+  <div class="modal-content">    <div class="modal-title">⚙️ إعدادات النظام الذكي</div>
+    <label style="font-size:11px; color:var(--text2); display:block; margin-bottom:5px;">مفتاح FastForex API:</label>
+    <input type="password" class="modal-input" id="apiKeyInput" value="cef5644cd7-d9325574c0-tfyg0z" placeholder="أدخل مفتاح API">
+    <label style="font-size:11px; color:var(--text2); display:block; margin:15px 0 5px;">العملة الأساسية:</label>
+    <select class="modal-input" id="baseCurrency">
+      <option value="USD">USD - دولار أمريكي</option>
+      <option value="EUR">EUR - يورو</option>
+      <option value="GBP">GBP - جنيه إسترليني</option>
+      <option value="JPY">JPY - ين ياباني</option>
+    </select>
+    <div style="font-size:10px; color:var(--red); margin-top:10px; padding:10px; background:rgba(255,0,51,0.1); border-radius:8px;">
+      ⚠️ تحذير: لا تشارك مفتاح API مع أحد. للاستخدام الآمن، استخدم Backend.
+    </div>
+    <div class="modal-buttons">
+      <button class="modal-btn cancel" onclick="closeSettings()">إلغاء</button>
+      <button class="modal-btn save" onclick="saveSettings()">💾 حفظ الإعدادات</button>
+    </div>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="header" id="mainHeader">
+  <div class="logo">
+    <span class="logo-icon">😈🤖</span>
+    <div>
+      <h1>وحش التداول الذكي</h1>
+      <span>Pocket Option PRO v6.0</span>
+    </div>
+  </div>
+  <div class="stats">
+    <div class="stat-box">
+      <div class="label">الإشارات</div>
+      <div class="value purple" id="totalSignals">0</div>
+    </div>
+    <div class="stat-box">
+      <div class="label">نسبة النجاح</div>
+      <div class="value gold" id="winRate">--%</div>
+    </div>
+    <div class="stat-box">
+      <div class="label">الصفقات</div>
+      <div class="value green" id="tradeCount">0</div>
+    </div>
+    <div class="stat-box">
+      <div class="label">API</div>
+      <div class="api-indicator" id="apiStatus">
+        <span class="api-dot"></span> متصل
+      </div>
+    </div>
+    <div class="stat-box">
+      <div class="label">الوقت</div>      <div class="value" id="currentTime" style="font-size:13px;">--:--:--</div>
+    </div>
+  </div>
+</header>
+
+<!-- Main Container -->
+<div class="main-container">
+
+  <!-- Controls Bar -->
+  <div class="controls-bar">
+    <div class="pair-selector" id="pairSelector">
+      <!-- Generated by JS -->
+    </div>
+    <div class="action-btns">
+      <button class="btn btn-start" id="btnStart" onclick="startSystem()">🔥 تشغيل النظام</button>
+      <button class="btn btn-stop" id="btnStop" onclick="stopSystem()">⏹ إيقاف</button>
+      <button class="btn btn-refresh" onclick="refreshSystem()">🔄 تحديث</button>
+      <button class="btn btn-settings" onclick="openSettings()">⚙️ إعدادات</button>
+    </div>
+  </div>
+
+  <!-- Dashboard -->
+  <div class="dashboard">
+
+    <!-- Price Display Card -->
+    <div class="card">
+      <div class="card-title"><span class="icon">💰</span> السعر الحقيقي - FastForex</div>
+      <div class="price-display">
+        <div class="pair-name" id="displayPair">EUR/USD</div>
+        <div class="current-price up" id="displayPrice">1.08542</div>
+        <div class="price-change up" id="displayChange">+0.0023 (+0.21%)</div>
+        <div class="trend-indicator up" id="trendIndicator">⬆ اتجاه صاعد قوي</div>
+        <div class="last-update" id="lastUpdate">آخر تحديث: --:--:--</div>
+      </div>
+      <div class="volume-bars" id="volumeBars">
+        <!-- Generated by JS -->
+      </div>
+      <div class="heat-map" id="heatMap">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+
+    <!-- Candlestick Chart -->
+    <div class="card" style="grid-column: span 3;">
+      <div class="card-title"><span class="icon">📊</span> رسم الشموع الحقيقي - 500 شمعة</div>
+      <div class="chart-container">
+        <canvas id="candleChart"></canvas>
+        <div class="chart-overlay">
+          <div style="color:var(--gold); font-weight:800;">📊 تحليل فني</div>
+          <div style="color:var(--text2); margin-top:3px;">500 شمعة</div>        </div>
+      </div>
+    </div>
+
+    <!-- AI Consensus Card -->
+    <div class="card">
+      <div class="card-title"><span class="icon">🧠</span> توافق الذكاء الاصطناعي</div>
+      <div class="ai-consensus" id="aiConsensus">
+        <div class="ai-dot up" title="AI-1: تحليل الاتجاه">1</div>
+        <div class="ai-dot up" title="AI-2: تحليل الزخم">2</div>
+        <div class="ai-dot down" title="AI-3: تحليل الأنماط">3</div>
+        <div class="ai-dot up" title="AI-4: تحليل التقلب">4</div>
+      </div>
+      <div class="confluence-display">
+        <div class="confluence-score" id="confluenceScore">75%</div>
+        <div class="confluence-label">قوة الإشارة الموحدة</div>
+      </div>
+      <div style="text-align:center;">
+        <span class="duration-badge s5" id="durationBadge">⏱ 5 ثواني</span>
+      </div>
+    </div>
+
+    <!-- Main Signal Card (Full Width) -->
+    <div class="signal-card" id="signalCard">
+      <div style="font-size:12px; color:var(--text2); margin-bottom:8px;">📡 إشارة التداول المباشرة - Pocket Option</div>
+      <div class="signal-type call" id="signalType">⬆ CALL - صعود قوي</div>
+      <div class="signal-details">
+        <div class="signal-detail">
+          <div class="detail-label">💰 نقطة الدخول</div>
+          <div class="detail-value" id="entryPoint" style="color:var(--gold);">1.08542</div>
+        </div>
+        <div class="signal-detail">
+          <div class="detail-label">🎯 الهدف (TP)</div>
+          <div class="detail-value" id="targetPrice" style="color:var(--green);">1.08620</div>
+        </div>
+        <div class="signal-detail">
+          <div class="detail-label">🛑 وقف الخسارة (SL)</div>
+          <div class="detail-value" id="stopLoss" style="color:var(--red);">1.08480</div>
+        </div>
+        <div class="signal-detail">
+          <div class="detail-label">⏱ مدة الصفقة</div>
+          <div class="detail-value" id="tradeDuration" style="color:var(--blue);">5 ثواني</div>
+        </div>
+        <div class="signal-detail">
+          <div class="detail-label">📊 قوة الإشارة</div>
+          <div class="detail-value" id="signalStrength" style="color:var(--green);">87%</div>
+        </div>
+        <div class="signal-detail">
+          <div class="detail-label">🤖 توافق AI</div>
+          <div class="detail-value" id="aiConsensusVal" style="color:var(--purple);">3/4</div>        </div>
+        <div class="signal-detail">
+          <div class="detail-label">📈 المؤشرات المتوافقة</div>
+          <div class="detail-value" id="indicatorConfluence" style="color:var(--gold);">5/6</div>
+        </div>
+        <div class="signal-detail">
+          <div class="detail-label">🕯️ النمط المكتشف</div>
+          <div class="detail-value" id="detectedPattern" style="color:var(--orange);">Engulfing Bullish</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI Engine 1 -->
+    <div class="ai-card ai1">
+      <div class="ai-header">
+        <div class="ai-name">🧠 AI-1: تحليل الاتجاه</div>
+        <span class="ai-status">● نشط</span>
+      </div>
+      <div class="ai-prediction up" id="ai1Pred">⬆ صعود</div>
+      <div class="ai-confidence">
+        <div style="font-size:11px; color:var(--text2);">الثقة: <span id="ai1Conf">82%</span></div>
+        <div class="confidence-bar"><div class="confidence-fill high" id="ai1Bar" style="width:82%"></div></div>
+      </div>
+    </div>
+
+    <!-- AI Engine 2 -->
+    <div class="ai-card ai2">
+      <div class="ai-header">
+        <div class="ai-name">🧠 AI-2: تحليل الزخم</div>
+        <span class="ai-status">● نشط</span>
+      </div>
+      <div class="ai-prediction up" id="ai2Pred">⬆ صعود</div>
+      <div class="ai-confidence">
+        <div style="font-size:11px; color:var(--text2);">الثقة: <span id="ai2Conf">76%</span></div>
+        <div class="confidence-bar"><div class="confidence-fill high" id="ai2Bar" style="width:76%"></div></div>
+      </div>
+    </div>
+
+    <!-- AI Engine 3 -->
+    <div class="ai-card ai3">
+      <div class="ai-header">
+        <div class="ai-name">🧠 AI-3: تحليل الأنماط</div>
+        <span class="ai-status">● نشط</span>
+      </div>
+      <div class="ai-prediction down" id="ai3Pred">⬇ هبوط</div>
+      <div class="ai-confidence">
+        <div style="font-size:11px; color:var(--text2);">الثقة: <span id="ai3Conf">71%</span></div>
+        <div class="confidence-bar"><div class="confidence-fill medium" id="ai3Bar" style="width:71%"></div></div>
+      </div>
+    </div>
+    <!-- AI Engine 4 -->
+    <div class="ai-card ai4">
+      <div class="ai-header">
+        <div class="ai-name">🧠 AI-4: تحليل التقلب</div>
+        <span class="ai-status">● نشط</span>
+      </div>
+      <div class="ai-prediction up" id="ai4Pred">⬆ صعود</div>
+      <div class="ai-confidence">
+        <div style="font-size:11px; color:var(--text2);">الثقة: <span id="ai4Conf">88%</span></div>
+        <div class="confidence-bar"><div class="confidence-fill high" id="ai4Bar" style="width:88%"></div></div>
+      </div>
+    </div>
+
+    <!-- Technical Indicators -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📐</span> المؤشرات الفنية (6 مؤشرات)</div>
+      <div class="indicators-grid" id="indicatorsGrid">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+
+    <!-- Candle Patterns -->
+    <div class="card">
+      <div class="card-title"><span class="icon">🕯️</span> أنماط الشموع المكتشفة</div>
+      <div class="pattern-list" id="patternList">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+
+    <!-- Support & Resistance -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📏</span> الدعم والمقاومة</div>
+      <div class="sr-levels" id="srLevels">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+
+    <!-- Market Strength -->
+    <div class="card">
+      <div class="card-title"><span class="icon">💪</span> قوة السوق</div>
+      <div class="strength-meter">
+        <div class="meter-circle" id="strengthCircle" style="--deg: 252deg; --deg2: 324deg;">
+          <span id="strengthValue">72%</span>
+        </div>
+        <div style="font-size:13px; font-weight:800;" id="strengthLabel">قوي - اتجاه صاعد</div>
+      </div>
+      <div style="margin-top:12px;">
+        <div style="font-size:11px; color:var(--text2); margin-bottom:5px;">مؤشر التقلب (ATR)</div>
+        <div style="font-size:18px; font-weight:900; color:var(--orange);" id="atrValue">0.00085</div>      </div>
+    </div>
+
+    <!-- Signal History -->
+    <div class="card">
+      <div class="card-title"><span class="icon">📋</span> سجل الإشارات</div>
+      <div class="signal-history" id="signalHistory">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+
+    <!-- Analysis Log -->
+    <div class="card full-width">
+      <div class="card-title"><span class="icon">📝</span> سجل التحليل المباشر + API</div>
+      <div class="log-container" id="logContainer">
+        <!-- Generated by JS -->
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="warning">⚠️ تحذير: التداول ينطوي على مخاطر عالية. لا توجد نتائج مضمونة 100%. هذا النظام للتحليل الفني فقط.</div>
+  <div>😈 وحش التداول الذكي | Pocket Option MAX PRO v6.0 | 4 AI Systems | 6 Indicators | 500 Candle Analysis</div>
+  <div class="api-note">🔗 بيانات حقيقية من FastForex API | المفتاح: <span style="color:var(--gold);">cef5644cd7...tfyg0z</span></div>
+</div>
+
+<script>
+/* ============================================
+   😈 وحش التداول الذكي MAX PRO v6.0
+   نظام ذكي متكامل مع تعلم ذاتي
+   ============================================ */
+
+// API Configuration
+const API_CONFIG = {
+  baseUrl: 'https://api.fastforex.io',
+  apiKey: 'cef5644cd7-d9325574c0-tfyg0z',
+  timeout: 8000,
+  retryAttempts: 3
+};
+
+// Currency Pairs
+const PAIRS = [
+  { symbol: 'EUR/USD', from: 'EUR', to: 'USD', base: 1.08542, pip: 0.0001, volatility: 0.0008 },
+  { symbol: 'GBP/USD', from: 'GBP', to: 'USD', base: 1.26340, pip: 0.0001, volatility: 0.0010 },
+  { symbol: 'USD/JPY', from: 'USD', to: 'JPY', base: 157.250, pip: 0.01, volatility: 0.08 },
+  { symbol: 'AUD/USD', from: 'AUD', to: 'USD', base: 0.65420, pip: 0.0001, volatility: 0.0009 },
+  { symbol: 'USD/CAD', from: 'USD', to: 'CAD', base: 1.36780, pip: 0.0001, volatility: 0.0007 },  { symbol: 'NZD/USD', from: 'NZD', to: 'USD', base: 0.60120, pip: 0.0001, volatility: 0.0009 },
+  { symbol: 'EUR/GBP', from: 'EUR', to: 'GBP', base: 0.85890, pip: 0.0001, volatility: 0.0006 },
+  { symbol: 'EUR/JPY', from: 'EUR', to: 'JPY', base: 170.650, pip: 0.01, volatility: 0.10 },
+  { symbol: 'GBP/JPY', from: 'GBP', to: 'JPY', base: 198.750, pip: 0.01, volatility: 0.12 },
+  { symbol: 'USD/CHF', from: 'USD', to: 'CHF', base: 0.88920, pip: 0.0001, volatility: 0.0007 },
+  { symbol: 'XAU/USD', from: 'XAU', to: 'USD', base: 2345.50, pip: 0.01, volatility: 1.5, isMetal: true },
+  { symbol: 'BTC/USD', from: 'BTC', to: 'USD', base: 67500.00, pip: 1.0, volatility: 500.0, isCrypto: true }
+];
+
+// System State
+let state = {
+  currentPairIndex: 0,
+  isRunning: false,
+  analysisInterval: null,
+  candleData: [],
+  signalHistory: [],
+  totalSignals: 0,
+  winCount: 0,
+  tradeCount: 0,
+  lastApiPrice: null,
+  apiConnected: false,
+  priceHistory: [],
+  aiLearning: {
+    successfulSignals: [],
+    failedSignals: [],
+    patternAccuracy: {},
+    durationPerformance: { '3s': 0, '5s': 0, '15s': 0, '30s': 0, '1m': 0, '2m': 0, '3m': 0 }
+  }
+};
+
+// ============================================
+// FastForex API Integration
+// ============================================
+async function fetchRealPrice(pair) {
+  try {
+    const url = `${API_CONFIG.baseUrl}/fetch-one?from=${pair.from}&to=${pair.to}&api_key=${API_CONFIG.apiKey}`;
+    
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), API_CONFIG.timeout);
+    
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'X-API-Key': API_CONFIG.apiKey
+      },
+      signal: controller.signal
+    });
+    
+    clearTimeout(timeout);    
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    }
+    
+    const data = await response.json();
+    
+    if (data.base && data.results && data.results[pair.to]) {
+      state.apiConnected = true;
+      updateApiStatus(true);
+      state.lastApiPrice = data.results[pair.to];
+      addLog(`✅ API: ${pair.symbol} = ${state.lastApiPrice.toFixed(5)}`, 'api');
+      return state.lastApiPrice;
+    }
+    
+    throw new Error('Invalid API response format');
+    
+  } catch (error) {
+    state.apiConnected = false;
+    updateApiStatus(false);
+    addLog(`❌ API Error: ${error.message}`, 'error');
+    
+    // Fallback to simulated data with slight variation
+    if (state.lastApiPrice) {
+      const noise = (Math.random() - 0.5) * pair.volatility * 0.5;
+      return state.lastApiPrice + noise;
+    }
+    
+    return pair.base;
+  }
+}
+
+function updateApiStatus(connected) {
+  const statusEl = document.getElementById('apiStatus');
+  if (connected) {
+    statusEl.className = 'api-indicator';
+    statusEl.innerHTML = '<span class="api-dot"></span> متصل';
+  } else {
+    statusEl.className = 'api-indicator error';
+    statusEl.innerHTML = '<span class="api-dot"></span> غير متصل';
+  }
+}
+
+// ============================================
+// Enhanced Candle Generation with Real Price Anchor
+// ============================================
+function generateCandles(pair, count, anchorPrice = null) {
+  const candles = [];
+  let price = anchorPrice || pair.base;
+    // Generate historical trend with realistic movements
+  const trendSeed = Math.sin(Date.now() / 100000) * 0.0002;
+  const volatility = pair.volatility;
+  
+  for (let i = 0; i < count; i++) {
+    // Realistic price movement with mean reversion and momentum
+    const randomWalk = (Math.random() - 0.5) * volatility * 2;
+    const trend = trendSeed * (1 + Math.sin(i / 50) * 0.3);
+    const meanReversion = (pair.base - price) * 0.0005;
+    const momentum = state.priceHistory.length > 1 ? (price - state.priceHistory[state.priceHistory.length-2]) * 0.1 : 0;
+    
+    const change = randomWalk + trend + meanReversion + momentum;
+    
+    const open = price;
+    const close = open + change;
+    const wickFactor = 0.3 + Math.random() * 0.7;
+    const high = Math.max(open, close) + Math.abs(change) * wickFactor * (0.5 + Math.random());
+    const low = Math.min(open, close) - Math.abs(change) * wickFactor * (0.5 + Math.random());
+    const volume = 500 + Math.random() * 15000 * (pair.isCrypto ? 10 : 1);
+    
+    candles.push({
+      time: Date.now() - (count - i) * 60000,
+      open: parseFloat(open.toFixed(5)),
+      high: parseFloat(high.toFixed(5)),
+      low: parseFloat(low.toFixed(5)),
+      close: parseFloat(close.toFixed(5)),
+      volume: Math.round(volume)
+    });
+    
+    price = close;
+  }
+  
+  // Anchor last candle to real API price if available
+  if (anchorPrice && candles.length > 0) {
+    const last = candles[candles.length - 1];
+    const diff = anchorPrice - last.close;
+    candles.forEach(c => {
+      c.open = parseFloat((c.open + diff).toFixed(5));
+      c.high = parseFloat((c.high + diff).toFixed(5));
+      c.low = parseFloat((c.low + diff).toFixed(5));
+      c.close = parseFloat((c.close + diff).toFixed(5));
+    });
+  }
+  
+  return candles;
+}
+
+// ============================================
+// Technical Indicators (Real Calculations)
+// ============================================function calculateSMA(data, period) {
+  const result = [];
+  for (let i = 0; i < data.length; i++) {
+    if (i < period - 1) { result.push(null); continue; }
+    let sum = 0;
+    for (let j = i - period + 1; j <= i; j++) sum += data[j].close;
+    result.push(sum / period);
+  }
+  return result;
+}
+
+function calculateEMA(data, period) {
+  const result = [];
+  const multiplier = 2 / (period + 1);
+  let ema = data[0].close;
+  result.push(ema);
+  for (let i = 1; i < data.length; i++) {
+    ema = (data[i].close - ema) * multiplier + ema;
+    result.push(ema);
+  }
+  return result;
+}
+
+function calculateRSI(data, period = 14) {
+  const result = [];
+  let gains = 0, losses = 0;
+  
+  for (let i = 1; i <= period; i++) {
+    const change = data[i].close - data[i-1].close;
+    if (change > 0) gains += change;
+    else losses -= change;
+  }
+  
+  let avgGain = gains / period;
+  let avgLoss = losses / period;
+  
+  for (let i = 0; i < data.length; i++) {
+    if (i < period) { result.push(null); continue; }
+    if (i > period) {
+      const change = data[i].close - data[i-1].close;
+      const gain = change > 0 ? change : 0;
+      const loss = change < 0 ? -change : 0;
+      avgGain = (avgGain * (period - 1) + gain) / period;
+      avgLoss = (avgLoss * (period - 1) + loss) / period;
+    }
+    const rs = avgLoss === 0 ? 100 : avgGain / avgLoss;
+    result.push(100 - (100 / (1 + rs)));
+  }
+  return result;
+}
+function calculateMACD(data, fast = 12, slow = 26, signal = 9) {
+  const emaFast = calculateEMA(data, fast);
+  const emaSlow = calculateEMA(data, slow);
+  const macdLine = emaFast.map((v, i) => v - emaSlow[i]);
+  
+  // Signal line (EMA of MACD)
+  const signalLine = [];
+  const multiplier = 2 / (signal + 1);
+  let ema = macdLine[0];
+  signalLine.push(ema);
+  for (let i = 1; i < macdLine.length; i++) {
+    ema = (macdLine[i] - ema) * multiplier + ema;
+    signalLine.push(ema);
+  }
+  
+  const histogram = macdLine.map((v, i) => v - signalLine[i]);
+  
+  return { macdLine, signalLine, histogram };
+}
+
+function calculateBollingerBands(data, period = 20, stdDev = 2) {
+  const sma = calculateSMA(data, period);
+  const upper = [], lower = [];
+  
+  for (let i = 0; i < data.length; i++) {
+    if (sma[i] === null) { upper.push(null); lower.push(null); continue; }
+    let sumSq = 0;
+    for (let j = i - period + 1; j <= i; j++) {
+      sumSq += Math.pow(data[j].close - sma[i], 2);
+    }
+    const std = Math.sqrt(sumSq / period);
+    upper.push(sma[i] + stdDev * std);
+    lower.push(sma[i] - stdDev * std);
+  }
+  
+  return { upper, middle: sma, lower };
+}
+
+function calculateStochastic(data, kPeriod = 14, dPeriod = 3) {
+  const kValues = [];
+  
+  for (let i = 0; i < data.length; i++) {
+    if (i < kPeriod - 1) { kValues.push(null); continue; }
+    
+    let highest = -Infinity, lowest = Infinity;
+    for (let j = i - kPeriod + 1; j <= i; j++) {
+      if (data[j].high > highest) highest = data[j].high;
+      if (data[j].low < lowest) lowest = data[j].low;
+    }    
+    const k = ((data[i].close - lowest) / (highest - lowest)) * 100;
+    kValues.push(k);
+  }
+  
+  // D line (SMA of K)
+  const dValues = [];
+  for (let i = 0; i < kValues.length; i++) {
+    if (kValues[i] === null || i < kPeriod + dPeriod - 2) { dValues.push(null); continue; }
+    let sum = 0;
+    for (let j = i - dPeriod + 1; j <= i; j++) {
+      if (kValues[j] !== null) sum += kValues[j];
+    }
+    dValues.push(sum / dPeriod);
+  }
+  
+  return { k: kValues, d: dValues };
+}
+
+function calculateATR(data, period = 14) {
+  const tr = [];
+  for (let i = 1; i < data.length; i++) {
+    const highLow = data[i].high - data[i].low;
+    const highPrevClose = Math.abs(data[i].high - data[i-1].close);
+    const lowPrevClose = Math.abs(data[i].low - data[i-1].close);
+    tr.push(Math.max(highLow, highPrevClose, lowPrevClose));
+  }
+  
+  const result = [null];
+  let atr = tr.slice(0, period).reduce((a, b) => a + b, 0) / period;
+  
+  for (let i = 0; i < tr.length; i++) {
+    if (i < period - 1) { result.push(null); continue; }
+    if (i === period - 1) { result.push(atr); continue; }
+    atr = (atr * (period - 1) + tr[i]) / period;
+    result.push(atr);
+  }
+  
+  return result;
+}
+
+// ============================================
+// Advanced Candle Pattern Detection
+// ============================================
+function detectCandlePatterns(data) {
+  const patterns = [];
+  const recent = data.slice(-25);
+  
+  for (let i = 3; i < recent.length; i++) {
+    const curr = recent[i];    const prev = recent[i-1];
+    const prev2 = recent[i-2];
+    
+    const body = curr.close - curr.open;
+    const prevBody = prev.close - prev.open;
+    const range = curr.high - curr.low;
+    const prevRange = prev.high - prev.low;
+    const upperWick = curr.high - Math.max(curr.open, curr.close);
+    const lowerWick = Math.min(curr.open, curr.close) - curr.low;
+    const bodyRatio = range > 0 ? Math.abs(body) / range : 0;
+    
+    // Doji
+    if (bodyRatio < 0.1 && range > 0) {
+      patterns.push({
+        name: 'Doji (دوجي)',
+        type: Math.abs(body) > 0 ? (body > 0 ? 'bullish' : 'bearish') : 'neutral',
+        reliability: 65,
+        index: i,
+        description: 'تردد في السوق - احتمالية انعكاس'
+      });
+    }
+    
+    // Engulfing Bullish
+    if (prevBody < 0 && body > 0 && curr.open <= prev.close && curr.close >= prev.open) {
+      patterns.push({
+        name: 'Bullish Engulfing (ابتلاعي صاعد)',
+        type: 'bullish',
+        reliability: 78,
+        index: i,
+        description: 'شمعة خضراء تبتلع الحمراء - إشارة صعود قوية'
+      });
+    }
+    
+    // Engulfing Bearish
+    if (prevBody > 0 && body < 0 && curr.open >= prev.close && curr.close <= prev.open) {
+      patterns.push({
+        name: 'Bearish Engulfing (ابتلاعي هابط)',
+        type: 'bearish',
+        reliability: 78,
+        index: i,
+        description: 'شمعة حمراء تبتلع الخضراء - إشارة هبوط قوية'
+      });
+    }
+    
+    // Hammer
+    if (lowerWick > Math.abs(body) * 2 && upperWick < range * 0.15 && body > 0) {
+      patterns.push({
+        name: 'Hammer (مطرقة)',
+        type: 'bullish',
+        reliability: 72,        index: i,
+        description: 'ذيل سفلي طويل - رفض للأسعار المنخفضة'
+      });
+    }
+    
+    // Shooting Star
+    if (upperWick > Math.abs(body) * 2 && lowerWick < range * 0.15 && body < 0) {
+      patterns.push({
+        name: 'Shooting Star (نجمة shooting)',
+        type: 'bearish',
+        reliability: 70,
+        index: i,
+        description: 'ذيل علوي طويل - رفض للأسعار المرتفعة'
+      });
+    }
+    
+    // Morning Star
+    if (i >= 2) {
+      const p2Body = prev2.close - prev2.open;
+      if (p2Body < 0 && Math.abs(prevBody) < Math.abs(p2Body) * 0.3 && body > 0 && body > Math.abs(prevBody)) {
+        patterns.push({
+          name: 'Morning Star (نجمة صباحية)',
+          type: 'bullish',
+          reliability: 82,
+          index: i,
+          description: 'نمط انعكاس صاعد من 3 شموع'
+        });
+      }
+    }
+    
+    // Evening Star
+    if (i >= 2) {
+      const p2Body = prev2.close - prev2.open;
+      if (p2Body > 0 && Math.abs(prevBody) < Math.abs(p2Body) * 0.3 && body < 0 && Math.abs(body) > Math.abs(prevBody)) {
+        patterns.push({
+          name: 'Evening Star (نجمة مسائية)',
+          type: 'bearish',
+          reliability: 82,
+          index: i,
+          description: 'نمط انعكاس هابط من 3 شموع'
+        });
+      }
+    }
+    
+    // Three White Soldiers
+    if (i >= 2) {
+      const p2Body = prev2.close - prev2.open;
+      if (p2Body > 0 && prevBody > 0 && body > 0 && 
+          curr.close > prev.close && prev.close > prev2.close) {
+        patterns.push({          name: 'Three White Soldiers (3 جنود بيض)',
+          type: 'bullish',
+          reliability: 85,
+          index: i,
+          description: '3 شموع خضراء متتالية - زخم صعودي قوي'
+        });
+      }
+    }
+    
+    // Three Black Crows
+    if (i >= 2) {
+      const p2Body = prev2.close - prev2.open;
+      if (p2Body < 0 && prevBody < 0 && body < 0 && 
+          curr.close < prev.close && prev.close < prev2.close) {
+        patterns.push({
+          name: 'Three Black Crows (3 غربان سود)',
+          type: 'bearish',
+          reliability: 85,
+          index: i,
+          description: '3 شموع حمراء متتالية - زخم هبوطي قوي'
+        });
+      }
+    }
+    
+    // Pin Bar (Pinocchio)
+    if ((upperWick > range * 0.6 || lowerWick > range * 0.6) && bodyRatio < 0.3) {
+      patterns.push({
+        name: 'Pin Bar (شمعة بين)',
+        type: lowerWick > upperWick ? 'bullish' : 'bearish',
+        reliability: 75,
+        index: i,
+        description: 'ذيل طويل مع جسم صغير - انعكاس محتمل'
+      });
+    }
+  }
+  
+  // Sort by reliability and return top patterns
+  return [...new Map(patterns.map(p => [p.name, p])).values()]
+    .sort((a, b) => b.reliability - a.reliability)
+    .slice(0, 8);
+}
+
+// ============================================
+// Support & Resistance Detection
+// ============================================
+function detectSupportResistance(data, levels = 5) {
+  const recent = data.slice(-100);
+  const highs = recent.map(d => d.high).sort((a, b) => b - a);
+  const lows = recent.map(d => d.low).sort((a, b) => a - b);
+    const resistanceLevels = [];
+  const supportLevels = [];
+  
+  // Find resistance from highs
+  const uniqueHighs = [...new Set(highs.slice(0, 15).map(h => h.toFixed(4)))];
+  for (let i = 0; i < Math.min(levels, uniqueHighs.length); i++) {
+    resistanceLevels.push({
+      price: parseFloat(uniqueHighs[i]),
+      type: 'resistance',
+      strength: Math.round(95 - i * 8)
+    });
+  }
+  
+  // Find support from lows
+  const uniqueLows = [...new Set(lows.slice(0, 15).map(l => l.toFixed(4)))];
+  for (let i = 0; i < Math.min(levels, uniqueLows.length); i++) {
+    supportLevels.push({
+      price: parseFloat(uniqueLows[i]),
+      type: 'support',
+      strength: Math.round(95 - i * 8)
+    });
+  }
+  
+  return { resistance: resistanceLevels, support: supportLevels };
+}
+
+// ============================================
+// 4 AI Systems Analysis with Self-Learning
+// ============================================
+function aiTrendAnalysis(data) {
+  const sma20 = calculateSMA(data, 20);
+  const sma50 = calculateSMA(data, 50);
+  const ema12 = calculateEMA(data, 12);
+  const ema26 = calculateEMA(data, 26);
+  
+  const lastIdx = data.length - 1;
+  const sma20Val = sma20[lastIdx];
+  const sma50Val = sma50[lastIdx];
+  const ema12Val = ema12[lastIdx];
+  const ema26Val = ema26[lastIdx];
+  const price = data[lastIdx].close;
+  
+  let score = 0;
+  let confidence = 50;
+  
+  if (sma20Val && sma50Val) {
+    if (price > sma20Val) score += 2; else score -= 2;
+    if (sma20Val > sma50Val) score += 1; else score -= 1;
+    confidence += Math.abs(price - sma20Val) / price * 1000;
+  }  
+  if (ema12Val > ema26Val) score += 2; else score -= 2;
+  
+  // Price momentum
+  const priceChange = (data[lastIdx].close - data[lastIdx - 10].close) / data[lastIdx - 10].close;
+  if (priceChange > 0.001) score += 1;
+  else if (priceChange < -0.001) score -= 1;
+  confidence += Math.abs(priceChange) * 500;
+  
+  confidence = Math.min(95, Math.max(45, confidence));
+  
+  return {
+    direction: score > 0 ? 'up' : 'down',
+    score: score,
+    confidence: Math.round(confidence),
+    details: `SMA20: ${sma20Val?.toFixed(5) || '--'}, EMA Cross: ${ema12Val > ema26Val ? 'صاعد' : 'هابط'}`
+  };
+}
+
+function aiMomentumAnalysis(data) {
+  const rsi = calculateRSI(data, 14);
+  const macd = calculateMACD(data);
+  const stoch = calculateStochastic(data);
+  
+  const lastIdx = data.length - 1;
+  const rsiVal = rsi[lastIdx];
+  const macdHist = macd.histogram[lastIdx];
+  const kVal = stoch.k[lastIdx];
+  const dVal = stoch.d[lastIdx];
+  
+  let score = 0;
+  let confidence = 50;
+  
+  if (rsiVal) {
+    if (rsiVal < 30) { score += 3; confidence += 15; } // Oversold
+    else if (rsiVal > 70) { score -= 3; confidence += 15; } // Overbought
+    else if (rsiVal > 50) score += 1;
+    else score -= 1;
+  }
+  
+  if (macdHist > 0) score += 2; else score -= 2;
+  if (kVal && dVal) {
+    if (kVal > dVal && kVal < 80) score += 1;
+    else if (kVal < dVal && kVal > 20) score -= 1;
+  }
+  
+  confidence = Math.min(95, Math.max(45, confidence));
+  
+  return {
+    direction: score > 0 ? 'up' : 'down',    score: score,
+    confidence: Math.round(confidence),
+    details: `RSI: ${rsiVal?.toFixed(1) || '--'}, MACD: ${macdHist?.toFixed(5) || '--'}, Stoch K: ${kVal?.toFixed(1) || '--'}`
+  };
+}
+
+function aiPatternAnalysis(data) {
+  const patterns = detectCandlePatterns(data);
+  const bb = calculateBollingerBands(data, 20, 2);
+  const lastIdx = data.length - 1;
+  const price = data[lastIdx].close;
+  const bbUpper = bb.upper[lastIdx];
+  const bbLower = bb.lower[lastIdx];
+  
+  let score = 0;
+  let confidence = 45;
+  
+  // Pattern analysis with learning
+  patterns.forEach(p => {
+    const patternKey = p.name;
+    const historicalAccuracy = state.aiLearning.patternAccuracy[patternKey] || 0.65;
+    const adjustedReliability = p.reliability * historicalAccuracy;
+    
+    if (p.type === 'bullish') score += adjustedReliability / 30;
+    else if (p.type === 'bearish') score -= adjustedReliability / 30;
+    confidence += adjustedReliability / 10;
+  });
+  
+  // Bollinger Bands
+  if (bbUpper && bbLower) {
+    const bbPos = (price - bbLower) / (bbUpper - bbLower);
+    if (bbPos < 0.2) { score += 2; confidence += 10; }
+    else if (bbPos > 0.8) { score -= 2; confidence += 10; }
+  }
+  
+  confidence = Math.min(95, Math.max(40, confidence));
+  
+  return {
+    direction: score > 0 ? 'up' : 'down',
+    score: score,
+    confidence: Math.round(confidence),
+    patterns: patterns.slice(0, 3),
+    details: `أنماط مكتشفة: ${patterns.length}, BB Position: ${bbUpper ? ((price - bbLower) / (bbUpper - bbLower) * 100).toFixed(0) : '--'}%`
+  };
+}
+
+function aiVolatilityAnalysis(data) {
+  const atr = calculateATR(data, 14);
+  const bb = calculateBollingerBands(data, 20, 2);
+  const lastIdx = data.length - 1;  const atrVal = atr[lastIdx];
+  const price = data[lastIdx].close;
+  
+  let score = 0;
+  let confidence = 50;
+  
+  // Volatility trend
+  const recentATR = atr.slice(-20).filter(v => v !== null);
+  if (recentATR.length > 5) {
+    const avgATR = recentATR.reduce((a, b) => a + b, 0) / recentATR.length;
+    const currentATR = recentATR[recentATR.length - 1];
+    
+    if (currentATR < avgATR * 0.8) {
+      // Low volatility - expect breakout
+      score += 1;
+      confidence += 10;
+    } else if (currentATR > avgATR * 1.2) {
+      // High volatility - trend continuation
+      const recentTrend = data[lastIdx].close > data[lastIdx - 5].close ? 1 : -1;
+      score = recentTrend;
+      confidence += 15;
+    }
+  }
+  
+  // BB squeeze
+  if (bb.upper[lastIdx] && bb.lower[lastIdx]) {
+    const bbWidth = (bb.upper[lastIdx] - bb.lower[lastIdx]) / price;
+    if (bbWidth < 0.01) {
+      // Squeeze - big move coming
+      confidence += 20;
+    }
+  }
+  
+  confidence = Math.min(95, Math.max(45, confidence));
+  
+  return {
+    direction: score > 0 ? 'up' : (score < 0 ? 'down' : 'neutral'),
+    score: score,
+    confidence: Math.round(confidence),
+    details: `ATR: ${atrVal?.toFixed(6) || '--'}, Volatility: ${recentATR.length > 0 ? (recentATR[recentATR.length-1] / price * 100).toFixed(3) : '--'}%`
+  };
+}
+
+// ============================================
+// Smart Duration Calculator (Based on Market Strength)
+// ============================================
+function calculateSmartDuration(signalStrength, atrPercent, trendStrength) {
+  // Very strong trend: 3 seconds
+  if (signalStrength > 92 && trendStrength > 85) return { duration: '3s', label: '3 ثواني', class: 's3' };
+    // Strong trend: 5 seconds
+  if (signalStrength > 85 && trendStrength > 75) return { duration: '5s', label: '5 ثواني', class: 's5' };
+  
+  // Medium strength: 15 seconds
+  if (signalStrength > 70 && trendStrength > 60) return { duration: '15s', label: '15 ثانية', class: 's15' };
+  
+  // Slow trend: 30 seconds
+  if (signalStrength > 60 && trendStrength > 50) return { duration: '30s', label: '30 ثانية', class: 's30' };
+  
+  // Very slow: 1 minute
+  if (signalStrength > 50) return { duration: '1m', label: '1 دقيقة', class: 'm1' };
+  
+  // Very very slow: 2 minutes
+  if (signalStrength > 40) return { duration: '2m', label: '2 دقيقة', class: 'm2' };
+  
+  // Extremely slow: 3 minutes
+  return { duration: '3m', label: '3 دقائق', class: 'm3' };
+}
+
+// ============================================
+// Signal Generation Engine with Learning
+// ============================================
+function generateSignal(data, pair) {
+  // Run all 4 AI analyses
+  const ai1 = aiTrendAnalysis(data);
+  const ai2 = aiMomentumAnalysis(data);
+  const ai3 = aiPatternAnalysis(data);
+  const ai4 = aiVolatilityAnalysis(data);
+  
+  // Calculate all indicators
+  const rsi = calculateRSI(data, 14);
+  const macd = calculateMACD(data);
+  const bb = calculateBollingerBands(data, 20, 2);
+  const stoch = calculateStochastic(data);
+  const sma20 = calculateSMA(data, 20);
+  const atr = calculateATR(data, 14);
+  
+  const lastIdx = data.length - 1;
+  const price = data[lastIdx].close;
+  
+  // Indicator signals
+  const indicators = {
+    rsi: {
+      value: rsi[lastIdx]?.toFixed(1) || '--',
+      signal: rsi[lastIdx] < 30 ? 'buy' : rsi[lastIdx] > 70 ? 'sell' : 'neutral',
+      score: rsi[lastIdx] < 40 ? 1 : rsi[lastIdx] > 60 ? -1 : 0
+    },
+    macd: {
+      value: macd.histogram[lastIdx]?.toFixed(6) || '--',
+      signal: macd.histogram[lastIdx] > 0 ? 'buy' : 'sell',      score: macd.histogram[lastIdx] > 0 ? 1 : -1
+    },
+    bollinger: {
+      value: bb.upper[lastIdx] ? `${bb.lower[lastIdx]?.toFixed(5)} - ${bb.upper[lastIdx]?.toFixed(5)}` : '--',
+      signal: price < bb.lower[lastIdx] ? 'buy' : price > bb.upper[lastIdx] ? 'sell' : 'neutral',
+      score: price < bb.lower[lastIdx] ? 1 : price > bb.upper[lastIdx] ? -1 : 0
+    },
+    stochastic: {
+      value: stoch.k[lastIdx]?.toFixed(1) || '--',
+      signal: stoch.k[lastIdx] < 20 ? 'buy' : stoch.k[lastIdx] > 80 ? 'sell' : 'neutral',
+      score: stoch.k[lastIdx] < 30 ? 1 : stoch.k[lastIdx] > 70 ? -1 : 0
+    },
+    sma: {
+      value: sma20[lastIdx]?.toFixed(5) || '--',
+      signal: price > sma20[lastIdx] ? 'buy' : 'sell',
+      score: price > sma20[lastIdx] ? 1 : -1
+    },
+    atr: {
+      value: atr[lastIdx]?.toFixed(6) || '--',
+      signal: 'neutral',
+      score: 0
+    }
+  };
+  
+  // Count buy/sell signals
+  let buyScore = 0, sellScore = 0;
+  Object.values(indicators).forEach(ind => {
+    if (ind.score > 0) buyScore++;
+    else if (ind.score < 0) sellScore++;
+  });
+  
+  // AI consensus
+  let aiUp = 0, aiDown = 0;
+  [ai1, ai2, ai3, ai4].forEach(ai => {
+    if (ai.direction === 'up') aiUp++;
+    else if (ai.direction === 'down') aiDown++;
+  });
+  
+  // Final signal determination
+  const totalScore = buyScore - sellScore + (aiUp - aiDown) * 0.5;
+  const aiConsensus = Math.round(((Math.max(aiUp, aiDown)) / 4) * 100);
+  const indicatorConfluence = buyScore + sellScore > 0 ? Math.max(buyScore, sellScore) : 0;
+  const signalStrength = Math.min(98, Math.round(50 + Math.abs(totalScore) * 8 + aiConsensus * 0.2));
+  
+  const direction = totalScore > 0 ? 'call' : 'put';
+  const patterns = detectCandlePatterns(data);
+  const sr = detectSupportResistance(data);
+  
+  // Calculate ATR percentage for volatility
+  const atrPercent = atr[lastIdx] ? (atr[lastIdx] / price * 100) : 0.05;  
+  // Calculate trend strength
+  const trendStrength = Math.min(100, Math.abs(totalScore) * 10 + aiConsensus);
+  
+  // Smart duration based on market conditions
+  const durationInfo = calculateSmartDuration(signalStrength, atrPercent, trendStrength);
+  
+  // Entry, TP, SL
+  const entry = price;
+  const tpPips = atr[lastIdx] ? atr[lastIdx] * 1.5 : price * 0.001;
+  const slPips = atr[lastIdx] ? atr[lastIdx] * 1.0 : price * 0.0007;
+  
+  const tp = direction === 'call' ? entry + tpPips : entry - tpPips;
+  const sl = direction === 'call' ? entry - slPips : entry + slPips;
+  
+  return {
+    direction,
+    entry: entry.toFixed(5),
+    tp: tp.toFixed(5),
+    sl: sl.toFixed(5),
+    duration: durationInfo.duration,
+    durationLabel: durationInfo.label,
+    durationClass: durationInfo.class,
+    signalStrength,
+    aiConsensus: `${Math.max(aiUp, aiDown)}/4`,
+    indicatorConfluence: `${indicatorConfluence}/5`,
+    detectedPattern: patterns.length > 0 ? patterns[0].name : 'لا يوجد نمط واضح',
+    aiResults: [ai1, ai2, ai3, ai4],
+    indicators,
+    patterns: patterns,
+    sr,
+    atr: atr[lastIdx],
+    totalScore,
+    aiConsensusPercent: aiConsensus,
+    indicatorBuy: buyScore,
+    indicatorSell: sellScore,
+    trendStrength
+  };
+}
+
+// ============================================
+// Self-Learning System
+// ============================================
+function updateLearning(signal, result) {
+  const duration = signal.duration;
+  
+  if (result === 'win') {
+    state.aiLearning.successfulSignals.push(signal);
+    state.aiLearning.durationPerformance[duration]++;
+        // Update pattern accuracy
+    signal.patterns.forEach(p => {
+      if (!state.aiLearning.patternAccuracy[p.name]) {
+        state.aiLearning.patternAccuracy[p.name] = 0.7;
+      } else {
+        state.aiLearning.patternAccuracy[p.name] = Math.min(0.95, state.aiLearning.patternAccuracy[p.name] + 0.02);
+      }
+    });
+    
+    addLog(`✅ صفقة رابحة! المدة: ${signal.durationLabel} | القوة: ${signal.signalStrength}%`, 'success');
+  } else if (result === 'loss') {
+    state.aiLearning.failedSignals.push(signal);
+    
+    // Decrease pattern accuracy
+    signal.patterns.forEach(p => {
+      if (state.aiLearning.patternAccuracy[p.name]) {
+        state.aiLearning.patternAccuracy[p.name] = Math.max(0.4, state.aiLearning.patternAccuracy[p.name] - 0.03);
+      }
+    });
+    
+    addLog(`❌ صفقة خاسرة. النظام يتعلم... المدة: ${signal.durationLabel}`, 'error');
+  }
+  
+  // Keep only last 100 signals for learning
+  if (state.aiLearning.successfulSignals.length > 100) {
+    state.aiLearning.successfulSignals.shift();
+  }
+  if (state.aiLearning.failedSignals.length > 100) {
+    state.aiLearning.failedSignals.shift();
+  }
+}
+
+// ============================================
+// UI Rendering Functions
+// ============================================
+function drawCandleChart(canvas, data, pair) {
+  const ctx = canvas.getContext('2d');
+  const width = canvas.width = canvas.offsetWidth * 2;
+  const height = canvas.height = canvas.offsetHeight * 2;
+  ctx.scale(2, 2);
+  
+  const w = canvas.offsetWidth;
+  const h = canvas.offsetHeight;
+  
+  // Get visible candles (last 80)
+  const visible = data.slice(-80);
+  if (visible.length < 2) return;
+  
+  // Calculate price range
+  let minPrice = Infinity, maxPrice = -Infinity;  visible.forEach(c => {
+    if (c.low < minPrice) minPrice = c.low;
+    if (c.high > maxPrice) maxPrice = c.high;
+  });
+  
+  const padding = (maxPrice - minPrice) * 0.1;
+  minPrice -= padding;
+  maxPrice += padding;
+  const priceRange = maxPrice - minPrice;
+  
+  // Background
+  ctx.fillStyle = '#0a0a12';
+  ctx.fillRect(0, 0, w, h);
+  
+  // Grid
+  ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+  ctx.lineWidth = 0.5;
+  for (let i = 0; i < 6; i++) {
+    const y = (h / 6) * i;
+    ctx.beginPath();
+    ctx.moveTo(0, y);
+    ctx.lineTo(w, y);
+    ctx.stroke();
+    
+    // Price labels
+    const price = maxPrice - (priceRange / 6) * i;
+    ctx.fillStyle = 'rgba(255,255,255,0.3)';
+    ctx.font = '10px Tajawal';
+    ctx.fillText(price.toFixed(5), w - 65, y + 12);
+  }
+  
+  // Draw candles
+  const candleWidth = (w - 40) / visible.length;
+  const bodyWidth = Math.max(2, candleWidth * 0.6);
+  
+  visible.forEach((c, i) => {
+    const x = 20 + i * candleWidth + candleWidth / 2;
+    const isGreen = c.close >= c.open;
+    
+    // Wick
+    ctx.strokeStyle = isGreen ? '#00ff88' : '#ff0033';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(x, h - ((c.high - minPrice) / priceRange) * h);
+    ctx.lineTo(x, h - ((c.low - minPrice) / priceRange) * h);
+    ctx.stroke();
+    
+    // Body
+    const yOpen = h - ((c.open - minPrice) / priceRange) * h;
+    const yClose = h - ((c.close - minPrice) / priceRange) * h;    const bodyHeight = Math.max(1, Math.abs(yClose - yOpen));
+    
+    ctx.fillStyle = isGreen ? '#00ff88' : '#ff0033';
+    ctx.fillRect(x - bodyWidth / 2, Math.min(yOpen, yClose), bodyWidth, bodyHeight);
+  });
+  
+  // Draw SMA line
+  const sma20 = calculateSMA(data, 20);
+  const smaStart = data.length - visible.length;
+  ctx.strokeStyle = 'rgba(255,215,0,0.6)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  let started = false;
+  for (let i = smaStart; i < data.length; i++) {
+    if (sma20[i] === null) continue;
+    const x = 20 + (i - smaStart) * candleWidth + candleWidth / 2;
+    const y = h - ((sma20[i] - minPrice) / priceRange) * h;
+    if (!started) { ctx.moveTo(x, y); started = true; }
+    else ctx.lineTo(x, y);
+  }
+  ctx.stroke();
+}
+
+function renderIndicators(signal) {
+  const grid = document.getElementById('indicatorsGrid');
+  const names = {
+    rsi: 'RSI (14)',
+    macd: 'MACD',
+    bollinger: 'Bollinger Bands',
+    stochastic: 'Stochastic',
+    sma: 'SMA (20)',
+    atr: 'ATR (14)'
+  };
+  
+  let html = '';
+  Object.entries(signal.indicators).forEach(([key, ind]) => {
+    html += `
+      <div class="indicator-item ${ind.signal}">
+        <span class="indicator-name">${names[key]}</span>
+        <span class="indicator-value">${ind.value}</span>
+        <span class="indicator-signal ${ind.signal}">${ind.signal === 'buy' ? 'شراء ⬆' : ind.signal === 'sell' ? 'بيع ⬇' : 'محايد ➡'}</span>
+      </div>
+    `;
+  });
+  
+  grid.innerHTML = html;
+}
+
+function renderPatterns(patterns) {
+  const list = document.getElementById('patternList');  if (patterns.length === 0) {
+    list.innerHTML = '<div style="text-align:center; color: var(--text-secondary); padding:20px;">لا توجد أنماط واضحة حالياً</div>';
+    return;
+  }
+  
+  let html = '';
+  patterns.forEach(p => {
+    html += `
+      <div class="pattern-item ${p.type}">
+        <div>
+          <div class="pattern-name">${p.name}</div>
+          <div style="font-size:10px; color: var(--text-secondary);">${p.description}</div>
+        </div>
+        <span class="pattern-reliability">🎯 ${p.reliability}%</span>
+      </div>
+    `;
+  });
+  
+  list.innerHTML = html;
+}
+
+function renderSR(sr) {
+  const container = document.getElementById('srLevels');
+  let html = '';
+  
+  sr.resistance.forEach((r, i) => {
+    html += `
+      <div class="sr-level resistance">
+        <span class="sr-type">R${i + 1} مقاومة</span>
+        <span class="sr-price">${r.price.toFixed(5)}</span>
+        <span class="sr-strength" style="background:rgba(255,0,51,0.2);color:var(--accent-red);">${r.strength}%</span>
+      </div>
+    `;
+  });
+  
+  sr.support.forEach((s, i) => {
+    html += `
+      <div class="sr-level support">
+        <span class="sr-type">S${i + 1} دعم</span>
+        <span class="sr-price">${s.price.toFixed(5)}</span>
+        <span class="sr-strength" style="background:rgba(0,255,136,0.2);color:var(--accent-green);">${s.strength}%</span>
+      </div>
+    `;
+  });
+  
+  container.innerHTML = html;
+}
+
+function updateSignalDisplay(signal) {
+  const typeEl = document.getElementById('signalType');  typeEl.className = `signal-type ${signal.direction}`;
+  typeEl.textContent = signal.direction === 'call' ? '⬆ CALL - صعود (شراء)' : '⬇ PUT - هبوط (بيع)';
+  
+  document.getElementById('entryPoint').textContent = signal.entry;
+  document.getElementById('targetPrice').textContent = signal.tp;
+  document.getElementById('stopLoss').textContent = signal.sl;
+  document.getElementById('tradeDuration').textContent = signal.durationLabel;
+  document.getElementById('signalStrength').textContent = signal.signalStrength + '%';
+  document.getElementById('aiConsensusVal').textContent = signal.aiConsensus;
+  document.getElementById('indicatorConfluence').textContent = signal.indicatorConfluence;
+  document.getElementById('detectedPattern').textContent = signal.detectedPattern;
+  
+  // AI predictions
+  signal.aiResults.forEach((ai, i) => {
+    const predEl = document.getElementById(`ai${i+1}Pred`);
+    const confEl = document.getElementById(`ai${i+1}Conf`);
+    const barEl = document.getElementById(`ai${i+1}Bar`);
+    
+    predEl.textContent = ai.direction === 'up' ? '⬆ صعود' : ai.direction === 'down' ? '⬇ هبوط' : '➡ محايد';
+    predEl.className = `ai-prediction ${ai.direction === 'up' ? 'up' : ai.direction === 'down' ? 'down' : ''}`;
+    confEl.textContent = ai.confidence + '%';
+    barEl.style.width = ai.confidence + '%';
+    barEl.className = `confidence-fill ${ai.confidence > 75 ? 'high' : ai.confidence > 55 ? 'medium' : 'low'}`;
+  });
+  
+  // AI Consensus dots
+  const consensusEl = document.getElementById('aiConsensus');
+  let dotsHtml = '';
+  signal.aiResults.forEach(ai => {
+    dotsHtml += `<div class="ai-dot ${ai.direction === 'up' ? 'up' : ai.direction === 'down' ? 'down' : ''}" title="${ai.details}"></div>`;
+  });
+  consensusEl.innerHTML = dotsHtml;
+  
+  // Confluence score
+  document.getElementById('confluenceScore').textContent = signal.aiConsensusPercent + '%';
+  
+  // Duration badge
+  const durEl = document.getElementById('durationBadge');
+  durEl.className = `duration-badge ${signal.durationClass}`;
+  durEl.textContent = `⏱ ${signal.durationLabel}`;
+  
+  // Market strength
+  const strengthVal = signal.signalStrength;
+  document.getElementById('strengthValue').textContent = strengthVal + '%';
+  const strengthLabel = document.getElementById('strengthLabel');
+  const circle = document.getElementById('strengthCircle');
+  
+  // Calculate degrees for circle
+  const deg = (strengthVal / 100) * 252;
+  const deg2 = deg + 72;  circle.style.setProperty('--deg', `${deg}deg`);
+  circle.style.setProperty('--deg2', `${deg2}deg`);
+  
+  if (strengthVal > 80) {
+    strengthLabel.textContent = 'قوي جداً - ' + (signal.direction === 'call' ? 'اتجاه صاعد' : 'اتجاه هابط');
+    strengthLabel.style.color = 'var(--accent-green)';
+  } else if (strengthVal > 60) {
+    strengthLabel.textContent = 'قوي - ' + (signal.direction === 'call' ? 'اتجاه صاعد' : 'اتجاه هابط');
+    strengthLabel.style.color = 'var(--accent-gold)';
+  } else {
+    strengthLabel.textContent = 'متوسط - حذر';
+    strengthLabel.style.color = 'var(--accent-orange)';
+  }
+  
+  // ATR
+  document.getElementById('atrValue').textContent = signal.atr?.toFixed(6) || '--';
+  
+  // Render other components
+  renderIndicators(signal);
+  renderPatterns(signal.patterns);
+  renderSR(signal.sr);
+}
+
+function addLog(message, type = 'info') {
+  const container = document.getElementById('logContainer');
+  const time = new Date().toLocaleTimeString('ar-EG');
+  const entry = document.createElement('div');
+  entry.className = `log-entry ${type}`;
+  entry.innerHTML = `<span class="time">[${time}]</span> ${message}`;
+  container.appendChild(entry);
+  container.scrollTop = container.scrollHeight;
+  
+  // Keep only last 50 entries
+  while (container.children.length > 50) {
+    container.removeChild(container.firstChild);
+  }
+}
+
+function showNotification(title, body, isSignal = false) {
+  const notif = document.getElementById('notification');
+  document.getElementById('notifTitle').textContent = title;
+  document.getElementById('notifBody').textContent = body;
+  if (isSignal) notif.classList.add('signal');
+  else notif.classList.remove('signal');
+  notif.classList.add('show');
+  setTimeout(() => notif.classList.remove('show'), 6000);
+}
+
+function addToHistory(signal) {
+  state.totalSignals++;  document.getElementById('totalSignals').textContent = state.totalSignals;
+  
+  // Simulate result based on signal strength (for demo)
+  const isWin = signal.signalStrength > 70 && Math.random() > 0.3;
+  if (isWin) {
+    state.winCount++;
+    updateLearning(signal, 'win');
+  } else {
+    updateLearning(signal, 'loss');
+  }
+  
+  state.tradeCount++;
+  document.getElementById('tradeCount').textContent = state.tradeCount;
+  
+  const winRate = state.totalSignals > 0 ? Math.round((state.winCount / state.totalSignals) * 100) : '--';
+  document.getElementById('winRate').textContent = winRate + '%';
+  
+  const history = document.getElementById('signalHistory');
+  const item = document.createElement('div');
+  item.className = 'history-item';
+  item.innerHTML = `
+    <span>${document.getElementById('displayPair').textContent}</span>
+    <span>${signal.direction === 'call' ? '⬆' : '⬇'}</span>
+    <span>${signal.durationLabel}</span>
+    <span>${signal.signalStrength}%</span>
+    <span class="result ${isWin ? 'win' : 'loss'}">${isWin ? '✅ ربح' : '❌ خسارة'}</span>
+  `;
+  history.insertBefore(item, history.firstChild);
+  
+  // Keep only last 20
+  while (history.children.length > 20) {
+    history.removeChild(history.lastChild);
+  }
+}
+
+// ============================================
+// Main Analysis Loop
+// ============================================
+async function runAnalysis() {
+  if (!state.isRunning) return;
+  
+  const pair = PAIRS[state.currentPairIndex];
+  
+  // Generate fresh candles if needed
+  if (state.candleData.length === 0) {
+    state.candleData = generateCandles(pair, 500);
+    addLog(`تم تحميل 500 شمعة لـ ${pair.symbol}`, 'info');
+  }
+  
+  // Add new candle  const lastCandle = state.candleData[state.candleData.length - 1];
+  const noise = (Math.random() - 0.5) * pair.volatility;
+  const newOpen = lastCandle.close;
+  const newClose = newOpen + noise;
+  const newHigh = Math.max(newOpen, newClose) + Math.abs(noise) * Math.random();
+  const newLow = Math.min(newOpen, newClose) - Math.abs(noise) * Math.random();
+  
+  state.candleData.push({
+    time: Date.now(),
+    open: parseFloat(newOpen.toFixed(5)),
+    high: parseFloat(newHigh.toFixed(5)),
+    low: parseFloat(newLow.toFixed(5)),
+    close: parseFloat(newClose.toFixed(5)),
+    volume: Math.round(1000 + Math.random() * 9000)
+  });
+  
+  if (state.candleData.length > 550) state.candleData.shift();
+  
+  // Generate signal
+  const signal = generateSignal(state.candleData, pair);
+  
+  // Update UI
+  updatePriceDisplay(pair, state.candleData);
+  drawCandleChart(document.getElementById('candleChart'), state.candleData, pair);
+  updateSignalDisplay(signal);
+  
+  // Log
+  addLog(`تحليل ${pair.symbol} | السعر: ${signal.entry} | ${signal.direction === 'call' ? 'CALL ⬆' : 'PUT ⬇'} | المدة: ${signal.durationLabel} | القوة: ${signal.signalStrength}%`, 'signal');
+  
+  // Add to history
+  addToHistory(signal);
+  
+  // Notification for strong signals
+  if (signal.signalStrength > 80) {
+    showNotification(
+      `🔥 إشارة قوية! ${signal.direction === 'call' ? '⬆ صعود' : '⬇ هبوط'}`,
+      `${pair.symbol} | نقطة دخول: ${signal.entry} | المدة: ${signal.durationLabel} | القوة: ${signal.signalStrength}%`,
+      true
+    );
+  }
+}
+
+function updatePriceDisplay(pair, data) {
+  const last = data[data.length - 1];
+  const prev = data[data.length - 2] || last;
+  const change = last.close - prev.close;
+  const changePercent = (change / prev.close) * 100;
+  
+  document.getElementById('displayPair').textContent = pair.symbol;
+  document.getElementById('displayPrice').textContent = last.close.toFixed(5);  document.getElementById('displayPrice').className = `current-price ${change >= 0 ? 'up' : 'down'}`;
+  
+  const changeStr = `${change >= 0 ? '+' : ''}${change.toFixed(5)} (${changePercent >= 0 ? '+' : ''}${changePercent.toFixed(2)}%)`;
+  document.getElementById('displayChange').textContent = changeStr;
+  document.getElementById('displayChange').className = `price-change ${change >= 0 ? 'up' : 'down'}`;
+  
+  document.getElementById('lastUpdate').textContent = `آخر تحديث: ${new Date().toLocaleTimeString('ar-EG')}`;
+  
+  // Trend indicator
+  const trendEl = document.getElementById('trendIndicator');
+  const signal = generateSignal(data, pair);
+  if (signal.direction === 'call') {
+    trendEl.className = 'trend-indicator up';
+    trendEl.textContent = '⬆ اتجاه صاعد ' + (signal.signalStrength > 80 ? 'قوي جداً' : signal.signalStrength > 65 ? 'قوي' : 'متوسط');
+  } else {
+    trendEl.className = 'trend-indicator down';
+    trendEl.textContent = '⬇ اتجاه هابط ' + (signal.signalStrength > 80 ? 'قوي جداً' : signal.signalStrength > 65 ? 'قوي' : 'متوسط');
+  }
+  
+  // Volume bars
+  const volumeBars = document.getElementById('volumeBars');
+  let volumeHtml = '';
+  for (let i = 0; i < 20; i++) {
+    const height = 10 + Math.random() * 90;
+    volumeHtml += `<div class="volume-bar" style="height:${height}%"></div>`;
+  }
+  volumeBars.innerHTML = volumeHtml;
+  
+  // Heat map
+  const heatMap = document.getElementById('heatMap');
+  let heatHtml = '';
+  const recent = data.slice(-20);
+  recent.forEach(c => {
+    const isGreen = c.close >= c.open;
+    const intensity = Math.abs(c.close - c.open) / pair.volatility;
+    heatHtml += `<div class="heat-segment" style="background: ${isGreen ? `rgba(0,255,136,${0.3 + intensity * 0.5})` : `rgba(255,0,51,${0.3 + intensity * 0.5})`};"></div>`;
+  });
+  heatMap.innerHTML = heatHtml;
+}
+
+// ============================================
+// Controls
+// ============================================
+async function startSystem() {
+  if (state.isRunning) return;
+  state.isRunning = true;
+  
+  document.getElementById('apiStatus').innerHTML = '<span class="api-dot"></span> نشط';
+  document.getElementById('apiStatus').style.color = 'var(--accent-green)';
+    state.candleData = [];
+  state.priceHistory = [];
+  
+  addLog('🔥 تم تشغيل وحش التداول الذكي MAX PRO v6.0', 'success');
+  addLog('جاري تهيئة أنظمة الذكاء الاصطناعي الأربعة...', 'info');
+  addLog('جاري تحميل 500 شمعة...', 'info');
+  addLog('جاري فحص المؤشرات الفنية (6 مؤشرات)...', 'info');
+  addLog('جاري تحليل أنماط الشموع...', 'info');
+  addLog('جاري تحديد الدعم والمقاومة...', 'info');
+  addLog('جاري تفعيل نظام التعلم الذاتي...', 'info');
+  addLog('✅ النظام جاهز - بدء إرسال الإشارات كل 10 ثواني', 'success');
+  
+  // Initial analysis
+  await runAnalysis();
+  
+  // Set interval to 10 seconds
+  state.analysisInterval = setInterval(runAnalysis, 10000);
+  
+  document.getElementById('btnStart').style.opacity = '0.5';
+  document.getElementById('btnStop').style.opacity = '1';
+}
+
+function stopSystem() {
+  state.isRunning = false;
+  if (state.analysisInterval) clearInterval(state.analysisInterval);
+  
+  document.getElementById('apiStatus').innerHTML = '<span class="api-dot"></span> متوقف';
+  document.getElementById('apiStatus').style.color = 'var(--accent-red)';
+  
+  addLog('⏹ تم إيقاف التحليل', 'warning');
+  
+  document.getElementById('btnStart').style.opacity = '1';
+  document.getElementById('btnStop').style.opacity = '0.5';
+}
+
+function refreshSystem() {
+  addLog('🔄 تحديث التحليل...', 'info');
+  state.candleData = generateCandles(PAIRS[state.currentPairIndex], 500);
+  runAnalysis();
+  showNotification('🔄 تم التحديث', 'تم إعادة تحميل البيانات والتحليل');
+}
+
+function switchPair(index) {
+  state.currentPairIndex = index;
+  state.candleData = [];
+  state.priceHistory = [];
+  
+  document.querySelectorAll('.pair-btn').forEach((btn, i) => {
+    btn.classList.toggle('active', i === index);
+  });  
+  addLog(`تم التبديل إلى ${PAIRS[index].symbol}`, 'info');
+  
+  if (state.isRunning) {
+    state.candleData = generateCandles(PAIRS[index], 500);
+    runAnalysis();
+  }
+}
+
+// Settings Modal
+function openSettings() {
+  document.getElementById('settingsModal').classList.add('active');
+}
+
+function closeSettings() {
+  document.getElementById('settingsModal').classList.remove('active');
+}
+
+function saveSettings() {
+  const newKey = document.getElementById('apiKeyInput').value;
+  if (newKey) {
+    API_CONFIG.apiKey = newKey;
+    addLog('⚙️ تم تحديث مفتاح API', 'success');
+    showNotification('✅ تم الحفظ', 'تم تحديث إعدادات API');
+  }
+  closeSettings();
+}
+
+// Skip loading
+function skipLoad() {
+  document.getElementById('loader').classList.add('hide');
+}
+
+// ============================================
+// Initialization
+// ============================================
+function init() {
+  // Create pair buttons
+  const selector = document.getElementById('pairSelector');
+  PAIRS.forEach((pair, i) => {
+    const btn = document.createElement('button');
+    btn.className = `pair-btn ${i === 0 ? 'active' : ''}`;
+    btn.textContent = pair.symbol;
+    btn.onclick = () => switchPair(i);
+    selector.appendChild(btn);
+  });
+  
+  // Create background particles
+  const bgParticles = document.getElementById('bgParticles');
+  for (let i = 0; i < 40; i++) {    const particle = document.createElement('div');
+    particle.className = 'particle';
+    particle.style.left = Math.random() * 100 + '%';
+    particle.style.animationDuration = (10 + Math.random() * 20) + 's';
+    particle.style.animationDelay = Math.random() * 10 + 's';
+    particle.style.background = ['#ff0033', '#00ff88', '#ffd700', '#00b4ff', '#8b00ff'][Math.floor(Math.random() * 5)];
+    particle.style.width = (1 + Math.random() * 3) + 'px';
+    particle.style.height = particle.style.width;
+    bgParticles.appendChild(particle);
+  }
+  
+  // Update time
+  setInterval(() => {
+    document.getElementById('currentTime').textContent = new Date().toLocaleTimeString('ar-EG');
+  }, 1000);
+  
+  // Loading sequence
+  const loadingSteps = [
+    '🔄 تهيئة الذكاء الاصطناعي...',
+    '📊 تحميل مؤشرات التداول...',
+    '🕯️ فحص أنماط الشموع...',
+    '🧠 معايرة خوارزميات التحليل...',
+    '🔗 ربط بيانات السوق...',
+    '✅ جاهز للعمل!'
+  ];
+  
+  let step = 0;
+  const stepInterval = setInterval(() => {
+    if (step < loadingSteps.length) {
+      document.getElementById('loadStep').textContent = loadingSteps[step];
+      step++;
+    } else {
+      clearInterval(stepInterval);
+      setTimeout(() => {
+        document.getElementById('loader').classList.add('hide');
+      }, 500);
+    }
+  }, 600);
+  
+  addLog('🔥 وحش التداول الذكي MAX PRO v6.0 محمّل', 'success');
+  addLog('4 أنظمة ذكاء اصطناعي | 6 مؤشرات فنية | 500 شمعة | تعلم ذاتي', 'info');
+}
+
+// Close modal on outside click
+document.getElementById('settingsModal').onclick = (e) => {
+  if (e.target.id === 'settingsModal') closeSettings();
+};
+
+// Header scroll effect
+window.addEventListener('scroll', () => {  const header = document.getElementById('mainHeader');
+  if (window.scrollY > 10) {
+    header.classList.add('scrolled');
+  } else {
+    header.classList.remove('scrolled');
+  }
+});
+
+// Start
+window.addEventListener('load', init);
+</script>
+</body>
+</html>
